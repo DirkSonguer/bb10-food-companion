@@ -4,22 +4,12 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../assets/main.qml" line="23"/>
-        <source>Tab 1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/main.qml" line="27"/>
-        <source>First tab</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/main.qml" line="33"/>
+        <location filename="../assets/main.qml" line="30"/>
         <source>Tab 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="37"/>
+        <location filename="../assets/main.qml" line="34"/>
         <source>Second tab</source>
         <translation type="unfinished"></translation>
     </message>
