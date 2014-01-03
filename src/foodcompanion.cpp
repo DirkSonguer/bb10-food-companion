@@ -15,6 +15,7 @@
  */
 
 #include "foodcompanion.hpp"
+#include "camerautilities.hpp"
 
 #include <bb/cascades/Application>
 #include <bb/cascades/QmlDocument>
@@ -30,9 +31,14 @@ using namespace bb::cascades::multimedia;
 
 FoodCompanion::FoodCompanion(bb::cascades::Application *app) :
 		QObject(app) {
+
+	// register camera utilities
+	qmlRegisterType<CameraUtilities>("CameraUtilities", 1, 0, "CameraUtilities");
+
+	// register timer functionalities
 	qmlRegisterType<QTimer>("QtTimer", 1, 0, "Timer");
 
-	// The SceneCover is registered so that it can be used in QML
+	// register SceneCover functionalities
 	qmlRegisterType<SceneCover>("bb.cascades", 1, 0, "SceneCover");
 
 	// Since it is not possible to create an instance of the AbstractCover

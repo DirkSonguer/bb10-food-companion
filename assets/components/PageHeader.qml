@@ -33,7 +33,7 @@ Container {
 
     // set initial background color
     // can be changed via the componentBackground property
-    background: Color.create(Globals.instagoDefaultBackgroundColor)
+    background: Color.create(Globals.foodcompanionDefaultBackgroundColor)
 
     Container {
         id: pageHeaderContainer

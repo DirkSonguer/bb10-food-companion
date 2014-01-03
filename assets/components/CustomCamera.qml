@@ -14,6 +14,9 @@ import bb.cascades.multimedia 1.0
 import bb.multimedia 1.0
 import bb.system 1.2
 
+// import camera utilities
+import CameraUtilities 1.0
+
 // shared js files
 import "../global/globals.js" as Globals
 import "../global/copytext.js" as Copytext
@@ -49,7 +52,9 @@ Container {
             var supportedResolutionsArray = new Array();
             supportedResolutionsArray = customCamera.supportedCaptureResolutions(CameraMode.Photo);
             console.log("# Found " + supportedResolutionsArray.length + " resolutions");
-
+            
+            cameraUtilities.selectAspectRatio(customCamera,9/16);
+            
             // TODO: Check if the resolutions can actually be read
             /*
              * for (var index in supportedResolutionsArray) {
@@ -81,6 +86,7 @@ Container {
 
         // photo has been saved correctly
         onPhotoSaved: {
+            cameraUtilities.correctImageOrientation(fileName);
             customCameraComponent.photoCaptured(fileName);
         }
 
@@ -149,6 +155,9 @@ Container {
             SystemSound {
                 id: cameraSound
                 sound: SystemSound.CameraShutterEvent
+            },
+            CameraUtilities {
+                id: cameraUtilities
             }
         ]
     }

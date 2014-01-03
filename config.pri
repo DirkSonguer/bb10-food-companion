@@ -7,7 +7,7 @@ device {
                  $$quote($$BASEDIR/src/foodcompanion.cpp) \
                  $$quote($$BASEDIR/src/main.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/camerautilities.h) \
+        HEADERS +=  $$quote($$BASEDIR/src/camerautilities.hpp) \
                  $$quote($$BASEDIR/src/foodcompanion.hpp)
     }
 
@@ -16,7 +16,7 @@ device {
                  $$quote($$BASEDIR/src/foodcompanion.cpp) \
                  $$quote($$BASEDIR/src/main.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/camerautilities.h) \
+        HEADERS +=  $$quote($$BASEDIR/src/camerautilities.hpp) \
                  $$quote($$BASEDIR/src/foodcompanion.hpp)
     }
 }
@@ -27,7 +27,7 @@ simulator {
                  $$quote($$BASEDIR/src/foodcompanion.cpp) \
                  $$quote($$BASEDIR/src/main.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/camerautilities.h) \
+        HEADERS +=  $$quote($$BASEDIR/src/camerautilities.hpp) \
                  $$quote($$BASEDIR/src/foodcompanion.hpp)
     }
 }

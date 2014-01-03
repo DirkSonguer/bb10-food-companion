@@ -20,7 +20,7 @@ import "../global/copytext.js" as Copytext
 
 Page {
     id: addItemPage
-    
+
     // signal that image has been captured
     // this will be called by the CaptureImage sheet
     signal imageCaptured(string imageName)
@@ -58,7 +58,7 @@ Page {
                 // call to action message
                 iconSource: "asset:///images/icons/icon_camera.png"
                 narrowText: "Tap to add image"
-                
+
                 // call to action clicked
                 // Open capture image sheet
                 onClicked: {
@@ -76,6 +76,9 @@ Page {
                 id: cameraImagePreview
 
                 // layout definition
+                verticalAlignment: VerticalAlignment.Center
+                horizontalAlignment: HorizontalAlignment.Center
+                scalingMethod: ScalingMethod.AspectFill
                 preferredWidth: DisplayInfo.width
                 preferredHeight: 350
 
@@ -123,18 +126,22 @@ Page {
             topPadding: 10
 
             // small headline describing the slider feature
-            Label {
+            Container {
                 // layout definition
-                horizontalAlignment: HorizontalAlignment.Left
-                rightMargin: 20
+                leftPadding: 25
 
-                // description text
-                text: "Rate this item:"
+                Label {
+                    // layout definition
+                    horizontalAlignment: HorizontalAlignment.Left
 
-                // text style definition
-                textStyle.base: SystemDefaults.TextStyles.SmallText
-                textStyle.fontWeight: FontWeight.W100
-                textStyle.textAlign: TextAlign.Left
+                    // description text
+                    text: "Rate this item:"
+
+                    // text style definition
+                    textStyle.base: SystemDefaults.TextStyles.SmallText
+                    textStyle.fontWeight: FontWeight.W100
+                    textStyle.textAlign: TextAlign.Left
+                }
             }
 
             // health rating description
@@ -193,7 +200,7 @@ Page {
             }
         }
     }
-    
+
     onImageCaptured: {
         cameraCallToAction.visible = false;
         cameraImagePreview.imageSource = "file:///" + imageName;

@@ -22,7 +22,7 @@ static const uint qt_meta_data_FoodCompanion[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       1,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -32,16 +32,11 @@ static const uint qt_meta_data_FoodCompanion[] = {
  // slots: signature, parameters, type, tag, flags
       15,   14,   14,   14, 0x08,
 
- // methods: signature, parameters, type, tag, flags
-      55,   41,   14,   14, 0x02,
-
        0        // eod
 };
 
 static const char qt_meta_stringdata_FoodCompanion[] = {
     "FoodCompanion\0\0onSystemLanguageChanged()\0"
-    "camera,aspect\0"
-    "selectAspectRatio(bb::cascades::multimedia::Camera*,float)\0"
 };
 
 void FoodCompanion::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -51,10 +46,10 @@ void FoodCompanion::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         FoodCompanion *_t = static_cast<FoodCompanion *>(_o);
         switch (_id) {
         case 0: _t->onSystemLanguageChanged(); break;
-        case 1: _t->selectAspectRatio((*reinterpret_cast< bb::cascades::multimedia::Camera*(*)>(_a[1])),(*reinterpret_cast< const float(*)>(_a[2]))); break;
         default: ;
         }
     }
+    Q_UNUSED(_a);
 }
 
 const QMetaObjectExtraData FoodCompanion::staticMetaObjectExtraData = {
@@ -89,9 +84,9 @@ int FoodCompanion::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 1)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 1;
     }
     return _id;
 }
