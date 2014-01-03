@@ -13,6 +13,8 @@
 
 // import blackberry components
 import bb.cascades 1.2
+import bb.cascades.multimedia 1.0
+import bb.multimedia 1.0
 
 // set import directory for components
 import "../components"
@@ -24,18 +26,21 @@ import "../global/copytext.js" as Copytext
 Page {
     id: captureImagePage
 
-// property that holds the calling page
+    // property that holds the calling page
     // this page will receive the imageCaptured() signal
     property variant callingPage
+
+    // flag if flash is active
+    property bool cameraFlashState: false
     
     Container {
         // layout orientation
         layout: DockLayout {
         }
-        
+
         CustomCamera {
             id: cameraComponent
-            
+
             // photo has been captured
             // close sheet and hand over data
             onPhotoCaptured: {
@@ -44,7 +49,7 @@ Page {
                 captureImageSheet.close();
             }
         }
-        
+
         InfoMessage {
             id: infoMessage
 
@@ -56,13 +61,24 @@ Page {
     // close action for the sheet
     actions: [
         ActionItem {
-            title: "Capture image"
+            id: cameraFlashAction
+            title: "Flash is off"
             ActionBar.placement: ActionBarPlacement.OnBar
-            imageSource: "asset:///images/icons/icon_camera.png"
-            
-            // snap image when pressed
+            imageSource: "asset:///images/icons/icon_notavailable.png"
+
+            // edit flash mode
             onTriggered: {
-                cameraComponent.capturePhoto();
+                if (!captureImagePage.cameraFlashState) {
+                    captureImagePage.cameraFlashState = true;
+                    cameraComponent.cameraFlashMode = CameraFlashMode.On
+                    cameraFlashAction.title = "Flash is on";
+                    cameraFlashAction.imageSource = "asset:///images/icons/icon_flash.png"
+                } else {                    
+                    captureImagePage.cameraFlashState = false;
+                    cameraComponent.cameraFlashMode = CameraFlashMode.Off
+                    cameraFlashAction.title = "Flash is off";
+                    cameraFlashAction.imageSource = "asset:///images/icons/icon_notavailable.png"
+                }
             }
         },
         ActionItem {

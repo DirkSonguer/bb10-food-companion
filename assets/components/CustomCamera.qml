@@ -43,18 +43,28 @@ Container {
     // flag if the camera is currently active
     property bool cameraActive: false
 
+    // flag if the capture is currently in progress
+    property bool captureInProgress: false
+
+    // property that holds and changes the the flash mode
+    property int cameraFlashMode: CameraFlashMode.Off
+
+    // layout orientation
+    layout: DockLayout {
+    }
+
     // This is the camera control that is defined in the cascades multimedia library
     Camera {
         id: customCamera
-        
+
         onCameraOpened: {
             // iterate through all available camwera resolutions
             var supportedResolutionsArray = new Array();
             supportedResolutionsArray = customCamera.supportedCaptureResolutions(CameraMode.Photo);
             console.log("# Found " + supportedResolutionsArray.length + " resolutions");
-            
-            cameraUtilities.selectAspectRatio(customCamera,9/16);
-            
+
+            // cameraUtilities.selectAspectRatio(customCamera,9/16);
+
             // TODO: Check if the resolutions can actually be read
             /*
              * for (var index in supportedResolutionsArray) {
@@ -66,7 +76,7 @@ Container {
             getSettings(customCameraSettings);
             customCameraSettings.focusMode = CameraFocusMode.ContinuousAuto
             customCameraSettings.shootingMode = CameraShootingMode.Stabilization
-            customCameraSettings.flashMode = CameraFlashMode.Off
+            customCameraSettings.flashMode = customCameraComponent.cameraFlashMode
             customCameraSettings.cameraRollPath = "/accounts/1000/shared/photos/";
             applySettings(customCameraSettings)
 
@@ -86,8 +96,15 @@ Container {
 
         // photo has been saved correctly
         onPhotoSaved: {
+            // correct the orientation of the image to be upright
+            // note that otherwise all images will be landscape
             cameraUtilities.correctImageOrientation(fileName);
+
+            // send signal that image has been captured and stored
             customCameraComponent.photoCaptured(fileName);
+
+            // reset capture flag
+            customCameraComponent.captureInProgress = true;
         }
 
         // shutter has been triggered
@@ -106,14 +123,6 @@ Container {
         // open the rear facing camera
         onCreationCompleted: {
             customCamera.open(CameraUnit.Rear);
-        }
-
-        // handle touch event on the camera component itself
-        // this will trigger a capture photo event
-        onTouch: {
-            if (event.isDown()) {
-                customCamera.capturePhoto();
-            }
         }
 
         // handle all the different error cases and messages
@@ -161,7 +170,57 @@ Container {
             }
         ]
     }
-    
+
+    // call to action container
+    Container {
+        // layout definition
+        horizontalAlignment: HorizontalAlignment.Left
+        verticalAlignment: VerticalAlignment.Bottom
+        leftPadding: 10
+        rightPadding: 10
+        bottomPadding: 10
+
+        Label {
+            id: customCameraMessage
+
+            // layout definition
+            textStyle.base: SystemDefaults.TextStyles.BigText
+            textStyle.fontSize: FontSize.PointValue
+            textStyle.fontSizeValue: 14
+            textStyle.fontWeight: FontWeight.W100
+            textStyle.textAlign: TextAlign.Left
+
+            // use multiline / line breaks
+            multiline: true
+
+            // text content
+            text: "Tap here to capture the image. Use the buttons to toggle the flash or abort."
+        }
+
+        // handle touch event on the camera component itself
+        // this will trigger a capture photo event
+        gestureHandlers: [
+            TapHandler {
+                onTapped: {
+                    // check if capture is already in progress
+                    if (! customCameraComponent.captureInProgress) {
+                        customCameraComponent.captureInProgress = true;
+                        customCameraMessage.text = "Capturing, please wait";
+                        customCamera.capturePhoto();
+                    }
+                }
+            }
+        ]
+
+    }
+
+    // change flash mode according to change
+    onCameraFlashModeChanged: {
+        customCamera.getSettings(customCameraSettings);
+        customCameraSettings.flashMode = customCameraComponent.cameraFlashMode
+        customCamera.applySettings(customCameraSettings)
+    }
+
     // stop camera signal
     // this will stop the viewfinder and close the camera
     onStopCamera: {

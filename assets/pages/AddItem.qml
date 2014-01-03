@@ -60,7 +60,7 @@ Page {
                 narrowText: "Tap to add image"
 
                 // call to action clicked
-                // Open capture image sheet
+                // open capture image sheet
                 onClicked: {
                     // create and open capture image sheet
                     var captureImageContent = captureImageComponent.createObject();
@@ -70,21 +70,72 @@ Page {
                 }
             }
 
-            // camera image
-            // this is filled by the camera control when the image has been taken
-            ImageView {
-                id: cameraImagePreview
+            // captured image thumbnail view
+            Container {
+                id: cameraImageContainer
+
+                // layout orientation
+                layout: DockLayout {
+                }
 
                 // layout definition
-                verticalAlignment: VerticalAlignment.Center
-                horizontalAlignment: HorizontalAlignment.Center
-                scalingMethod: ScalingMethod.AspectFill
                 preferredWidth: DisplayInfo.width
                 preferredHeight: 350
 
                 // set initial visibility to false
                 // this will be set by the camera sheet
                 visible: false
+
+                // camera image
+                // this is filled by the camera control when the image has been taken
+                ImageView {
+                    id: cameraImagePreview
+
+                    // layout definition
+                    verticalAlignment: VerticalAlignment.Center
+                    horizontalAlignment: HorizontalAlignment.Center
+                    scalingMethod: ScalingMethod.AspectFill
+                }
+
+                // call to action to recapture image
+                Container {
+                    // layout definition
+                    preferredWidth: DisplayInfo.width
+                    verticalAlignment: VerticalAlignment.Bottom
+                    horizontalAlignment: HorizontalAlignment.Right
+                    topPadding: 5
+                    leftPadding: 10
+                    rightPadding: 10
+                    bottomPadding: 5
+
+                    // background definition
+                    background: Color.create(Globals.foodcompanionDefaultBackgroundColor)
+                    opacity: 0.75
+
+                    // call to action label
+                    Label {
+                        // style defintion
+                        textStyle.base: SystemDefaults.TextStyles.BodyText
+                        textStyle.fontWeight: FontWeight.W100
+                        textStyle.textAlign: TextAlign.Left
+
+                        // text content
+                        text: "Thumbnail view, tap to recapture image"
+                    }
+                }
+
+                // handle tap on existing image
+                gestureHandlers: [
+                    TapHandler {
+                        onTapped: {
+                            // create and open capture image sheet
+                            var captureImageContent = captureImageComponent.createObject();
+                            captureImageContent.callingPage = addItemPage;
+                            captureImageSheet.setContent(captureImageContent);
+                            captureImageSheet.open();
+                        }
+                    }
+                ]
             }
 
             // camera info message
@@ -204,6 +255,6 @@ Page {
     onImageCaptured: {
         cameraCallToAction.visible = false;
         cameraImagePreview.imageSource = "file:///" + imageName;
-        cameraImagePreview.visible = true;
+        cameraImageContainer.visible = true;
     }
 }
