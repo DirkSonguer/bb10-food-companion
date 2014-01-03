@@ -10,3 +10,5 @@
 // *************************************************** //
 
 var foodcompanionWorking = "Working..";
+
+var foodcompanionHealthValues = new Array("Unhealthy", "Ok", "Healthy");

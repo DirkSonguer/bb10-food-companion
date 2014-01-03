@@ -27,35 +27,49 @@ TabbedPane {
     //    activeTab: popularMediaTab
 
     Tab { //Second tab
-        title: qsTr("Tab 2") + Retranslate.onLocaleOrLanguageChanged
+        title: qsTr("Gallery") + Retranslate.onLocaleOrLanguageChanged
+        imageSource: "asset:///images/icons/icon_gallery.png"
         Page {
             Container {
                 Label {
-                    text: qsTr("Second tab") + Retranslate.onLocaleOrLanguageChanged
+                    text: qsTr("Gallery") + Retranslate.onLocaleOrLanguageChanged
                 }
             }
         }
     } //End of second tab
 
+    Tab { //Second tab
+        title: qsTr("Statistics") + Retranslate.onLocaleOrLanguageChanged
+        imageSource: "asset:///images/icons/icon_statistics.png"
+        Page {
+            Container {
+                Label {
+                    text: qsTr("Statistics") + Retranslate.onLocaleOrLanguageChanged
+                }
+            }
+        }
+    } //End of second tab
+
+
     Tab {
-        id: logFoodEntryTab
-        title: "Log food entry"
+        id: addItemTab
+        title: "Add entry"
         imageSource: "asset:///images/icons/icon_add.png"
 
         // note that the page is bound to the component every time it loads
         // this is because the page needs to be created as tapped
         // if created on startup it does not work immediately after login
         onTriggered: {
-            logFoodEntryComponent.source = "pages/LogFoodEntry.qml";
-            var logFoodEntryPage = logFoodEntryComponent.createObject();
-            logFoodEntryTab.setContent(logFoodEntryPage);
+            addItemComponent.source = "pages/AddItem.qml";
+            var addItemPage = addItemComponent.createObject();
+            addItemTab.setContent(addItemPage);
         }
 
         // attach a component for the user feed page
         // this is bound to the content property later on onCreationCompleted()
         attachedObjects: [
             ComponentDefinition {
-                id: logFoodEntryComponent
+                id: addItemComponent
             }
         ]
     }
@@ -67,6 +81,18 @@ TabbedPane {
     // attached objects
     // this contains the sheets which are used for general page based popupos
     attachedObjects: [
+        // sheet for shooting images
+        Sheet {
+            id: captureImageSheet
+            
+            // attach a component for the about page
+            attachedObjects: [
+                ComponentDefinition {
+                    id: captureImageComponent
+                    source: "sheets/CaptureImage.qml"
+                }
+            ]
+        },
         // invocation for bb world
         // used by the action menu to switch to bb world
         Invocation {

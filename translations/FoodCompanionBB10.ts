@@ -5,12 +5,14 @@
     <name>main</name>
     <message>
         <location filename="../assets/main.qml" line="30"/>
-        <source>Tab 2</source>
+        <location filename="../assets/main.qml" line="35"/>
+        <source>Gallery</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="34"/>
-        <source>Second tab</source>
+        <location filename="../assets/main.qml" line="42"/>
+        <location filename="../assets/main.qml" line="47"/>
+        <source>Statistics</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

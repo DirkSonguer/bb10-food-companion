@@ -3,26 +3,32 @@ BASEDIR =  $$quote($$_PRO_FILE_PWD_)
 
 device {
     CONFIG(debug, debug|release) {
-        SOURCES +=  $$quote($$BASEDIR/src/foodcompanion.cpp) \
+        SOURCES +=  $$quote($$BASEDIR/src/camerautilities.cpp) \
+                 $$quote($$BASEDIR/src/foodcompanion.cpp) \
                  $$quote($$BASEDIR/src/main.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/foodcompanion.hpp)
+        HEADERS +=  $$quote($$BASEDIR/src/camerautilities.h) \
+                 $$quote($$BASEDIR/src/foodcompanion.hpp)
     }
 
     CONFIG(release, debug|release) {
-        SOURCES +=  $$quote($$BASEDIR/src/foodcompanion.cpp) \
+        SOURCES +=  $$quote($$BASEDIR/src/camerautilities.cpp) \
+                 $$quote($$BASEDIR/src/foodcompanion.cpp) \
                  $$quote($$BASEDIR/src/main.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/foodcompanion.hpp)
+        HEADERS +=  $$quote($$BASEDIR/src/camerautilities.h) \
+                 $$quote($$BASEDIR/src/foodcompanion.hpp)
     }
 }
 
 simulator {
     CONFIG(debug, debug|release) {
-        SOURCES +=  $$quote($$BASEDIR/src/foodcompanion.cpp) \
+        SOURCES +=  $$quote($$BASEDIR/src/camerautilities.cpp) \
+                 $$quote($$BASEDIR/src/foodcompanion.cpp) \
                  $$quote($$BASEDIR/src/main.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/foodcompanion.hpp)
+        HEADERS +=  $$quote($$BASEDIR/src/camerautilities.h) \
+                 $$quote($$BASEDIR/src/foodcompanion.hpp)
     }
 }
 
@@ -59,6 +65,9 @@ lupdate_inclusion {
              $$quote($$BASEDIR/../assets/images/icons/*.qml) \
              $$quote($$BASEDIR/../assets/images/icons/*.js) \
              $$quote($$BASEDIR/../assets/images/icons/*.qs) \
+             $$quote($$BASEDIR/../assets/images/splashscreens/*.qml) \
+             $$quote($$BASEDIR/../assets/images/splashscreens/*.js) \
+             $$quote($$BASEDIR/../assets/images/splashscreens/*.qs) \
              $$quote($$BASEDIR/../assets/pages/*.qml) \
              $$quote($$BASEDIR/../assets/pages/*.js) \
              $$quote($$BASEDIR/../assets/pages/*.qs) \

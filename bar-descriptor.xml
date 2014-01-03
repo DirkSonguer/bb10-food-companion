@@ -55,6 +55,11 @@
     <authorId>gYAAgBdeWwop_OlO2UhxazMyvtM</authorId>
     <description>A foto diary for your daily food as well as a calory and nutrition logger for BlackBerry 10.</description>
     <category>core.media</category>
+    <splashScreens>
+       <image>splashscreen_1280x720.png</image>
+       <image>splashscreen_1280x768.png</image>
+       <image>splashscreen_720x720.png</image>
+    </splashScreens>
     <configuration name="Device-Debug">
        <platformArchitecture>armle-v7</platformArchitecture>
        <asset path="arm/o.le-v7-g/FoodCompanionBB10" entry="true" type="Qnx/Elf">FoodCompanionBB10</asset>
@@ -91,10 +96,16 @@
     <asset path="icon.png">icon.png</asset>
     <asset path="assets">assets</asset>
 
+    <!-- Set theme to dark as default -->
+    <env var="CASCADES_THEME" value="dark"/>
+
     <!-- Locale support -->
     <asset path="translations" dest="qm">
         <include name="*.qm"/>
     </asset>
+    <asset path="assets/images/splashscreens/splashscreen_1280x720.png">splashscreen_1280x720.png</asset>
+    <asset path="assets/images/splashscreens/splashscreen_1280x768.png">splashscreen_1280x768.png</asset>
+    <asset path="assets/images/splashscreens/splashscreen_720x720.png">splashscreen_720x720.png</asset>
 
     <!-- Request permission to execute native code.  Required for native applications. -->
     <permission system="true">run_native</permission>
