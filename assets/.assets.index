@@ -1,5 +1,5 @@
 1
-21
+22
 components/CustomButton.qml
 components/CustomCamera.qml
 components/InfoMessage.qml
@@ -21,3 +21,4 @@ images/splashscreens/splashscreen_720x720.png
 main.qml
 pages/AddItem.qml
 sheets/CaptureImage.qml
+structures/fooditem.js

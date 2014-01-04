@@ -196,23 +196,22 @@ Container {
             // text content
             text: "Tap here to capture the image. Use the buttons to toggle the flash or abort."
         }
-
-        // handle touch event on the camera component itself
-        // this will trigger a capture photo event
-        gestureHandlers: [
-            TapHandler {
-                onTapped: {
-                    // check if capture is already in progress
-                    if (! customCameraComponent.captureInProgress) {
-                        customCameraComponent.captureInProgress = true;
-                        customCameraMessage.text = "Capturing, please wait";
-                        customCamera.capturePhoto();
-                    }
+    }
+    
+    // handle touch event on the camera component itself
+    // this will trigger a capture photo event
+    gestureHandlers: [
+        TapHandler {
+            onTapped: {
+                // check if capture is already in progress
+                if (! customCameraComponent.captureInProgress) {
+                    customCameraComponent.captureInProgress = true;
+                    customCameraMessage.text = "Capturing, please wait";
+                    customCamera.capturePhoto();
                 }
             }
-        ]
-
-    }
+        }
+    ]
 
     // change flash mode according to change
     onCameraFlashModeChanged: {

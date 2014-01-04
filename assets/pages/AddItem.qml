@@ -17,6 +17,7 @@ import "../components"
 // shared js files
 import "../global/globals.js" as Globals
 import "../global/copytext.js" as Copytext
+import "../structures/fooditem.js" as FoodItemType
 
 Page {
     id: addItemPage
@@ -25,9 +26,9 @@ Page {
     // this will be called by the CaptureImage sheet
     signal imageCaptured(string imageName)
 
-    // property that holds the current health rating for the item
-    // this is manipulated by the healt rating slider
-    property int currentHealthRating: 0
+    // the item object
+    // this is of type FoodItem()
+    property variant itemData
 
     Container {
         // layout orientation
@@ -225,9 +226,15 @@ Page {
                     var intImmediateValue = Math.round(immediateValue);
 
                     // if the slider value has changed, show the according text
-                    if (addItemPage.currentHealthRating != intImmediateValue) {
+                    if ((typeof addItemPage.itemData !== "undefined") && (addItemPage.itemData.healthRating != intImmediateValue)) {
+                        // note that a temp item is needed because the children of the page variant are read only
+                        var tempItem = new FoodItemType.FoodItem();
+                        tempItem = addItemPage.itemData;
+
+                        // update values and write back the data
                         healthRating.text = Copytext.foodcompanionHealthValues[intImmediateValue];
-                        addItemPage.currentHealthRating = intImmediateValue
+                        tempItem.healthRating = intImmediateValue;
+                        addItemPage.itemData = tempItem;
                     }
                 }
             }
@@ -252,9 +259,26 @@ Page {
         }
     }
 
+    // signal that image has been captured with according file name
+    // hide call to action and show thumbnail
     onImageCaptured: {
         cameraCallToAction.visible = false;
         cameraImagePreview.imageSource = "file:///" + imageName;
+
+        // store the image file to the page food item
+        // note that a temp item is needed because the children of the page variant are read only
+        var tempItem = new FoodItemType.FoodItem();
+        tempItem = addItemPage.itemData;
+        tempItem.imageFile = imageName;
+        addItemPage.itemData = tempItem;
+
+        // show camera thumbnail
         cameraImageContainer.visible = true;
+    }
+
+    onCreationCompleted: {
+        // initialize the page item object
+        var newFoodItem = new FoodItemType.FoodItem();
+        addItemPage.itemData = newFoodItem;
     }
 }
