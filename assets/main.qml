@@ -17,9 +17,14 @@
 // import blackberry components
 import bb.cascades 1.2
 import bb.system 1.2
+import bb.data 1.0
 
 // set import directory for pages
 import "pages"
+
+// shared js files
+import "classes/configurationhandler.js" as Configuration
+import "classes/fooddatabase.js" as FoodDatabase
 
 TabbedPane {
     // pane definition
@@ -50,7 +55,6 @@ TabbedPane {
         }
     } //End of second tab
 
-
     Tab {
         id: addItemTab
         title: "Add entry"
@@ -76,6 +80,16 @@ TabbedPane {
 
     // main logic on startup
     onCreationCompleted: {
+        // check on startup for introduction sheet
+        var configurationData = Configuration.conf.getConfiguration("introduction");
+        if (configurationData.length < 1) {
+            // console.log("# Introduction not shown yet. Open intro sheet");
+
+            Configuration.conf.setConfiguration("introduction", "1");
+        }
+
+        // load and check the food db if it has been imported correctly
+        dataSource.load();
     }
 
     // attached objects
@@ -84,7 +98,7 @@ TabbedPane {
         // sheet for shooting images
         Sheet {
             id: captureImageSheet
-            
+
             // attach a component for the about page
             attachedObjects: [
                 ComponentDefinition {
@@ -111,6 +125,17 @@ TabbedPane {
         SystemToast {
             id: foodcompanionCenterToast
             position: SystemUiPosition.MiddleCenter
+        },
+        DataSource {
+            id: dataSource
+            source: "asset:///database/food_db.json"
+            onDataLoaded: {
+                // console.log("# Food DB loaded, found " + data.food.length + " items");
+
+                // initialize database
+                // FoodDatabase.fooddb.resetDatabase();
+                FoodDatabase.fooddb.initDatabase(data);
+            }
         }
     ]
 }

@@ -1,9 +1,12 @@
 1
-22
+25
+classes/configurationhandler.js
+classes/fooddatabase.js
 components/CustomButton.qml
 components/CustomCamera.qml
 components/InfoMessage.qml
 components/PageHeader.qml
+database/food_db.json
 global/copytext.js
 global/globals.js
 images/header_background.png

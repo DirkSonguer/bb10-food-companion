@@ -58,19 +58,8 @@ Container {
         id: customCamera
 
         onCameraOpened: {
-            // iterate through all available camwera resolutions
-            var supportedResolutionsArray = new Array();
-            supportedResolutionsArray = customCamera.supportedCaptureResolutions(CameraMode.Photo);
-            console.log("# Found " + supportedResolutionsArray.length + " resolutions");
-
+            // TODO: Check and iterate through all available camwera resolutions and set it accordingly
             // cameraUtilities.selectAspectRatio(customCamera,9/16);
-
-            // TODO: Check if the resolutions can actually be read
-            /*
-             * for (var index in supportedResolutionsArray) {
-             * console.log("# Resolution: " + supportedResolutionsArray[index].toString());
-             * }
-             */
 
             // define additional camera settings, eg. setting focus mode and stabilization
             getSettings(customCameraSettings);
@@ -139,7 +128,7 @@ Container {
             customCameraComponent.errorOccured(error);
         }
 
-        // camera could not be ^stopped / object could not be destroyed
+        // camera could not be stopped / object could not be destroyed
         onViewfinderStopFailed: {
             // console.log("# viewfinderStopFailed signal received with error " + error);
             customCameraComponent.errorOccured(error);
@@ -197,7 +186,7 @@ Container {
             text: "Tap here to capture the image. Use the buttons to toggle the flash or abort."
         }
     }
-    
+
     // handle touch event on the camera component itself
     // this will trigger a capture photo event
     gestureHandlers: [
@@ -206,7 +195,7 @@ Container {
                 // check if capture is already in progress
                 if (! customCameraComponent.captureInProgress) {
                     customCameraComponent.captureInProgress = true;
-                    customCameraMessage.text = "Capturing, please wait";
+                    customCameraMessage.text = "Capturing, please wait.";
                     customCamera.capturePhoto();
                 }
             }

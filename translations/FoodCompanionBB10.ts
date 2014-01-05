@@ -4,14 +4,14 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../assets/main.qml" line="30"/>
         <location filename="../assets/main.qml" line="35"/>
+        <location filename="../assets/main.qml" line="40"/>
         <source>Gallery</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/main.qml" line="42"/>
         <location filename="../assets/main.qml" line="47"/>
+        <location filename="../assets/main.qml" line="52"/>
         <source>Statistics</source>
         <translation type="unfinished"></translation>
     </message>
