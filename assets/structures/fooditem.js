@@ -29,6 +29,9 @@ function FoodItem() {
 	// this is the health rating as integer
 	// it maps against Copytext.foodcompanionHealthValues
 	this.healthRating = 0;
+	
+	// flag if user has favorited the item
+	this.favorite = 0;
 
 	// creation timestamp
 	this.timestamp = "";

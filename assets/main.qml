@@ -135,6 +135,7 @@ TabbedPane {
                 // initialize database
                 // FoodDatabase.fooddb.resetDatabase();
                 FoodDatabase.fooddb.initDatabase(data);
+                FoodDatabase.fooddb.searchDatabase("cheese");
             }
         }
     ]
