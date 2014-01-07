@@ -88,7 +88,8 @@ TabbedPane {
             Configuration.conf.setConfiguration("introduction", "1");
         }
 
-        // load and check the food db if it has been imported correctly
+        // load database content from local JSON file
+        // note that the dataSource will check the food db if it has been imported correctly
         dataSource.load();
     }
 
@@ -104,6 +105,18 @@ TabbedPane {
                 ComponentDefinition {
                     id: captureImageComponent
                     source: "sheets/CaptureImage.qml"
+                }
+            ]
+        },
+        // sheet while importing database
+        Sheet {
+            id: importDatabaseSheet
+            
+            // attach a component for the about page
+            attachedObjects: [
+                ComponentDefinition {
+                    id: importDatabaseComponent
+                    source: "sheets/ImportDatabase.qml"
                 }
             ]
         },
@@ -123,7 +136,7 @@ TabbedPane {
         },
         // system toast used globally by all pages and components
         SystemToast {
-            id: foodcompanionCenterToast
+            id: foodcompanionToast
             position: SystemUiPosition.MiddleCenter
         },
         DataSource {
@@ -132,10 +145,16 @@ TabbedPane {
             onDataLoaded: {
                 // console.log("# Food DB loaded, found " + data.food.length + " items");
 
-                // initialize database
-                // FoodDatabase.fooddb.resetDatabase();
-                FoodDatabase.fooddb.initDatabase(data);
-                FoodDatabase.fooddb.searchDatabase("cheese");
+				// check database state and reimport if necessary
+                FoodDatabase.fooddb.resetDatabase();
+                var dbstate = FoodDatabase.fooddb.checkDatabaseState(data);
+                if (!dbstate) {
+                    console.log("# Database is not up to date, needs reimport");
+                    var importDatabaseContent = importDatabaseComponent.createObject();
+                    importDatabaseContent.importData = data;
+                    importDatabaseSheet.setContent(importDatabaseContent);
+                    importDatabaseSheet.open();
+                }        
             }
         }
     ]

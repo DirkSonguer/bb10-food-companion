@@ -28,6 +28,9 @@ Container {
     // this can be used by the using page
     signal messageClicked();
     
+    property alias titleText: infoTitle.text
+    property alias messageText: infoMessage.text
+    
     // layout orientation
     layout: StackLayout {
         orientation: LayoutOrientation.TopToBottom

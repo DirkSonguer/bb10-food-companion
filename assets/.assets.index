@@ -1,5 +1,5 @@
 1
-25
+26
 classes/configurationhandler.js
 classes/fooddatabase.js
 components/CustomButton.qml
@@ -24,4 +24,5 @@ images/splashscreens/splashscreen_720x720.png
 main.qml
 pages/AddItem.qml
 sheets/CaptureImage.qml
+sheets/ImportDatabase.qml
 structures/fooditem.js
