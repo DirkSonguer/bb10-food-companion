@@ -12,3 +12,6 @@
 var foodcompanionWorking = "Working..";
 
 var foodcompanionHealthValues = new Array("Unhealthy", "Ok", "Healthy");
+
+var foodcompanionImportDBHeadline = "Import needed";
+var foodcompanionImportDBText = "Please wait, the database needs to be imported and processed before first use. This might take up to a minute, but needs to be done only once.";

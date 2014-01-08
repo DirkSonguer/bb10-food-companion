@@ -110,13 +110,13 @@ TabbedPane {
         },
         // sheet while importing database
         Sheet {
-            id: importDatabaseSheet
+            id: firstStartupSheet
             
             // attach a component for the about page
             attachedObjects: [
                 ComponentDefinition {
-                    id: importDatabaseComponent
-                    source: "sheets/ImportDatabase.qml"
+                    id: firstStartupComponent
+                    source: "sheets/FirstStartup.qml"
                 }
             ]
         },
@@ -149,11 +149,11 @@ TabbedPane {
                 FoodDatabase.fooddb.resetDatabase();
                 var dbstate = FoodDatabase.fooddb.checkDatabaseState(data);
                 if (!dbstate) {
-                    console.log("# Database is not up to date, needs reimport");
-                    var importDatabaseContent = importDatabaseComponent.createObject();
-                    importDatabaseContent.importData = data;
-                    importDatabaseSheet.setContent(importDatabaseContent);
-                    importDatabaseSheet.open();
+                    console.log("# Database is not up to date & needs reimport");
+                    var firstStartupContent = firstStartupComponent.createObject();
+                    firstStartupContent.importData = data;
+                    firstStartupSheet.setContent(firstStartupContent);
+                    firstStartupSheet.open();
                 }        
             }
         }
