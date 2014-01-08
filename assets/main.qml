@@ -108,6 +108,18 @@ TabbedPane {
                 }
             ]
         },
+        // sheet to select food for an item
+        Sheet {
+            id: foodSelectorSheet
+            
+            // attach a component for the about page
+            attachedObjects: [
+                ComponentDefinition {
+                    id: foodSelectorComponent
+                    source: "sheets/FoodSelector.qml"
+                }
+            ]
+        },
         // sheet while importing database
         Sheet {
             id: firstStartupSheet
@@ -146,7 +158,7 @@ TabbedPane {
                 // console.log("# Food DB loaded, found " + data.food.length + " items");
 
 				// check database state and reimport if necessary
-                FoodDatabase.fooddb.resetDatabase();
+                // FoodDatabase.fooddb.resetDatabase();
                 var dbstate = FoodDatabase.fooddb.checkDatabaseState(data);
                 if (!dbstate) {
                     console.log("# Database is not up to date & needs reimport");

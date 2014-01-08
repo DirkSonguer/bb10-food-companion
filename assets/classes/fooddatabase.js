@@ -50,7 +50,7 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 
 	// iterate through all found food items
 	for ( var index = 0; index < foundItems.length; index++) {
-		console.log("# Found " + foundItems.item(index).food_description + ", " + foundItems.item(index).food_portion);
+		// console.log("# Found " + foundItems.item(index).food_description + ", " + foundItems.item(index).food_portion);
 
 		// initialize new food item
 		var foodItem = new FoodItem();

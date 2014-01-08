@@ -167,6 +167,15 @@ Page {
                 // call to action message
                 iconSource: "asset:///images/icons/icon_description.png"
                 narrowText: "Tap to add description"
+                
+                // call to action clicked
+                // open food selection sheet
+                onClicked: {
+                    // create and open food selection sheet
+                    var foodSelectorContent = foodSelectorComponent.createObject();
+                    foodSelectorSheet.setContent(foodSelectorContent);
+                    foodSelectorSheet.open();
+                }
             }
         }
 
