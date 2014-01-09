@@ -1,9 +1,10 @@
 1
-32
+35
 classes/configurationhandler.js
 classes/fooddatabase.js
 components/CustomButton.qml
 components/CustomCamera.qml
+components/FoodDescription.qml
 components/FoodInput.qml
 components/FoodList.qml
 components/InfoMessage.qml
@@ -16,9 +17,11 @@ images/icons/icon_add.png
 images/icons/icon_camera.png
 images/icons/icon_close.png
 images/icons/icon_description.png
+images/icons/icon_faved.png
 images/icons/icon_flash.png
 images/icons/icon_gallery.png
 images/icons/icon_notavailable.png
+images/icons/icon_notfaved.png
 images/icons/icon_search.png
 images/icons/icon_search_dimmed.png
 images/icons/icon_statistics.png
@@ -28,7 +31,7 @@ images/splashscreens/splashscreen_1280x768.png
 images/splashscreens/splashscreen_720x720.png
 main.qml
 pages/AddItem.qml
+pages/FoodSelector.qml
 sheets/CaptureImage.qml
 sheets/FirstStartup.qml
-sheets/FoodSelector.qml
 structures/fooditem.js

@@ -108,18 +108,6 @@ TabbedPane {
                 }
             ]
         },
-        // sheet to select food for an item
-        Sheet {
-            id: foodSelectorSheet
-            
-            // attach a component for the about page
-            attachedObjects: [
-                ComponentDefinition {
-                    id: foodSelectorComponent
-                    source: "sheets/FoodSelector.qml"
-                }
-            ]
-        },
         // sheet while importing database
         Sheet {
             id: firstStartupSheet

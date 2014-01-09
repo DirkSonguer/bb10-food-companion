@@ -41,6 +41,8 @@ Page {
         FoodInput {
             id: foodSelectorInput
             
+            bottomPadding: 10
+            
             onChanged: {
                 console.log("# Food search input changed: " + text);
                 foodSelectorList.clearList();
@@ -65,19 +67,4 @@ Page {
             rightPadding: 0
         }
     }
-
-    // close action for the sheet
-    actions: [
-        ActionItem {
-            title: "Close"
-            ActionBar.placement: ActionBarPlacement.OnBar
-            imageSource: "asset:///images/icons/icon_close.png"
-
-            // close sheet when pressed
-            // note that the sheet is defined in the main.qml
-            onTriggered: {
-                foodSelectorSheet.close();
-            }
-        }
-    ]
 }

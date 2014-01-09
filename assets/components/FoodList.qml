@@ -59,11 +59,7 @@ Container {
     // see here for details: http://supportforums.blackberry.com/t5/Cascades-Development/QML-Accessing-variables-defined-outside-a-list-component-from/m-p/1786265#M641
     onCreationCompleted: {
         Qt.itemClicked = foodListComponent.itemClicked;
-
-        if (foodListComponent.headerText != "") {
-            foodList.scrollToPosition(0, ScrollAnimation.None);
-            foodList.scroll(-205, ScrollAnimation.Smooth);
-        }
+        Qt.DisplayInfo = DisplayInfo;
     }
 
     // layout orientation
@@ -91,12 +87,17 @@ Container {
             ListItemComponent {
                 type: "item"
 
-                Label {
-                    id: foodItemLabel
-
-                    text: ListItemData.foodData.description
+                Container {
+                    layout: StackLayout {
+                        orientation: LayoutOrientation.LeftToRight
+                    }
                     
-                    multiline: true
+                    FoodDescription {
+                        description: ListItemData.foodData.description
+                        favorite: ListItemData.foodData.favorite
+                    }
+
+                    bottomPadding: 5
                 }
             }
         ]
