@@ -181,6 +181,10 @@ NavigationPane {
                         navigationPane.push(searchFoodItemPageObject);
                     }
                 }
+                
+                Container {
+                    id: descriptionLabelContainer
+                }
             }
 
             CustomSlider {

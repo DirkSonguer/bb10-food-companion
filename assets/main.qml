@@ -141,7 +141,7 @@ TabbedPane {
 
                 // WARNING: Do not activate this in productive version!
                 // WARNING: this will reset the database and wipe any entries on startup!
-                // FoodDatabase.fooddb.resetDatabase();
+                FoodDatabase.fooddb.resetDatabase();
 
                 // check database state and reimport if necessary
                 var dbstate = FoodDatabase.fooddb.checkDatabaseState(data);

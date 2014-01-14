@@ -89,6 +89,7 @@ Container {
                     
                     FoodItemDescription {
                         description: ListItemData.foodData.description
+                        portion: "1" + ListItemData.foodData.portion + ", " + ListItemData.foodData.calories + " calories per portion"
                         favorite: ListItemData.foodData.favorite
                         
                         // description of item has been clicked

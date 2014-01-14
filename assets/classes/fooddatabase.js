@@ -59,7 +59,7 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 		// fill item data
 		foodItem.id = foundItems.item(index).food_id;
 		foodItem.description = foundItems.item(index).food_description;
-		foodItem.portionSize = foundItems.item(index).food_portion;
+		foodItem.portion = foundItems.item(index).food_portion;
 		foodItem.calories = foundItems.item(index).food_calories;
 		foodItem.favorite = foundItems.item(index).food_favorite;
 		foodItem.portionSize = 1.0;
@@ -149,8 +149,7 @@ FoodDatabase.prototype.importDatabase = function(foodData, importProgress) {
 	db.transaction(function(tx) {
 		// iterate through all food items and add the data to the transaction
 		for ( var index = currentFromValue; index < currentToValue; index++) {
-			var foodItemDescription = foodData.food[index].description + ", 1 " + foodData.food[index].portion;
-			data = [ index, foodItemDescription, foodData.food[index].portion, foodData.food[index].kcal ];
+			data = [ index, foodData.food[index].description, foodData.food[index].portion, foodData.food[index].kcal ];
 			tx.executeSql(dataStr, data);
 		}
 	});

@@ -23,6 +23,9 @@ function FoodItem() {
 	// description for the food item
 	this.description = "";
 
+	// portion for the food item
+	this.portion = "";
+
 	// calories this food has
 	this.calories = 0;
 	

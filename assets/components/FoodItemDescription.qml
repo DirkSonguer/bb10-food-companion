@@ -24,9 +24,12 @@ Container {
 
     // signal that the fav button has been clicked
     signal favoriteClicked()
-    
+
     // property for the food description
     property alias description: foodItemDescription.text
+    
+    // property for the food portion
+    property alias portion: foodItemPortion.text
 
     // flag if food is favorited
     property bool favorite
@@ -46,7 +49,7 @@ Container {
     background: Color.create(Globals.foodcompanionDefaultBackgroundColor)
 
     // standard width is full display width
-     preferredWidth: Qt.DisplayInfo.width
+    preferredWidth: Qt.DisplayInfo.width
 
     // name and description container
     Container {
@@ -54,23 +57,42 @@ Container {
         layout: DockLayout {
         }
 
-        
         // position and layout properties
         verticalAlignment: VerticalAlignment.Center
         horizontalAlignment: HorizontalAlignment.Left
 
-        // image caption label
-        Label {
-            id: foodItemDescription
+        Container {
+            layout: StackLayout {
+                orientation: LayoutOrientation.TopToBottom
+            }
 
-            // layout definition
-            textStyle.base: SystemDefaults.TextStyles.BodyText
-            textStyle.fontWeight: FontWeight.W100
-            textStyle.textAlign: TextAlign.Left
-            multiline: true
-            
-            // standard width is full display width
-            preferredWidth: (Qt.DisplayInfo.width - 81)
+            // image caption label
+            Label {
+                id: foodItemDescription
+
+                // layout definition
+                textStyle.base: SystemDefaults.TextStyles.BodyText
+                textStyle.fontWeight: FontWeight.W100
+                textStyle.textAlign: TextAlign.Left
+                multiline: true
+
+                // standard width is full display width
+                preferredWidth: (Qt.DisplayInfo.width - 81)
+            }
+
+            // image caption label
+            Label {
+                id: foodItemPortion
+                
+                // layout definition
+                textStyle.base: SystemDefaults.TextStyles.SmallText
+                textStyle.fontWeight: FontWeight.W100
+                textStyle.textAlign: TextAlign.Left
+                multiline: true
+                
+                // standard width is full display width
+                preferredWidth: (Qt.DisplayInfo.width - 81)
+            }
         }
 
         // handle tap on custom button
@@ -83,32 +105,32 @@ Container {
             }
         ]
     }
-    
+
     // Fav container
     Container {
         // layout orientation
         layout: DockLayout {
         }
-        
+
         leftPadding: 10
-        
+
         // mask the profile image to make it round
         ImageView {
             id: foodFavorite
-            
+
             // position and layout properties
             verticalAlignment: VerticalAlignment.Center
             horizontalAlignment: HorizontalAlignment.Left
-            
+
             // set image size to maximum profile picture size
             preferredHeight: 81
             preferredWidth: 81
             minHeight: 81
             minWidth: 81
-            
+
             imageSource: "asset:///images/icons/icon_notfaved.png"
         }
-        
+
         // handle tap on profile picture
         gestureHandlers: [
             TapHandler {
@@ -118,7 +140,7 @@ Container {
                 }
             }
         ]
-    }    
+    }
 
     // handle ui touch elements
     onTouch: {
@@ -129,7 +151,7 @@ Container {
 
         // user release description or is moving
         if ((event.touchType == TouchType.Up) || (event.touchType == TouchType.Cancel)) {
-                foodItemDescriptionComponent.background = Color.create(Globals.foodcompanionDefaultBackgroundColor);
+            foodItemDescriptionComponent.background = Color.create(Globals.foodcompanionDefaultBackgroundColor);
         }
     }
 
