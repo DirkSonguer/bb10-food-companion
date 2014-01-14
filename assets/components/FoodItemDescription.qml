@@ -112,6 +112,7 @@ Container {
         layout: DockLayout {
         }
 
+        verticalAlignment: VerticalAlignment.Fill
         leftPadding: 10
 
         // mask the profile image to make it round
@@ -162,5 +163,9 @@ Container {
         } else {
             foodFavorite.imageSource = "asset:///images/icons/icon_notfaved.png";
         }
+    }
+    
+    onFavoriteClicked: {
+        foodItemDescriptionComponent.favorite = (foodItemDescriptionComponent.favorite*(-1)) + 1;
     }
 }

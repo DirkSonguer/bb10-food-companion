@@ -22,6 +22,9 @@ Container {
     // signal if food item was clicked
     signal itemClicked(variant foodData)
 
+    // signal if food favorite state was clicked
+    signal itemFavoriteClicked(variant foodData)
+
     // property that holds the current index
     // this is incremented as new items are added
     // to the list a provides the order the items were
@@ -53,7 +56,9 @@ Container {
     // this is a workaround to make the signals visible inside the listview item scope
     // see here for details: http://supportforums.blackberry.com/t5/Cascades-Development/QML-Accessing-variables-defined-outside-a-list-component-from/m-p/1786265#M641
     onCreationCompleted: {
+        Qt.foodItemListDataModel = foodItemListDataModel;
         Qt.itemClicked = foodItemListComponent.itemClicked;
+        Qt.itemFavoriteClicked = foodItemListComponent.itemFavoriteClicked;
         Qt.DisplayInfo = DisplayInfo;
     }
 
@@ -86,15 +91,34 @@ Container {
                     layout: StackLayout {
                         orientation: LayoutOrientation.LeftToRight
                     }
-                    
+
                     FoodItemDescription {
                         description: ListItemData.foodData.description
-                        portion: "1" + ListItemData.foodData.portion + ", " + ListItemData.foodData.calories + " calories per portion"
+                        portion: ListItemData.foodData.calories + " calories per " + ListItemData.foodData.portion
                         favorite: ListItemData.foodData.favorite
-                        
+
                         // description of item has been clicked
                         onDescriptionClicked: {
                             Qt.itemClicked(ListItemData.foodData);
+                        }
+
+                        onFavoriteClicked: {
+                            ListItemData.foodData.favorite = (ListItemData.foodData.favorite * (-1)) + 1;
+
+                            var foodItemListDataModel = Qt.foodItemListDataModel;
+                            for (var i = 0; i < foodItemListDataModel.size(); i ++) {
+                                var indexPath = new Array();
+                                indexPath[0] = i;
+                                var childItem = foodItemListDataModel.data(indexPath);
+
+                                if (childItem.foodData.id == ListItemData.foodData.id) {
+                                    console.log("# Child item foodData: " + childItem.foodData.description);
+                                    childItem.foodData.favorite = (childItem.foodData.favorite * (-1)) + 1;
+                                    foodItemListDataModel.updateItem(indexPath, childItem);
+                                }
+                            }
+
+                            Qt.itemFavoriteClicked(ListItemData.foodData);
                         }
                     }
 

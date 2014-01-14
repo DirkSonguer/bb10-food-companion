@@ -35,7 +35,7 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 
 	// get number of items in SQL database
 	// based on the search term
-	var dataStr = "SELECT * FROM fooditems WHERE food_description LIKE ? ORDER BY food_favorite DESC";
+	var dataStr = "SELECT * FROM fooditems WHERE food_description LIKE ? ORDER BY food_favorite ASC, food_description DESC";
 	var data = [ "%" + searchQuery + "%" ];
 	var foundItems = new Array();
 	db.transaction(function(tx) {
@@ -43,7 +43,8 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 		foundItems = rs.rows;
 	});
 
-	// console.log("Found " + foundItems.length + " items for term " + searchQuery);
+	// console.log("Found " + foundItems.length + " items for term " +
+	// searchQuery);
 
 	// initialize return array
 	var foodItemArray = new Array();
@@ -182,6 +183,45 @@ FoodDatabase.prototype.importDatabase = function(foodData, importProgress) {
 
 	}
 
+	return true;
+};
+
+// update the favorite state of the given item
+// this resets the contents of the database by removing all items
+// first parameter is an array based on a DataSource import
+// returns a boolean if the import has been done
+FoodDatabase.prototype.updateFavoriteState = function(foodData) {
+	console.log("# Updating favorite state of food item " + foodData.id + " to value " + foodData.favorite);
+
+	// initialize db connection
+	var db = openDatabaseSync("FoodCompanion", "1.0", "Food Companion persistent data storage", 1);
+
+	// initialize food db table
+	db.transaction(function(tx) {
+		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_favorite INT, food_usergen INT)');
+	});
+
+	// update respective food item
+	var dataStr = "UPDATE fooditems SET food_favorite = ? WHERE food_id = ?";
+	var data = [ foodData.favorite, foodData.id ];
+
+	db.transaction(function(tx) {
+		var rs = tx.executeSql(dataStr, data);
+	});
+
+	
+	// update respective food item
+	var dataStr = "SELECT * FROM fooditems WHERE food_id = ?";
+	var data = [ foodData.id ];
+
+	var foundItems = new Array();
+	db.transaction(function(tx) {
+		var rs = tx.executeSql(dataStr, data);
+		foundItems = rs.rows;
+	});
+	
+	console.log("# Num: " + foundItems.length + " desc: " + foundItems.item(0).food_description + " and " + foundItems.item(0).food_favorite);
+	
 	return true;
 };
 

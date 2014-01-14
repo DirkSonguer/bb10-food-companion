@@ -91,6 +91,13 @@ Page {
                 addFoodDescriptionPageObject.selectedFoodItem = foodData;
                 navigationPane.push(addFoodDescriptionPageObject);
             }
+            
+            onItemFavoriteClicked: {
+                console.log("# Favorited food item: " + foodData.description);
+                
+                // search food items from database for search term
+                var foundFoodItems = FoodDatabase.fooddb.updateFavoriteState(foodData);
+            }
         }
 
         // info message
