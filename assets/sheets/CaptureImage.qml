@@ -1,5 +1,5 @@
 // *************************************************** //
-// Shoot Image Sheet
+// Capture Image Sheet
 //
 // This sheet acts as a camera control, similar to the
 // camera invocation sheet, however more tightly
@@ -32,48 +32,53 @@ Page {
 
     // flag if flash is active
     property bool cameraFlashState: false
-    
+
     Container {
         // layout orientation
         layout: DockLayout {
         }
 
+        // custom camera control
+        // this will take care of most of the logic
         CustomCamera {
             id: cameraComponent
 
             // photo has been captured
             // close sheet and hand over data
             onPhotoCaptured: {
+                // return the file name of the captured image back to the calling page
                 callingPage.imageCaptured(imageName);
+
+                // stop the camera control
                 cameraComponent.stopCamera();
+
+                // close the sheet, thus going back to the calling page
                 captureImageSheet.close();
             }
         }
-
-        InfoMessage {
-            id: infoMessage
-
-            leftPadding: 0
-            rightPadding: 0
-        }
     }
 
-    // close action for the sheet
     actions: [
+        // change flash state
+        // this is basically a toggle buttom
         ActionItem {
             id: cameraFlashAction
-            title: "Flash is off"
             ActionBar.placement: ActionBarPlacement.OnBar
+            
+            // flash is initially off, show respective text and icon
+            title: "Flash is off"            
             imageSource: "asset:///images/icons/icon_notavailable.png"
 
             // edit flash mode
             onTriggered: {
-                if (!captureImagePage.cameraFlashState) {
+                if (! captureImagePage.cameraFlashState) {
+                    // turn on flash mode and edit action item accordingly
                     captureImagePage.cameraFlashState = true;
                     cameraComponent.cameraFlashMode = CameraFlashMode.On
                     cameraFlashAction.title = "Flash is on";
                     cameraFlashAction.imageSource = "asset:///images/icons/icon_flash.png"
-                } else {                    
+                } else {
+                    // turn off flash mode and edit action item accordingly
                     captureImagePage.cameraFlashState = false;
                     cameraComponent.cameraFlashMode = CameraFlashMode.Off
                     cameraFlashAction.title = "Flash is off";
@@ -81,14 +86,17 @@ Page {
                 }
             }
         },
+        // close action for the sheet
+        // note that no data is handed over in this case
         ActionItem {
             title: "Close"
             ActionBar.placement: ActionBarPlacement.OnBar
             imageSource: "asset:///images/icons/icon_close.png"
 
             // close sheet when pressed
-            // note that the sheet is defined in the main.qml
             onTriggered: {
+                // camera control needs to be stopped first
+                // otherwise it will block the camera
                 cameraComponent.stopCamera();
                 captureImageSheet.close();
             }

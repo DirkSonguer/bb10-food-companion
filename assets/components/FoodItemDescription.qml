@@ -1,8 +1,9 @@
 // *************************************************** //
-// Food Description Component
+// Food Item Description Component
 //
 // This component shows the food information like
-// name, description and favorited status
+// name, description and favorited status.
+// It is used in the FoodItemList.
 //
 // Author: Dirk Songuer
 // License: All rights reserved
@@ -16,7 +17,7 @@ import "../global/globals.js" as Globals
 import "../global/copytext.js" as Copytext
 
 Container {
-    id: foodDescriptionComponent
+    id: foodItemDescriptionComponent
 
     // signal that the description has been clicked
     signal descriptionClicked()
@@ -25,14 +26,14 @@ Container {
     signal favoriteClicked()
     
     // property for the food description
-    property alias description: foodDescription.text
+    property alias description: foodItemDescription.text
 
     // flag if food is favorited
     property bool favorite
 
     // layout orientation
     layout: StackLayout {
-        orientation: LayoutOrientation.RightToLeft
+        orientation: LayoutOrientation.LeftToRight
     }
 
     // layout definition
@@ -47,42 +48,6 @@ Container {
     // standard width is full display width
      preferredWidth: Qt.DisplayInfo.width
 
-    // Fav container
-    Container {
-        // layout orientation
-        layout: DockLayout {
-        }
-
-        leftPadding: 10
-
-        // mask the profile image to make it round
-        ImageView {
-            id: foodFavorite
-
-            // position and layout properties
-            verticalAlignment: VerticalAlignment.Center
-            horizontalAlignment: HorizontalAlignment.Left
-
-            // set image size to maximum profile picture size
-            preferredHeight: 81
-            preferredWidth: 81
-            minHeight: 81
-            minWidth: 81
-
-            imageSource: "asset:///images/icons/icon_notfaved.png"
-        }
-
-        // handle tap on profile picture
-        gestureHandlers: [
-            TapHandler {
-                onTapped: {
-                    // console.log("# User profile clicked");
-                    foodDescriptionComponent.favoriteClicked();
-                }
-            }
-        ]
-    }
-
     // name and description container
     Container {
         // layout orientation
@@ -96,7 +61,7 @@ Container {
 
         // image caption label
         Label {
-            id: foodDescription
+            id: foodItemDescription
 
             // layout definition
             textStyle.base: SystemDefaults.TextStyles.BodyText
@@ -113,28 +78,64 @@ Container {
             TapHandler {
                 onTapped: {
                     // console.log("# Container clicked");
-                    foodDescriptionComponent.descriptionClicked();
+                    foodItemDescriptionComponent.descriptionClicked();
                 }
             }
         ]
     }
+    
+    // Fav container
+    Container {
+        // layout orientation
+        layout: DockLayout {
+        }
+        
+        leftPadding: 10
+        
+        // mask the profile image to make it round
+        ImageView {
+            id: foodFavorite
+            
+            // position and layout properties
+            verticalAlignment: VerticalAlignment.Center
+            horizontalAlignment: HorizontalAlignment.Left
+            
+            // set image size to maximum profile picture size
+            preferredHeight: 81
+            preferredWidth: 81
+            minHeight: 81
+            minWidth: 81
+            
+            imageSource: "asset:///images/icons/icon_notfaved.png"
+        }
+        
+        // handle tap on profile picture
+        gestureHandlers: [
+            TapHandler {
+                onTapped: {
+                    // console.log("# User profile clicked");
+                    foodItemDescriptionComponent.favoriteClicked();
+                }
+            }
+        ]
+    }    
 
     // handle ui touch elements
     onTouch: {
         // user pressed description
         if (event.touchType == TouchType.Down) {
-            foodDescriptionComponent.background = Color.create(Globals.foodcompanionHighlightBackgroundColor);
+            foodItemDescriptionComponent.background = Color.create(Globals.foodcompanionHighlightBackgroundColor);
         }
 
         // user release description or is moving
         if ((event.touchType == TouchType.Up) || (event.touchType == TouchType.Cancel)) {
-                foodDescriptionComponent.background = Color.create(Globals.foodcompanionDefaultBackgroundColor);
+                foodItemDescriptionComponent.background = Color.create(Globals.foodcompanionDefaultBackgroundColor);
         }
     }
 
     // change background and mask color according to confirmed state
     onFavoriteChanged: {
-        if (foodDescriptionComponent.favorite) {
+        if (foodItemDescriptionComponent.favorite) {
             foodFavorite.imageSource = "asset:///images/icons/icon_faved.png";
         } else {
             foodFavorite.imageSource = "asset:///images/icons/icon_notfaved.png";

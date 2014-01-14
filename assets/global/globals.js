@@ -18,5 +18,5 @@ var foodcompanionLinkTextColor = "#0791FF";
 
 var foodcompanionDefaultBackgroundColor = "#222222";
 var foodcompanionHighlightBackgroundColor = "#303030";
-var foodcompanionConfirmedBackgroundColor = "#3E9947";
+var foodcompanionButtonBackgroundColor = "#588008";
 var foodcompanionListItemBackgroundColor = "#DCDCDC";

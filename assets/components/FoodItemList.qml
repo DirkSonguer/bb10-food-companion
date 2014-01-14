@@ -1,5 +1,5 @@
 // *************************************************** //
-// Food List Component
+// Food Item List Component
 //
 // This component shows a list of food items for a given
 // keyword. Note that the component also handles the
@@ -17,12 +17,7 @@ import "../global/globals.js" as Globals
 import "../global/copytext.js" as Copytext
 
 Container {
-    id: foodListComponent
-
-    // signal if gallery is scrolled to start or end
-    signal listBottomReached()
-    signal listTopReached()
-    signal listIsScrolling()
+    id: foodItemListComponent
 
     // signal if food item was clicked
     signal itemClicked(variant foodData)
@@ -35,12 +30,12 @@ Container {
 
     // properties to define how the list should be sorted
     property string listSortingKey: "currentIndex"
-    property alias listSortAscending: foodListDataModel.sortedAscending
+    property alias listSortAscending: foodItemListDataModel.sortedAscending
 
     // signal to clear the gallery contents
     signal clearList()
     onClearList: {
-        foodListDataModel.clear();
+        foodItemListDataModel.clear();
     }
 
     // signal to add a new item
@@ -48,17 +43,17 @@ Container {
     signal addToList(variant item)
     onAddToList: {
         // console.log("# Adding item with ID " + item.commentId + " to comment list data model");
-        foodListComponent.currentItemIndex += 1;
-        foodListDataModel.insert({
+        foodItemListComponent.currentItemIndex += 1;
+        foodItemListDataModel.insert({
                 "foodData": item,
-                "currentIndex": foodListComponent.currentItemIndex
+                "currentIndex": foodItemListComponent.currentItemIndex
             });
     }
 
     // this is a workaround to make the signals visible inside the listview item scope
     // see here for details: http://supportforums.blackberry.com/t5/Cascades-Development/QML-Accessing-variables-defined-outside-a-list-component-from/m-p/1786265#M641
     onCreationCompleted: {
-        Qt.itemClicked = foodListComponent.itemClicked;
+        Qt.itemClicked = foodItemListComponent.itemClicked;
         Qt.DisplayInfo = DisplayInfo;
     }
 
@@ -68,10 +63,10 @@ Container {
 
     // list of Instagram popular media
     ListView {
-        id: foodList
+        id: foodItemList
 
         // associate the data model for the list view
-        dataModel: foodListDataModel
+        dataModel: foodItemListDataModel
 
         leadingVisual: Container {
             id: foodHeaderContainer
@@ -92,37 +87,17 @@ Container {
                         orientation: LayoutOrientation.LeftToRight
                     }
                     
-                    FoodDescription {
+                    FoodItemDescription {
                         description: ListItemData.foodData.description
                         favorite: ListItemData.foodData.favorite
+                        
+                        // description of item has been clicked
+                        onDescriptionClicked: {
+                            Qt.itemClicked(ListItemData.foodData);
+                        }
                     }
 
                     bottomPadding: 5
-                }
-            }
-        ]
-
-        // add action for loading additional data after scrolling to bottom
-        attachedObjects: [
-            ListScrollStateHandler {
-                id: scrollStateHandler
-                onAtBeginningChanged: {
-                    // console.log("# onAtBeginningChanged");
-                    if (scrollStateHandler.atBeginning) {
-                        foodListComponent.listTopReached();
-                    }
-                }
-                onAtEndChanged: {
-                    // console.log("# onAtEndChanged");
-                    if (scrollStateHandler.atEnd) {
-                        foodListComponent.listBottomReached();
-                    }
-                }
-                onScrollingChanged: {
-                    // console.log("# List is scrolling: " + scrollStateHandler.toDebugString());
-                    if (! scrollStateHandler.atBeginning) {
-                        foodListComponent.listIsScrolling();
-                    }
                 }
             }
         ]
@@ -132,7 +107,7 @@ Container {
     attachedObjects: [
         // this will be the data model for the popular media list view
         GroupDataModel {
-            id: foodListDataModel
+            id: foodItemListDataModel
             sortedAscending: false
             sortingKeys: [ listSortingKey ]
 

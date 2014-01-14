@@ -1,8 +1,12 @@
 // *************************************************** //
-// Add Item Page
+// New Food Entry Page
 //
-// This page is the main page to log new food entries.
-// The process will be handled by the page itself
+// This page logs new food entries.
+// The process will be handled by the page itself, it
+// may call different sub pages or sheets to gather all
+// the data, eg. the CaptureImage sheet.
+// The new food item to enter will be held in the newFoodItem
+// property.
 //
 // Author: Dirk Songuer
 // License: All rights reserved
@@ -18,6 +22,7 @@ import "../components"
 import "../global/globals.js" as Globals
 import "../global/copytext.js" as Copytext
 import "../structures/fooditem.js" as FoodItemType
+import "../classes/entrydatabase.js" as EntryDatabase
 
 // this is a page that is available from the main tab, thus it has to be a navigation pane
 // note that the id is always "navigationPane"
@@ -25,15 +30,20 @@ NavigationPane {
     id: navigationPane
 
     Page {
-        id: addItemPage
+        id: newFoodEntryPage
 
         // signal that image has been captured
         // this will be called by the CaptureImage sheet
         signal imageCaptured(string imageName)
 
-        // the item object
+        // signal that the description has been added
+        // this will be called by the addDescriptionPage
+        // data is of type FoodItem()
+        signal descriptionAdded(variant newFoodDescription)
+
+        // the item object containing the data of the new item
         // this is of type FoodItem()
-        property variant itemData
+        property variant newFoodItem
 
         Container {
             // layout orientation
@@ -69,9 +79,9 @@ NavigationPane {
                     // open capture image sheet
                     onClicked: {
                         // create and open capture image sheet
-                        var captureImageContent = captureImageComponent.createObject();
-                        captureImageContent.callingPage = addItemPage;
-                        captureImageSheet.setContent(captureImageContent);
+                        var captureImagePageObject = captureImagePageComponent.createObject();
+                        captureImagePageObject.callingPage = newFoodEntryPage;
+                        captureImageSheet.setContent(captureImagePageObject);
                         captureImageSheet.open();
                     }
                 }
@@ -135,23 +145,13 @@ NavigationPane {
                         TapHandler {
                             onTapped: {
                                 // create and open capture image sheet
-                                var captureImageContent = captureImageComponent.createObject();
-                                captureImageContent.callingPage = addItemPage;
-                                captureImageSheet.setContent(captureImageContent);
+                                var captureImagePageObject = captureImagePageComponent.createObject();
+                                captureImagePageObject.callingPage = newFoodEntryPage;
+                                captureImageSheet.setContent(captureImagePageObject);
                                 captureImageSheet.open();
                             }
                         }
                     ]
-                }
-
-                // camera info message
-                // this will contain any camera related info / error messages
-                InfoMessage {
-                    id: cameraInfoMessage
-
-                    // layout definition
-                    leftPadding: 0
-                    rightPadding: 0
                 }
             }
 
@@ -177,79 +177,39 @@ NavigationPane {
                     // open food selection sheet
                     onClicked: {
                         // create and open food selection sheet
-                        var foodSelectorContent = foodSelectorComponent.createObject();
-                        // detailImagePage.mediaData = mediaData;
-                        navigationPane.push(foodSelectorContent);
+                        var searchFoodItemPageObject = searchFoodItemPageComponent.createObject();
+                        navigationPane.push(searchFoodItemPageObject);
                     }
                 }
             }
 
-            // health rating slider
-            Container {
+            CustomSlider {
                 // layout definition
-                leftPadding: 10
-                rightPadding: 10
-                topPadding: 10
+                topPadding: 15
 
-                // small headline describing the slider feature
-                Container {
-                    // layout definition
-                    leftPadding: 25
+                // slider range definition
+                fromValue: 0
+                toValue: 2
+                value: 2
 
-                    Label {
-                        // layout definition
-                        horizontalAlignment: HorizontalAlignment.Left
+                // initial health rating and description
+                label: "Healthy"
+                description: "Rate this item:"
 
-                        // description text
-                        text: "Rate this item:"
+                // add logic to change rating on slider movement
+                onValueChanged: {
+                    var intImmediateValue = Math.round(immediateValue);
 
-                        // text style definition
-                        textStyle.base: SystemDefaults.TextStyles.SmallText
-                        textStyle.fontWeight: FontWeight.W100
-                        textStyle.textAlign: TextAlign.Left
-                    }
-                }
+                    // if the slider value has changed, show the according text
+                    if ((typeof newFoodEntryPage.newFoodItem !== "undefined") && (newFoodEntryPage.newFoodItem.healthRating != intImmediateValue)) {
+                        // note that a temp item is needed because the children of the page variant are read only
+                        var tempItem = new FoodItemType.FoodItem();
+                        tempItem = newFoodEntryPage.newFoodItem;
 
-                // health rating description
-                Label {
-                    id: healthRating
-
-                    // layout definition
-                    horizontalAlignment: HorizontalAlignment.Center
-
-                    // initial health rating
-                    text: "Healthy"
-
-                    // text style definition
-                    textStyle.fontSize: FontSize.PointValue
-                    textStyle.fontSizeValue: 12
-                    textStyle.fontWeight: FontWeight.W100
-                    textStyle.textAlign: TextAlign.Right
-                    textStyle.color: Color.White
-                }
-
-                // health rating slider
-                Slider {
-                    // slider range definition
-                    fromValue: 0
-                    toValue: 2
-                    value: 2
-
-                    // add logic to change rating on slider movement
-                    onImmediateValueChanged: {
-                        var intImmediateValue = Math.round(immediateValue);
-
-                        // if the slider value has changed, show the according text
-                        if ((typeof addItemPage.itemData !== "undefined") && (addItemPage.itemData.healthRating != intImmediateValue)) {
-                            // note that a temp item is needed because the children of the page variant are read only
-                            var tempItem = new FoodItemType.FoodItem();
-                            tempItem = addItemPage.itemData;
-
-                            // update values and write back the data
-                            healthRating.text = Copytext.foodcompanionHealthValues[intImmediateValue];
-                            tempItem.healthRating = intImmediateValue;
-                            addItemPage.itemData = tempItem;
-                        }
+                        // update values and write back the data
+                        label = Copytext.foodcompanionHealthValues[intImmediateValue];
+                        tempItem.healthRating = intImmediateValue;
+                        newFoodEntryPage.newFoodItem = tempItem;
                     }
                 }
             }
@@ -267,8 +227,27 @@ NavigationPane {
                     // layout definition
                     preferredWidth: DisplayInfo.width - 20
 
+                    // set button background color to call to action green
+                    backgroundColor: Color.create(Globals.foodcompanionButtonBackgroundColor)
+
                     // confirmation text
-                    boldText: "Add entry"
+                    boldText: "Add food entry"
+
+                    onClicked: {
+                        if (! newFoodEntryPage.newFoodItem.imageFile) {
+                            foodcompanionToast.body = "Please take a picture first";
+                            foodcompanionToast.show();
+                            return;
+                        }
+
+                        console.log("# imageFile: " + newFoodEntryPage.newFoodItem.imageFile);
+                        console.log("# description: " + newFoodEntryPage.newFoodItem.description);
+                        console.log("# calories: " + newFoodEntryPage.newFoodItem.calories);
+                        console.log("# portionSize: " + newFoodEntryPage.newFoodItem.portionSize);
+                        console.log("# healthRating: " + newFoodEntryPage.newFoodItem.healthRating);
+
+                        EntryDatabase.entrydb.addEntry(newFoodEntryPage.newFoodItem);
+                    }
                 }
             }
         }
@@ -282,32 +261,56 @@ NavigationPane {
             // store the image file to the page food item
             // note that a temp item is needed because the children of the page variant are read only
             var tempItem = new FoodItemType.FoodItem();
-            tempItem = addItemPage.itemData;
+            tempItem = newFoodEntryPage.newFoodItem;
             tempItem.imageFile = imageName;
-            addItemPage.itemData = tempItem;
+            newFoodEntryPage.newFoodItem = tempItem;
 
             // show camera thumbnail
             cameraImageContainer.visible = true;
         }
 
+        // signal that image has been captured with according file name
+        // hide call to action and show thumbnail
+        onDescriptionAdded: {
+            // store the image file to the page food item
+            // note that a temp item is needed because the children of the page variant are read only
+            var tempItem = new FoodItemType.FoodItem();
+            tempItem = newFoodEntryPage.newFoodItem;
+            tempItem.description = newFoodDescription.description;
+            tempItem.calories = newFoodDescription.calories;
+            tempItem.portionSize = newFoodDescription.portionSize;
+            newFoodEntryPage.newFoodItem = tempItem;
+        }
+
         onCreationCompleted: {
-            // initialize the page item object
+            // initialize the new food item object
             var newFoodItem = new FoodItemType.FoodItem();
-            addItemPage.itemData = newFoodItem;
+            newFoodEntryPage.newFoodItem = newFoodItem;
+
+            // EntryDatabase.entrydb.resetDatabase();
+            EntryDatabase.entrydb.getEntries();
+
+            // TODO: automatically open camera capture sheet
+            /*
+             * // create and open capture image sheet
+             * var captureImagePageObject = captureImagePageComponent.createObject();
+             * captureImagePageObject.callingPage = newFoodEntryPage;
+             * captureImageSheet.setContent(captureImagePageObject);
+             * captureImageSheet.open();
+             */
         }
     }
-    
-    
+
     // attach components
     attachedObjects: [
-        // sheet to select food for an item
+        // page to select food for an item
         // will be called if user clicks on add description
         ComponentDefinition {
-            id: foodSelectorComponent
-            source: "FoodSelector.qml"
+            id: searchFoodItemPageComponent
+            source: "SearchFoodItem.qml"
         }
     ]
-    
+
     // destroy pages after use
     onPopTransitionEnded: {
         page.destroy();

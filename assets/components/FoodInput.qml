@@ -61,7 +61,7 @@ Container {
         validator: Validator {
             mode: ValidationMode.Immediate
             onValidate: {
-                if (foodInput.text.length > 3) {
+                if (foodInput.text.length > 2) {
                     // signal that input has been changed
                     foodInputComponent.changed(foodInput.text);
                 }

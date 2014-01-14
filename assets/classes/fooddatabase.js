@@ -50,7 +50,8 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 
 	// iterate through all found food items
 	for ( var index = 0; index < foundItems.length; index++) {
-		// console.log("# Found " + foundItems.item(index).food_description + ", " + foundItems.item(index).food_portion);
+		// console.log("# Found " + foundItems.item(index).food_description + ",
+		// " + foundItems.item(index).food_portion);
 
 		// initialize new food item
 		var foodItem = new FoodItem();
@@ -60,6 +61,7 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 		foodItem.portionSize = foundItems.item(index).food_portion;
 		foodItem.calories = foundItems.item(index).food_calories;
 		foodItem.favorite = foundItems.item(index).food_favorite;
+		foodItem.portionSize = 1.0;
 
 		// store food item in return array
 		foodItemArray[index] = foodItem;
@@ -139,18 +141,21 @@ FoodDatabase.prototype.importDatabase = function(foodData, importProgress) {
 
 	// either no import has been done yet or the imported data
 	// is not up to date (maybe due to an update)
-	// iterate through all food items and import them
-	for ( var index = currentFromValue; index < currentToValue; index++) {
-		var dataStr = "INSERT INTO fooditems(food_id, food_description, food_portion, food_calories, food_favorite, food_usergen) VALUES (?, ?, ?, ?, 0, 0)";
-		var data = [ index, foodData.food[index].description, foodData.food[index].portion, foodData.food[index].kcal ];
+	var dataStr = "INSERT INTO fooditems(food_id, food_description, food_portion, food_calories, food_favorite, food_usergen) VALUES (?, ?, ?, ?, 0, 0)";
+	var data = new Array();
 
-		db.transaction(function(tx) {
-			var rs = tx.executeSql(dataStr, data);
-		});
-	}
+	// note start we start the transaction first
+	db.transaction(function(tx) {
+		// iterate through all food items and add the data to the transaction
+		for ( var index = currentFromValue; index < currentToValue; index++) {
+			var foodItemDescription = foodData.food[index].description + ", 1 " + foodData.food[index].portion;
+			data = [ index, foodItemDescription, foodData.food[index].portion, foodData.food[index].kcal ];
+			tx.executeSql(dataStr, data);
+		}
+	});
 
+	// store current index value in calling component
 	importProgress.value = currentToValue;
-	console.log("#Value: " + importProgress.value);
 
 	// get updated number of items in SQL database again
 	var numItemsInSQLDB = 0;

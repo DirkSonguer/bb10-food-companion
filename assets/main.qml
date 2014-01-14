@@ -1,18 +1,15 @@
-/*
- * Copyright (c) 2011-2013 BlackBerry Limited.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// *************************************************** //
+// Main
+//
+// This is the main entry point of the application.
+// It provides the main navigation pane, menus and
+// the components for the main pages.
+// Note that the actual page content is defined in
+// the /pages.
+//
+// Author: Dirk Songuer
+// License: All rights reserved
+// *************************************************** //
 
 // import blackberry components
 import bb.cascades 1.2
@@ -31,7 +28,7 @@ TabbedPane {
     showTabsOnActionBar: true
     //    activeTab: popularMediaTab
 
-    Tab { //Second tab
+    Tab {
         title: qsTr("Gallery") + Retranslate.onLocaleOrLanguageChanged
         imageSource: "asset:///images/icons/icon_gallery.png"
         Page {
@@ -41,9 +38,9 @@ TabbedPane {
                 }
             }
         }
-    } //End of second tab
+    }
 
-    Tab { //Second tab
+    Tab {
         title: qsTr("Statistics") + Retranslate.onLocaleOrLanguageChanged
         imageSource: "asset:///images/icons/icon_statistics.png"
         Page {
@@ -53,34 +50,33 @@ TabbedPane {
                 }
             }
         }
-    } //End of second tab
+    }
 
     Tab {
-        id: addItemTab
-        title: "Add entry"
+        id: newFoodEntryTab
+        title: "Add food entry"
         imageSource: "asset:///images/icons/icon_add.png"
 
         // note that the page is bound to the component every time it loads
-        // this is because the page needs to be created as tapped
-        // if created on startup it does not work immediately after login
+        // this basically resets any pre given data and starts a new process
         onTriggered: {
-            addItemComponent.source = "pages/AddItem.qml";
-            var addItemPage = addItemComponent.createObject();
-            addItemTab.setContent(addItemPage);
+            newFoodEntryPageComponent.source = "pages/NewFoodEntry.qml";
+            var newFoodEntryPageObject = newFoodEntryPageComponent.createObject();
+            newFoodEntryTab.setContent(newFoodEntryPageObject);
         }
 
-        // attach a component for the user feed page
+        // attach a component for the new food item page
         // this is bound to the content property later on onCreationCompleted()
         attachedObjects: [
             ComponentDefinition {
-                id: addItemComponent
+                id: newFoodEntryPageComponent
             }
         ]
     }
 
     // main logic on startup
     onCreationCompleted: {
-        // check on startup for introduction sheet
+        // check on startup if this is the first start of the application
         var configurationData = Configuration.conf.getConfiguration("introduction");
         if (configurationData.length < 1) {
             // console.log("# Introduction not shown yet. Open intro sheet");
@@ -96,26 +92,27 @@ TabbedPane {
     // attached objects
     // this contains the sheets which are used for general page based popupos
     attachedObjects: [
-        // sheet for shooting images
+        // sheet for shooting images via the camera
         Sheet {
             id: captureImageSheet
 
             // attach a component for the about page
             attachedObjects: [
                 ComponentDefinition {
-                    id: captureImageComponent
+                    id: captureImagePageComponent
                     source: "sheets/CaptureImage.qml"
                 }
             ]
         },
-        // sheet while importing database
+        // sheet shown on first startup
+        // this also contains the loader while importing database
         Sheet {
             id: firstStartupSheet
-            
+
             // attach a component for the about page
             attachedObjects: [
                 ComponentDefinition {
-                    id: firstStartupComponent
+                    id: firstStartupPageComponent
                     source: "sheets/FirstStartup.qml"
                 }
             ]
@@ -131,30 +128,34 @@ TabbedPane {
         },
         // system toast used globally by all pages and components
         SystemToast {
-            id: foodcompanionTopToast
-            position: SystemUiPosition.TopCenter
-        },
-        // system toast used globally by all pages and components
-        SystemToast {
             id: foodcompanionToast
             position: SystemUiPosition.MiddleCenter
         },
+        // the data source attached to the JSON database file
+        // this is only used to check if the import has been done correctly
         DataSource {
             id: dataSource
             source: "asset:///database/food_db.json"
             onDataLoaded: {
-                // console.log("# Food DB loaded, found " + data.food.length + " items");
+                console.log("# Food DB loaded, found " + data.food.length + " items");
 
-				// check database state and reimport if necessary
+                // WARNING: Do not activate this in productive version!
+                // WARNING: this will reset the database and wipe any entries on startup!
                 // FoodDatabase.fooddb.resetDatabase();
+
+                // check database state and reimport if necessary
                 var dbstate = FoodDatabase.fooddb.checkDatabaseState(data);
-                if (!dbstate) {
+                if (! dbstate) {
                     console.log("# Database is not up to date & needs reimport");
-                    var firstStartupContent = firstStartupComponent.createObject();
-                    firstStartupContent.importData = data;
-                    firstStartupSheet.setContent(firstStartupContent);
+
+                    // hand over the data to the first startup sheet and open it
+                    // it will check if new data has been given and start the
+                    // import progress accordingly
+                    var firstStartupPageObject = firstStartupPageComponent.createObject();
+                    firstStartupPageObject.foodData = data;
+                    firstStartupSheet.setContent(firstStartupPageObject);
                     firstStartupSheet.open();
-                }        
+                }
             }
         }
     ]

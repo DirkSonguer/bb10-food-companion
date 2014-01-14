@@ -12,6 +12,9 @@
 
 // data structure for Instagram media
 function FoodItem() {
+	// food database id
+	this.id = 0;
+	
 	// image path and filename
 	this.imageFile = "";
 
@@ -28,7 +31,7 @@ function FoodItem() {
 
 	// this is the health rating as integer
 	// it maps against Copytext.foodcompanionHealthValues
-	this.healthRating = 0;
+	this.healthRating = 2;
 	
 	// flag if user has favorited the item
 	this.favorite = 0;

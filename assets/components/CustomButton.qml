@@ -24,6 +24,7 @@ Container {
     signal clicked()
 
     // appearance properties
+    property alias backgroundImage: customButtonBackgroundImage.imageSource
     property alias backgroundColor: customButtonComponent.background
     property variant componentBackground
 
@@ -37,15 +38,27 @@ Container {
     layout: DockLayout {
     }
 
-    // layout definition
-    topPadding: 30
-    bottomPadding: 25
-    leftPadding: 10
-    rightPadding: 10
-
     // set initial background color
     // can be changed via the componentBackground property
     background: Color.create(Globals.foodcompanionDefaultBackgroundColor)
+
+    ImageView {
+        id: customButtonBackgroundImage
+
+        // layout definition
+        verticalAlignment: VerticalAlignment.Center
+        horizontalAlignment: HorizontalAlignment.Center
+        scalingMethod: ScalingMethod.AspectFill
+        preferredHeight: 100
+        opacity: 0.5
+
+        // set initial visibility to false
+        visible: false
+        
+        onImageSourceChanged: {
+            visible = true;
+        }
+    }
 
     Container {
         id: customButtonContainer
@@ -54,6 +67,12 @@ Container {
         layout: StackLayout {
             orientation: LayoutOrientation.LeftToRight
         }
+
+        // layout definition
+        topPadding: 25
+        bottomPadding: 25
+        leftPadding: 10
+        rightPadding: 10
 
         // layout definition
         horizontalAlignment: HorizontalAlignment.Center

@@ -23,7 +23,7 @@ function ConfigurationHandler() {
 // It can either be the configuration array if successful
 // or it can contain an error with respective message
 ConfigurationHandler.prototype.getConfiguration = function(configurationKey) {
-	// console.log("# Getting configuration);
+	// console.log("# Getting configuration");
 
 	var configurationData = new Array();
 

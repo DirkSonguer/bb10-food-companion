@@ -24,17 +24,15 @@ import "../global/copytext.js" as Copytext
 Container {
     id: customCameraComponent
 
-    // external trigger to capture a photo
-    // TODO: Implement
-    signal capturePhoto()
-
     // external trigger to stop the camera
     signal stopCamera()
 
     // signal that an image has been captured and saved
+    // this needs to be catched by the including page
     signal photoCaptured(string imageName)
 
     // signal that camera could not be started
+    // errors are handled within the component
     signal errorOccured(string errorMessage)
 
     // path to store the captured images in
@@ -73,12 +71,12 @@ Container {
             customCamera.startViewfinder();
         }
 
-        // set active flag to true
+        // set active flag to true when viewfinder is started
         onViewfinderStarted: {
             customCameraComponent.cameraActive = true;
         }
 
-        // set active flag to false
+        // set active flag to false when viewfinder is stopped
         onViewfinderStopped: {
             customCameraComponent.cameraActive = false;
         }
@@ -99,27 +97,27 @@ Container {
         // shutter has been triggered
         // play shutter sound accordingly
         onShutterFired: {
+            console.log("# Image taken, play shutter sound");
             cameraSound.play();
         }
 
-        // this signal handler is triggered when the Camera resource becomes available to app
+        // this signal handler is triggered when the camera resource becomes available to app
         // after being lost by for example putting the phone to sleep, once it has been received
         // it is possible to start the viewfinder again
         onCameraResourceAvailable: {
             customCamera.startViewfinder()
         }
 
-        // open the rear facing camera
+        // open the rear facing camera on component creation
         onCreationCompleted: {
             customCamera.open(CameraUnit.Rear);
         }
 
         // handle all the different error cases and messages
-        // note that onPhotoSaved and onShutterFired are taken care of in the C++ code
         // camera could not be opened / object could not be created
         onCameraOpenFailed: {
             // console.log("# onCameraOpenFailed signal received with error " + error);
-            customCameraComponent.errorOccured(error);
+            customCameraComponent.errorOccured();
         }
 
         // camera could not be opened / object could not be created
@@ -145,7 +143,7 @@ Container {
             // console.log("# photoSaveFailed signal received with error " + error);
             customCameraComponent.errorOccured(error);
         }
-
+        
         attachedObjects: [
             CameraSettings {
                 id: customCameraSettings
@@ -193,6 +191,7 @@ Container {
         TapHandler {
             onTapped: {
                 // check if capture is already in progress
+                // if not, take new image
                 if (! customCameraComponent.captureInProgress) {
                     customCameraComponent.captureInProgress = true;
                     customCameraMessage.text = "Capturing, please wait.";
@@ -212,7 +211,15 @@ Container {
     // stop camera signal
     // this will stop the viewfinder and close the camera
     onStopCamera: {
-        customCamera.stopViewfinder();
         customCamera.close();
+    }
+    
+    // error occured signal was sent
+    // show the error message on the control
+    onErrorOccured: {
+        customCameraMessage.text = "Sorry, an error occured. The error ID is " + errorMessage + ", please restart the app and try again.";
+        
+        // stop camera control to reset states
+        customCameraComponent.stopCamera();
     }
 }
