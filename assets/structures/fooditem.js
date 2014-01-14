@@ -13,10 +13,12 @@
 // data structure for Instagram media
 function FoodItem() {
 	// food database id
+	// note that this is always the id of the food item
+	// no the id in the user entry table
 	this.id = 0;
 	
 	// image path and filename
-	this.imageFile = "";
+	this.imageFile = "asset:///images/header_background.png";
 
 	// description for the food item
 	this.description = "";
@@ -25,7 +27,7 @@ function FoodItem() {
 	this.calories = 0;
 	
 	// portion size
-	// this is a factor whereby 1 represents
+	// this is a factor from 0 to 2 whereby 1 represents
 	// the normal portion size
 	this.portionSize = 1;
 

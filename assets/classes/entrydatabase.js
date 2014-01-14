@@ -29,7 +29,7 @@ EntryDatabase.prototype.getEntries = function() {
 	var db = openDatabaseSync("FoodCompanion", "1.0", "Food Companion persistent data storage", 1);
 
 	db.transaction(function(tx) {
-		tx.executeSql('CREATE TABLE IF NOT EXISTS foodentries(entry_filename TEXT, entry_description TEXT, entry_portion INT, entry_calories INT, entry_rating INT, entry_timestamp INT)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS foodentries(entry_filename TEXT, entry_rating INT, entry_foodid INT, entry_portion INT, entry_timestamp INT)');
 	});
 
 	var dataStr = "SELECT * FROM foodentries";
@@ -78,19 +78,19 @@ EntryDatabase.prototype.addEntry = function(entryData) {
 
 	// initialize food db table
 	db.transaction(function(tx) {
-		tx.executeSql('CREATE TABLE IF NOT EXISTS foodentries(entry_filename TEXT, entry_description TEXT, entry_portion INT, entry_calories INT, entry_rating INT, entry_timestamp INT)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS foodentries(entry_filename TEXT, entry_rating INT, entry_foodid INT, entry_portion INT, entry_timestamp INT)');
 	});
 
 	// either no import has been done yet or the imported data
 	// is not up to date (maybe due to an update)
-	var dataStr = "INSERT INTO foodentries(entry_filename, entry_description, entry_portion, entry_calories, entry_rating, entry_timestamp) VALUES (?, ?, ?, ?, ?, ?)";
+	var dataStr = "INSERT INTO foodentries(entry_filename, entry_rating, entry_foodid, entry_portion, entry_timestamp) VALUES (?, ?, ?, ?, ?)";
 
 	// calculate current timestamp (unix epoch in seconds)
 	var currentTimestamp = Math.round(new Date().getTime() / 1000);
 
 	// fill data array
 	var data = new Array();
-	data = [ entryData.imageFile, entryData.description, entryData.portionSize, entryData.calories, entryData.healthRating, currentTimestamp ];
+	data = [ entryData.imageFile, entryData.healthRating, entryData.id, entryData.portionSize, currentTimestamp ];
 
 	// note start we start the transaction first
 	db.transaction(function(tx) {

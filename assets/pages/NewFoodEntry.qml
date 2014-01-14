@@ -237,9 +237,10 @@ NavigationPane {
                         if (! newFoodEntryPage.newFoodItem.imageFile) {
                             foodcompanionToast.body = "Please take a picture first";
                             foodcompanionToast.show();
-                            return;
+                            // return;
                         }
 
+                        console.log("# id: " + newFoodEntryPage.newFoodItem.id);
                         console.log("# imageFile: " + newFoodEntryPage.newFoodItem.imageFile);
                         console.log("# description: " + newFoodEntryPage.newFoodItem.description);
                         console.log("# calories: " + newFoodEntryPage.newFoodItem.calories);
@@ -269,13 +270,14 @@ NavigationPane {
             cameraImageContainer.visible = true;
         }
 
-        // signal that image has been captured with according file name
+        // signal that description has been added
         // hide call to action and show thumbnail
         onDescriptionAdded: {
             // store the image file to the page food item
             // note that a temp item is needed because the children of the page variant are read only
             var tempItem = new FoodItemType.FoodItem();
             tempItem = newFoodEntryPage.newFoodItem;
+            tempItem.id = newFoodDescription.id;
             tempItem.description = newFoodDescription.description;
             tempItem.calories = newFoodDescription.calories;
             tempItem.portionSize = newFoodDescription.portionSize;

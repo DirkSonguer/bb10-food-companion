@@ -57,6 +57,7 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 		var foodItem = new FoodItem();
 
 		// fill item data
+		foodItem.id = foundItems.item(index).food_id;
 		foodItem.description = foundItems.item(index).food_description;
 		foodItem.portionSize = foundItems.item(index).food_portion;
 		foodItem.calories = foundItems.item(index).food_calories;
