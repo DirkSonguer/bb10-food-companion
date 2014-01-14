@@ -23,7 +23,7 @@ function FoodDatabase() {
 // parameter is the search query used
 // return value is an array of type FoodItem()
 FoodDatabase.prototype.searchDatabase = function(searchQuery) {
-	console.log("# Searching database for " + searchQuery);
+	// console.log("# Searching database for " + searchQuery);
 
 	// initialize db connection
 	var db = openDatabaseSync("FoodCompanion", "1.0", "Food Companion persistent data storage", 1);
@@ -43,7 +43,7 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 		foundItems = rs.rows;
 	});
 
-	console.log("Found " + foundItems.length + " items for term " + searchQuery);
+	// console.log("Found " + foundItems.length + " items for term " + searchQuery);
 
 	// initialize return array
 	var foodItemArray = new Array();

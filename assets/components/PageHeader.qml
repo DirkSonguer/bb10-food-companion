@@ -29,7 +29,7 @@ Container {
 
     // layout definition
     preferredWidth: DisplayInfo.width
-    preferredHeight: 100
+    preferredHeight: 110
 
     // set initial background color
     // can be changed via the componentBackground property
@@ -52,7 +52,7 @@ Container {
             verticalAlignment: VerticalAlignment.Fill
             horizontalAlignment: HorizontalAlignment.Fill
             preferredWidth: DisplayInfo.width
-            maxHeight: 100
+            maxHeight: 110
         }
 
         Container {
@@ -60,6 +60,10 @@ Container {
             leftPadding: 10
             rightPadding: 10
 
+            // layout definition
+            horizontalAlignment: HorizontalAlignment.Left
+            verticalAlignment: VerticalAlignment.Bottom
+            
             // text label for headline
             Label {
                 id: pageHeaderHeadline
@@ -69,10 +73,6 @@ Container {
                 textStyle.base: SystemDefaults.TextStyles.BigText
                 textStyle.fontWeight: FontWeight.W100
                 textStyle.textAlign: TextAlign.Left
-
-                // layout definition
-                horizontalAlignment: HorizontalAlignment.Left
-                verticalAlignment: VerticalAlignment.Center
 
                 // set initial visibility to false
                 // make label visible if text is added

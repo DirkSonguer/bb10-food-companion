@@ -39,14 +39,14 @@ EntryDatabase.prototype.getEntries = function() {
 		foundItems = rs.rows;
 	});
 
-	console.log("Found " + foundItems.length);
+	// console.log("Found " + foundItems.length);
 
 	// initialize return array
 	var foodItemArray = new Array();
 
 	// iterate through all found food items
 	for ( var index = 0; index < foundItems.length; index++) {
-		console.log("# Found " + foundItems.item(index).entry_portion + ", " + foundItems.item(index).entry_rating);
+		// console.log("# Found " + foundItems.item(index).entry_filename + ", " + foundItems.item(index).entry_description);
 
 		// initialize new food item
 		var foodItem = new FoodItem();
@@ -83,14 +83,14 @@ EntryDatabase.prototype.addEntry = function(entryData) {
 
 	// either no import has been done yet or the imported data
 	// is not up to date (maybe due to an update)
-	var dataStr = "INSERT INTO foodentries(entry_filename, entry_description, entry_portion, entry_calories, entry_rating, entry_timestamp) VALUES (?, ?, ?, ?, ?)";
+	var dataStr = "INSERT INTO foodentries(entry_filename, entry_description, entry_portion, entry_calories, entry_rating, entry_timestamp) VALUES (?, ?, ?, ?, ?, ?)";
 
 	// calculate current timestamp (unix epoch in seconds)
 	var currentTimestamp = Math.round(new Date().getTime() / 1000);
 
 	// fill data array
 	var data = new Array();
-	data = [ entryData.description, entryData.portionSize, entryData.calories, entryData.healthRating, currentTimestamp ];
+	data = [ entryData.imageFile, entryData.description, entryData.portionSize, entryData.calories, entryData.healthRating, currentTimestamp ];
 
 	// note start we start the transaction first
 	db.transaction(function(tx) {
