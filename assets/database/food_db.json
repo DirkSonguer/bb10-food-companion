@@ -1,4 +1,5 @@
-{"food": [{"description": "Cheese, caraway", "portion": "oz", "kcal": "106"},
+{"food": [{"description": "", "portion": "", "kcal": ""},
+{"description": "Cheese, caraway", "portion": "oz", "kcal": "106"},
 {"description": "Cheese, cheddar", "portion": "cup, diced", "kcal": "531"},
 {"description": "Cheese, cheddar", "portion": "cup, melted", "kcal": "983"},
 {"description": "Cheese, cheddar", "portion": "cup, shredded", "kcal": "455"},
@@ -11079,6 +11080,5 @@
 {"description": "Babyfood, banana no tapioca, strained", "portion": "jar Beech-Nut Stage I (4 oz)", "kcal": "102"},
 {"description": "Babyfood, banana no tapioca, strained", "portion": "jar Gerber First Foods (2.5 oz)", "kcal": "64"},
 {"description": "Babyfood, banana no tapioca, strained", "portion": "jar Earth's Best (4.5 oz)", "kcal": "116"},
-{"description": "Babyfood, banana no tapioca, strained", "portion": "jar Heinz Beginner-1 (2.5 oz)", "kcal": "64"},
-{"description": "", "portion": "", "kcal": ""}
+{"description": "Babyfood, banana no tapioca, strained", "portion": "jar Heinz Beginner-1 (2.5 oz)", "kcal": "64"}
 ]}

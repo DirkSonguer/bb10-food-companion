@@ -32,21 +32,21 @@ EntryDatabase.prototype.getEntries = function() {
 		tx.executeSql('CREATE TABLE IF NOT EXISTS foodentries(entry_filename TEXT, entry_rating INT, entry_foodid INT, entry_portion INT, entry_timestamp INT)');
 	});
 
-	var dataStr = "SELECT * FROM foodentries";
+	var dataStr = "SELECT * FROM foodentries LEFT JOIN fooditems ON foodentries.entry_foodid = fooditems.food_id";
 	var foundItems = new Array();
 	db.transaction(function(tx) {
 		var rs = tx.executeSql(dataStr);
 		foundItems = rs.rows;
 	});
 
-	// console.log("Found " + foundItems.length);
+	console.log("Found " + foundItems.length);
 
 	// initialize return array
 	var foodItemArray = new Array();
 
 	// iterate through all found food items
 	for ( var index = 0; index < foundItems.length; index++) {
-		// console.log("# Found " + foundItems.item(index).entry_filename + ", " + foundItems.item(index).entry_description);
+		console.log("# Found image " + foundItems.item(index).entry_filename + " with food id " + foundItems.item(index).entry_foodid + " and description " + foundItems.item(index).food_description);
 
 		// initialize new food item
 		var foodItem = new FoodItem();
