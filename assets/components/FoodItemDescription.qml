@@ -49,7 +49,7 @@ Container {
     background: Color.create(Globals.foodcompanionDefaultBackgroundColor)
 
     // standard width is full display width
-    preferredWidth: Qt.DisplayInfo.width
+    // preferredWidth: Qt.DisplayInfo.width
 
     // name and description container
     Container {
@@ -77,7 +77,7 @@ Container {
                 multiline: true
 
                 // standard width is full display width
-                preferredWidth: (Qt.DisplayInfo.width - 81)
+                // preferredWidth: (Qt.DisplayInfo.width - 81)
             }
 
             // image caption label
@@ -91,7 +91,7 @@ Container {
                 multiline: true
                 
                 // standard width is full display width
-                preferredWidth: (Qt.DisplayInfo.width - 81)
+                // preferredWidth: (Qt.DisplayInfo.width - 81)
             }
         }
 

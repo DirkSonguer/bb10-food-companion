@@ -181,9 +181,20 @@ NavigationPane {
                         navigationPane.push(searchFoodItemPageObject);
                     }
                 }
-                
-                Container {
+
+                FoodItemDescription {
                     id: descriptionLabelContainer
+                    
+                    preferredWidth: DisplayInfo.width
+
+                    visible: false
+                    
+                    onFavoriteClicked: {
+                        console.log("# Favorited food item: " + newFoodDescription.description);
+                        
+                        // search food items from database for search term
+                        var foundFoodItems = FoodDatabase.fooddb.updateFavoriteState(newFoodDescription);
+                    }
                 }
             }
 
@@ -286,6 +297,15 @@ NavigationPane {
             tempItem.calories = newFoodDescription.calories;
             tempItem.portionSize = newFoodDescription.portionSize;
             newFoodEntryPage.newFoodItem = tempItem;
+
+            descriptionCallToAction.visible = false;
+            descriptionLabelContainer.description = newFoodDescription.description;
+            var foodPortionAndCalories = Copytext.foodcompanionPortionValues[newFoodDescription.portionSize] + " portion, ";
+            foodPortionAndCalories += newFoodDescription.portion + " with " + newFoodDescription.calories;
+            descriptionLabelContainer.portion = foodPortionAndCalories;
+            descriptionLabelContainer.favorite = newFoodDescription.favorite;
+            descriptionLabelContainer.visible = true;
+
         }
 
         onCreationCompleted: {
@@ -293,7 +313,6 @@ NavigationPane {
             var newFoodItem = new FoodItemType.FoodItem();
             newFoodEntryPage.newFoodItem = newFoodItem;
 
-            // EntryDatabase.entrydb.resetDatabase();
             EntryDatabase.entrydb.getEntries();
 
             // TODO: automatically open camera capture sheet

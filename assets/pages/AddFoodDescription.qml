@@ -132,8 +132,6 @@ Page {
                     var intImmediateValue = Math.round(immediateValue);
                     label = Copytext.foodcompanionPortionValues[intImmediateValue];
 
-                    console.log("Ding: " + intImmediateValue);
-
                     // store portion size in local food object
                     var tempItem = new FoodItemType.FoodItem();
                     tempItem = addDescriptionPage.selectedFoodItem;

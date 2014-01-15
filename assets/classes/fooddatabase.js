@@ -33,8 +33,8 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_favorite INT, food_usergen INT)');
 	});
 
-	// get number of items in SQL database
-	// based on the search term
+	// get number of items in SQL database based on the search term
+	// sort so that the faved items are on top and then alphabetical
 	var dataStr = "SELECT * FROM fooditems WHERE food_description LIKE ? ORDER BY food_favorite ASC, food_description DESC";
 	var data = [ "%" + searchQuery + "%" ];
 	var foundItems = new Array();
@@ -42,9 +42,6 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 		var rs = tx.executeSql(dataStr, data);
 		foundItems = rs.rows;
 	});
-
-	// console.log("Found " + foundItems.length + " items for term " +
-	// searchQuery);
 
 	// initialize return array
 	var foodItemArray = new Array();
