@@ -20,3 +20,5 @@ var foodcompanionImportDBText = "Please wait, the database needs to be imported 
 
 var foodcompanionNoFoodItemsFoundHeadline = "No search results";
 var foodcompanionNoFoodItemsFoundText = "Could not find a food item for this search. Please refine your search or add the item to the database.";
+
+var foodcompanionNoFoodImageEntered = "Please take a picture first";

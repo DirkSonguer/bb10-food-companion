@@ -63,6 +63,7 @@ Page {
             // can be changed via the componentBackground property
             background: Color.create(Globals.foodcompanionDefaultBackgroundColor)
 
+            // food description label
             Label {
                 id: foodDescription
 
@@ -74,6 +75,7 @@ Page {
                 textStyle.fontWeight: FontWeight.W100
                 textStyle.textAlign: TextAlign.Left
 
+                // activate multiline
                 multiline: true
             }
         }
@@ -94,6 +96,7 @@ Page {
             // can be changed via the componentBackground property
             background: Color.create(Globals.foodcompanionDefaultBackgroundColor)
 
+            // food calories label
             Label {
                 id: foodCalories
 
@@ -105,6 +108,7 @@ Page {
                 textStyle.fontWeight: FontWeight.W100
                 textStyle.textAlign: TextAlign.Left
 
+                // activate multiline
                 multiline: true
             }
         }
@@ -167,7 +171,10 @@ Page {
                 boldText: "Add food description"
 
                 onClicked: {
+                    // hand back the data
                     newFoodEntryPage.descriptionAdded(selectedFoodItem);
+
+                    // navigate back to the new entry page (skipping the food search)
                     navigationPane.navigateTo(newFoodEntryPage);
                 }
             }
@@ -183,8 +190,13 @@ Page {
         }
     }
 
+    // selected food item has changed
+    // this will happen when the food search page hands over data
     onSelectedFoodItemChanged: {
+        // fill description label
         foodDescription.text = selectedFoodItem.description;
+
+        // fill calories label
         foodCalories.text = "Calories: " + selectedFoodItem.calories
     }
 }

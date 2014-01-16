@@ -96,6 +96,8 @@ Container {
                         description: ListItemData.foodData.description
                         portion: ListItemData.foodData.calories + " calories per " + ListItemData.foodData.portion
                         favorite: ListItemData.foodData.favorite
+                        
+                        preferredWidth: Qt.DisplayInfo.width
 
                         // description of item has been clicked
                         onDescriptionClicked: {

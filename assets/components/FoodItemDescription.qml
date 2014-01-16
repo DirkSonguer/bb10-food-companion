@@ -48,8 +48,10 @@ Container {
     // set background color
     background: Color.create(Globals.foodcompanionDefaultBackgroundColor)
 
-    // standard width is full display width
-    // preferredWidth: Qt.DisplayInfo.width
+    // standard width is minimum display width
+    // however this should be overwritten by calling page
+    // with DisplayInfo.width
+    preferredWidth: 720
 
     // name and description container
     Container {
@@ -76,8 +78,8 @@ Container {
                 textStyle.textAlign: TextAlign.Left
                 multiline: true
 
-                // standard width is full display width
-                // preferredWidth: (Qt.DisplayInfo.width - 81)
+                // component width minus the icon width
+                preferredWidth: foodItemDescriptionComponent.preferredWidth - 81
             }
 
             // image caption label
@@ -90,8 +92,8 @@ Container {
                 textStyle.textAlign: TextAlign.Left
                 multiline: true
                 
-                // standard width is full display width
-                // preferredWidth: (Qt.DisplayInfo.width - 81)
+                // component width minus the icon width
+                preferredWidth: foodItemDescriptionComponent.preferredWidth - 81
             }
         }
 

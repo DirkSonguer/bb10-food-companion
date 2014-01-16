@@ -18,7 +18,7 @@ function FoodItem() {
 	this.id = 0;
 	
 	// image path and filename
-	this.imageFile = "asset:///images/header_background.png";
+	this.imageFile = "";
 
 	// description for the food item
 	this.description = "";

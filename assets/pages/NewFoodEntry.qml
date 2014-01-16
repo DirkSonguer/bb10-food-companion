@@ -182,22 +182,38 @@ NavigationPane {
                     }
                 }
 
+                // food description
+                // this is filled by the add food description page when user entered something
                 FoodItemDescription {
                     id: descriptionLabelContainer
-                    
+
+                    // layout definition
                     preferredWidth: DisplayInfo.width
 
+                    // set initial visibility to false
+                    // this will be changed when description data has been added by the user
                     visible: false
-                    
+
+                    // food favorite icon clicked
+                    // Change favorite state for food item
                     onFavoriteClicked: {
                         console.log("# Favorited food item: " + newFoodDescription.description);
-                        
-                        // search food items from database for search term
+
+                        // update food item in database
                         var foundFoodItems = FoodDatabase.fooddb.updateFavoriteState(newFoodDescription);
+                    }
+
+                    // food description clicked
+                    // open food selection sheet
+                    onDescriptionClicked: {
+                        // create and open food selection sheet
+                        var searchFoodItemPageObject = searchFoodItemPageComponent.createObject();
+                        navigationPane.push(searchFoodItemPageObject);
                     }
                 }
             }
 
+            // health rating slider
             CustomSlider {
                 // layout definition
                 topPadding: 15
@@ -248,11 +264,14 @@ NavigationPane {
                     // confirmation text
                     boldText: "Add food entry"
 
+                    // add food item clicked
+                    // this will stored in the entry database
                     onClicked: {
+                        // check if picture is available
                         if (! newFoodEntryPage.newFoodItem.imageFile) {
-                            foodcompanionToast.body = "Please take a picture first";
+                            foodcompanionToast.body = Copytext.foodcompanionNoFoodImageEntered;
                             foodcompanionToast.show();
-                            // return;
+                            return;
                         }
 
                         console.log("# id: " + newFoodEntryPage.newFoodItem.id);
@@ -262,6 +281,7 @@ NavigationPane {
                         console.log("# portionSize: " + newFoodEntryPage.newFoodItem.portionSize);
                         console.log("# healthRating: " + newFoodEntryPage.newFoodItem.healthRating);
 
+                        // add to entry database
                         EntryDatabase.entrydb.addEntry(newFoodEntryPage.newFoodItem);
                     }
                 }
@@ -271,7 +291,10 @@ NavigationPane {
         // signal that image has been captured with according file name
         // hide call to action and show thumbnail
         onImageCaptured: {
+            // hide call to action component
             cameraCallToAction.visible = false;
+
+            // add image to thumbnail component
             cameraImagePreview.imageSource = "file:///" + imageName;
 
             // store the image file to the page food item
@@ -298,12 +321,17 @@ NavigationPane {
             tempItem.portionSize = newFoodDescription.portionSize;
             newFoodEntryPage.newFoodItem = tempItem;
 
+            // hide call to action
             descriptionCallToAction.visible = false;
+
+            // fill in new data
             descriptionLabelContainer.description = newFoodDescription.description;
             var foodPortionAndCalories = Copytext.foodcompanionPortionValues[newFoodDescription.portionSize] + " portion, ";
             foodPortionAndCalories += newFoodDescription.portion + " with " + newFoodDescription.calories;
             descriptionLabelContainer.portion = foodPortionAndCalories;
             descriptionLabelContainer.favorite = newFoodDescription.favorite;
+
+            // show description
             descriptionLabelContainer.visible = true;
 
         }
@@ -312,8 +340,6 @@ NavigationPane {
             // initialize the new food item object
             var newFoodItem = new FoodItemType.FoodItem();
             newFoodEntryPage.newFoodItem = newFoodItem;
-
-            EntryDatabase.entrydb.getEntries();
 
             // TODO: automatically open camera capture sheet
             /*
