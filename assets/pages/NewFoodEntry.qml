@@ -274,15 +274,14 @@ NavigationPane {
                             return;
                         }
 
-                        console.log("# id: " + newFoodEntryPage.newFoodItem.id);
-                        console.log("# imageFile: " + newFoodEntryPage.newFoodItem.imageFile);
-                        console.log("# description: " + newFoodEntryPage.newFoodItem.description);
-                        console.log("# calories: " + newFoodEntryPage.newFoodItem.calories);
-                        console.log("# portionSize: " + newFoodEntryPage.newFoodItem.portionSize);
-                        console.log("# healthRating: " + newFoodEntryPage.newFoodItem.healthRating);
-
                         // add to entry database
                         EntryDatabase.entrydb.addEntry(newFoodEntryPage.newFoodItem);
+                        
+                        
+                        foodcompanionToast.body = Copytext.foodcompanionFoodItemSaved;
+                        foodcompanionToast.show();
+                        
+                        tabbedPane.activeTab = foodEntryGalleryTab;
                     }
                 }
             }

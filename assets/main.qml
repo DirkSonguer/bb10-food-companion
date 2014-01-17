@@ -25,20 +25,30 @@ import "classes/fooddatabase.js" as FoodDatabase
 import "classes/entrydatabase.js" as EntryDatabase
 
 TabbedPane {
+    id: tabbedPane
+    
     // pane definition
     showTabsOnActionBar: true
-    //    activeTab: popularMediaTab
 
     Tab {
-        title: qsTr("Gallery") + Retranslate.onLocaleOrLanguageChanged
+        id: foodEntryGalleryTab
+        title: "Food gallery"
         imageSource: "asset:///images/icons/icon_gallery.png"
-        Page {
-            Container {
-                Label {
-                    text: qsTr("Gallery") + Retranslate.onLocaleOrLanguageChanged
-                }
-            }
+
+        // note that the page is bound to the component every time it loads
+        // this basically resets any pre given data and starts a new process
+        onTriggered: {
+//            foodEntryGalleryPageComponent.source = "pages/FoodEntryGallery.qml";
+//            var foodEntryGalleryPageObject = foodEntryGalleryPageComponent.createObject();
+//            foodEntryGalleryTab.setContent(foodEntryGalleryPageObject);
         }
+        
+        // attach a component for the new food gallery page
+        attachedObjects: [
+            ComponentDefinition {
+                id: foodEntryGalleryPageComponent
+            }
+        ]
     }
 
     Tab {
@@ -53,6 +63,7 @@ TabbedPane {
         }
     }
 
+    // tab to add new food entry
     Tab {
         id: newFoodEntryTab
         title: "Add food entry"
@@ -67,7 +78,6 @@ TabbedPane {
         }
 
         // attach a component for the new food item page
-        // this is bound to the content property later on onCreationCompleted()
         attachedObjects: [
             ComponentDefinition {
                 id: newFoodEntryPageComponent
@@ -88,6 +98,10 @@ TabbedPane {
         // load database content from local JSON file
         // note that the dataSource will check the food db if it has been imported correctly
         dataSource.load();
+        
+        foodEntryGalleryPageComponent.source = "pages/FoodEntryGallery.qml";
+        var foodEntryGalleryPageObject = foodEntryGalleryPageComponent.createObject();
+        foodEntryGalleryTab.setContent(foodEntryGalleryPageObject);        
     }
 
     // attached objects

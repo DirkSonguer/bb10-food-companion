@@ -1,5 +1,5 @@
 1
-38
+39
 classes/configurationhandler.js
 classes/entrydatabase.js
 classes/fooddatabase.js
@@ -33,6 +33,7 @@ images/splashscreens/splashscreen_1280x768.png
 images/splashscreens/splashscreen_720x720.png
 main.qml
 pages/AddFoodDescription.qml
+pages/FoodEntryGallery.qml
 pages/NewFoodEntry.qml
 pages/SearchFoodItem.qml
 sheets/CaptureImage.qml
