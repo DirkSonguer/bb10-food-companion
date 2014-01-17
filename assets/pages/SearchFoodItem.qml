@@ -23,6 +23,10 @@ import "../structures/fooditem.js" as FoodItemType
 Page {
     id: searchFoodItemPage
 
+    // property to indicate that page is visible in navigation stack
+    // this will be set by calling page after calling show()
+    property bool pageLoadedInNavigationStack: false
+
     Container {
         // layout orientation
         layout: StackLayout {
@@ -41,7 +45,7 @@ Page {
             id: foodInput
 
             // layout definition
-            topMargin: 5
+            topMargin: 10
 
             // user entered new input
             // this will be sent for every character the user enters
@@ -67,9 +71,16 @@ Page {
                     infoMessage.hideMessage();
                     foodItemList.visible = true;
                 } else {
-                    // no items found for search
                     // show message and hide list
                     infoMessage.showMessage(Copytext.foodcompanionNoFoodItemsFoundText, Copytext.foodcompanionNoFoodItemsFoundHeadline);
+                    foodItemList.visible = false;
+                }
+            }
+
+            // user entered input or interacted but nothing should be displayed
+            onCleared: {
+                if (foodItemList.visible) {
+                    infoMessage.showMessage(Copytext.foodcompanionEnterFoodItemText, Copytext.foodcompanionEnterFoodItemHeadline);
                     foodItemList.visible = false;
                 }
             }
@@ -81,7 +92,11 @@ Page {
             id: foodItemList
 
             // layout definition
-            topMargin: 5
+            topMargin: 1
+
+            // set initial visibility to false
+            // this will be changed if search data has been loaded
+            visible: false
 
             onItemClicked: {
                 console.log("# Selected food item: " + foodData.description);
@@ -91,10 +106,10 @@ Page {
                 addFoodDescriptionPageObject.selectedFoodItem = foodData;
                 navigationPane.push(addFoodDescriptionPageObject);
             }
-            
+
             onItemFavoriteClicked: {
                 console.log("# Favorited food item: " + foodData.description);
-                
+
                 // search food items from database for search term
                 var foundFoodItems = FoodDatabase.fooddb.updateFavoriteState(foodData);
             }
@@ -107,6 +122,18 @@ Page {
             // layout definition
             leftPadding: 10
             rightPadding: 10
+        }
+    }
+
+    onCreationCompleted: {
+        infoMessage.showMessage(Copytext.foodcompanionEnterFoodItemText, Copytext.foodcompanionEnterFoodItemHeadline);
+    }
+
+    onPageLoadedInNavigationStackChanged: {
+        // This focus request sets the focus on the input field once the page is visible
+        if (pageLoadedInNavigationStack) {
+            infoMessage.showMessage(Copytext.foodcompanionEnterFoodItemText, Copytext.foodcompanionEnterFoodItemHeadline);
+            foodInput.focus();
         }
     }
 

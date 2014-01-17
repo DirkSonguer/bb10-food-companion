@@ -25,9 +25,16 @@ Container {
     // signal that input has been changed
     signal changed(string text)
 
+    // signal that input has been cleared
+    // or interaction is not relevant
+    signal cleared()
+
+    // signal that input field should be focussed
+    signal focus()
+
     // make input field properties accessible by external components
-    property alias text: foodInput.text
-    property alias hintText: foodInput.hintText
+    property alias text: foodInputField.text
+    property alias hintText: foodInputField.hintText
 
     // layout orientation
     layout: StackLayout {
@@ -39,7 +46,7 @@ Container {
 
     // comment input field
     TextField {
-        id: foodInput
+        id: foodInputField
 
         // configure text field
         hintText: "Enter food name"
@@ -61,21 +68,29 @@ Container {
         validator: Validator {
             mode: ValidationMode.Immediate
             onValidate: {
-                if (foodInput.text.length > 2) {
+                if (foodInputField.text.length > 2) {
                     // signal that input has been changed
-                    foodInputComponent.changed(foodInput.text);
+                    foodInputComponent.changed(foodInputField.text);
+                } else {
+                    // signal that input field is empty or too short
+                    foodInputComponent.cleared();
                 }
             }
-        }
+        }        
     }
-
-    // comment submit button
-    ImageButton {
-        defaultImageSource: "asset:///images/icons/icon_search_dimmed.png"
-        pressedImageSource: "asset:///images/icons/icon_search.png"
-        onClicked: {
-            // signal that input has been triggered
-            foodInput.input.submitted(foodInput);
-        }
+    /*
+     * // comment submit button
+     * ImageButton {
+     * defaultImageSource: "asset:///images/icons/icon_search_dimmed.png"
+     * pressedImageSource: "asset:///images/icons/icon_search.png"
+     * onClicked: {
+     * // signal that input has been triggered
+     * foodInputField.input.submitted(foodInputField);
+     * }
+     * }
+     */
+    onFocus: {
+        console.log("# Requesting focus via onFocus");
+        foodInputField.requestFocus();
     }
 }

@@ -179,6 +179,11 @@ NavigationPane {
                         // create and open food selection sheet
                         var searchFoodItemPageObject = searchFoodItemPageComponent.createObject();
                         navigationPane.push(searchFoodItemPageObject);
+
+                        // indicate that page is now visible
+                        // this is a work around because requestFocus only works after page is visible in stack
+                        // see: http://supportforums.blackberry.com/t5/Native-Development/problems-with-request-focus-for-a-textfield/m-p/2652023#M51962
+                        searchFoodItemPageObject.pageLoadedInNavigationStack = true;
                     }
                 }
 
@@ -276,11 +281,10 @@ NavigationPane {
 
                         // add to entry database
                         EntryDatabase.entrydb.addEntry(newFoodEntryPage.newFoodItem);
-                        
-                        
+
                         foodcompanionToast.body = Copytext.foodcompanionFoodItemSaved;
                         foodcompanionToast.show();
-                        
+
                         tabbedPane.activeTab = foodEntryGalleryTab;
                     }
                 }
