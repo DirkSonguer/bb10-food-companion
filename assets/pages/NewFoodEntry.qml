@@ -276,7 +276,13 @@ NavigationPane {
                         if (! newFoodEntryPage.newFoodItem.imageFile) {
                             foodcompanionToast.body = Copytext.foodcompanionNoFoodImageEntered;
                             foodcompanionToast.show();
-                            return;
+                            // return;
+                            
+                            // this is only valid in debug environment
+                            var tempItem = new FoodItemType.FoodItem();
+                            tempItem = newFoodEntryPage.newFoodItem;
+                            tempItem.imageFile = "accounts/1000/shared/photos/IMG_00000470.jpg";
+                            newFoodEntryPage.newFoodItem = tempItem;
                         }
 
                         // add to entry database
@@ -330,7 +336,7 @@ NavigationPane {
             // fill in new data
             descriptionLabelContainer.description = newFoodDescription.description;
             var foodPortionAndCalories = Copytext.foodcompanionPortionValues[newFoodDescription.portionSize] + " portion, ";
-            foodPortionAndCalories += newFoodDescription.portion + " with " + newFoodDescription.calories;
+            foodPortionAndCalories += newFoodDescription.portion + " with " + newFoodDescription.calories + " calories";
             descriptionLabelContainer.portion = foodPortionAndCalories;
             descriptionLabelContainer.favorite = newFoodDescription.favorite;
 

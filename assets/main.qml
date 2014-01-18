@@ -26,7 +26,7 @@ import "classes/entrydatabase.js" as EntryDatabase
 
 TabbedPane {
     id: tabbedPane
-    
+
     // pane definition
     showTabsOnActionBar: true
 
@@ -38,11 +38,11 @@ TabbedPane {
         // note that the page is bound to the component every time it loads
         // this basically resets any pre given data and starts a new process
         onTriggered: {
-//            foodEntryGalleryPageComponent.source = "pages/FoodEntryGallery.qml";
-//            var foodEntryGalleryPageObject = foodEntryGalleryPageComponent.createObject();
-//            foodEntryGalleryTab.setContent(foodEntryGalleryPageObject);
+            foodEntryGalleryPageComponent.source = "pages/FoodEntryGallery.qml";
+            var foodEntryGalleryPageObject = foodEntryGalleryPageComponent.createObject();
+            foodEntryGalleryTab.setContent(foodEntryGalleryPageObject);
         }
-        
+
         // attach a component for the new food gallery page
         attachedObjects: [
             ComponentDefinition {
@@ -98,10 +98,33 @@ TabbedPane {
         // load database content from local JSON file
         // note that the dataSource will check the food db if it has been imported correctly
         dataSource.load();
-        
+
         foodEntryGalleryPageComponent.source = "pages/FoodEntryGallery.qml";
         var foodEntryGalleryPageObject = foodEntryGalleryPageComponent.createObject();
-        foodEntryGalleryTab.setContent(foodEntryGalleryPageObject);        
+        foodEntryGalleryTab.setContent(foodEntryGalleryPageObject);
+
+        tabbedPane.activeTab = newFoodEntryTab;
+        tabbedPane.activeTab = foodEntryGalleryTab;
+    }
+
+    // application menu (top menu)
+    Menu.definition: MenuDefinition {
+        id: mainMenu
+
+        // application menu items
+        actions: [
+            // WARNING: Do not activate this in productive version!
+            ActionItem {
+                id: mainMenuClearDatabase
+                title: "Clear Database"
+                imageSource: "asset:///images/icons/icon_notavailable.png"
+                onTriggered: {
+                    FoodDatabase.fooddb.resetDatabase();
+                    EntryDatabase.entrydb.resetDatabase();
+                    Application.requestExit();
+                }
+            }
+        ]
     }
 
     // attached objects
@@ -153,11 +176,6 @@ TabbedPane {
             source: "asset:///database/food_db.json"
             onDataLoaded: {
                 console.log("# Food DB loaded, found " + data.food.length + " items");
-
-                // WARNING: Do not activate this in productive version!
-                // WARNING: this will reset the database and wipe any entries on startup!
-                // FoodDatabase.fooddb.resetDatabase();
-                // EntryDatabase.entrydb.resetDatabase();
 
                 // check database state and reimport if necessary
                 var dbstate = FoodDatabase.fooddb.checkDatabaseState(data);

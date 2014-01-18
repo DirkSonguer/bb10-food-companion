@@ -53,11 +53,12 @@ EntryDatabase.prototype.getEntries = function() {
 
 		// fill item data
 		foodItem.imageFile = foundItems.item(index).entry_filename;
-		foodItem.description = foundItems.item(index).entry_description;
+		foodItem.description = foundItems.item(index).food_description;
 		foodItem.portionSize = foundItems.item(index).entry_portion;
-		foodItem.calories = foundItems.item(index).entry_calories;
+		foodItem.calories = foundItems.item(index).food_calories;
 		foodItem.timestamp = foundItems.item(index).entry_timestamp;
-		foodItem.portionSize = foundItems.item(index).entry_portion;
+		foodItem.portion = foundItems.item(index).food_portion;
+		foodItem.healthRating = foundItems.item(index).entry_rating;
 
 		// store food item in return array
 		foodItemArray[index] = foodItem;
@@ -81,6 +82,11 @@ EntryDatabase.prototype.addEntry = function(entryData) {
 		tx.executeSql('CREATE TABLE IF NOT EXISTS foodentries(entry_filename TEXT, entry_rating INT, entry_foodid INT, entry_portion INT, entry_timestamp INT)');
 	});
 
+	// initialize food db table
+	db.transaction(function(tx) {
+		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_favorite INT, food_usergen INT)');
+	});
+
 	// either no import has been done yet or the imported data
 	// is not up to date (maybe due to an update)
 	var dataStr = "INSERT INTO foodentries(entry_filename, entry_rating, entry_foodid, entry_portion, entry_timestamp) VALUES (?, ?, ?, ?, ?)";
@@ -97,6 +103,32 @@ EntryDatabase.prototype.addEntry = function(entryData) {
 		tx.executeSql(dataStr, data);
 	});
 
+	return true;
+};
+
+// delete an entry from the database
+// note that the entry database does not have an id
+// instead the timestamp is used as primary key
+EntryDatabase.prototype.deleteEntry = function(entryTimestamp) {
+	// initialize db connection
+	var db = openDatabaseSync("FoodCompanion", "1.0", "Food Companion persistent data storage", 1);
+
+	// initialize food db table
+	db.transaction(function(tx) {
+		tx.executeSql('CREATE TABLE IF NOT EXISTS foodentries(entry_filename TEXT, entry_rating INT, entry_foodid INT, entry_portion INT, entry_timestamp INT)');
+	});
+
+	var dataStr = "DELETE FROM foodentries WHERE entry_timestamp = ?";
+
+	// fill data array
+	var data = new Array();
+	data = [ entryTimestamp ];
+
+	// note start we start the transaction first
+	db.transaction(function(tx) {
+		tx.executeSql(dataStr, data);
+	});
+	
 	return true;
 };
 

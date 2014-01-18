@@ -20,3 +20,5 @@ var foodcompanionDefaultBackgroundColor = "#222222";
 var foodcompanionHighlightBackgroundColor = "#303030";
 var foodcompanionButtonBackgroundColor = "#588008";
 var foodcompanionListItemBackgroundColor = "#DCDCDC";
+
+var foodcompanionEntryHealthColors = new Array("#805808", "#789038", "#487008");
