@@ -4,8 +4,8 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../assets/main.qml" line="55"/>
-        <location filename="../assets/main.qml" line="60"/>
+        <location filename="../assets/main.qml" line="56"/>
+        <location filename="../assets/main.qml" line="61"/>
         <source>Statistics</source>
         <translation type="unfinished"></translation>
     </message>

@@ -2,8 +2,8 @@
 // Entry Database Script
 //
 // This script handles the calls to the entries database.
-// Note that it's a class that needs to be defined first:
-// fooddb = new FoodDatabase();
+// The general configuration data will be stored in the
+// local app database (table: foodentries).
 //
 // Author: Dirk Songuer
 // License: All rights reserved
@@ -28,18 +28,23 @@ EntryDatabase.prototype.getEntries = function() {
 	// initialize db connection
 	var db = openDatabaseSync("FoodCompanion", "1.0", "Food Companion persistent data storage", 1);
 
+	// initialize database table
 	db.transaction(function(tx) {
 		tx.executeSql('CREATE TABLE IF NOT EXISTS foodentries(entry_filename TEXT, entry_rating INT, entry_foodid INT, entry_portion INT, entry_timestamp INT)');
 	});
 
+	// initialize database table
+	db.transaction(function(tx) {
+		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_favorite INT, food_usergen INT)');
+	});
+
+	// get food items
 	var dataStr = "SELECT * FROM foodentries LEFT JOIN fooditems ON foodentries.entry_foodid = fooditems.food_id";
 	var foundItems = new Array();
 	db.transaction(function(tx) {
 		var rs = tx.executeSql(dataStr);
 		foundItems = rs.rows;
 	});
-
-	console.log("Found " + foundItems.length);
 
 	// initialize return array
 	var foodItemArray = new Array();
@@ -80,11 +85,6 @@ EntryDatabase.prototype.addEntry = function(entryData) {
 	// initialize food db table
 	db.transaction(function(tx) {
 		tx.executeSql('CREATE TABLE IF NOT EXISTS foodentries(entry_filename TEXT, entry_rating INT, entry_foodid INT, entry_portion INT, entry_timestamp INT)');
-	});
-
-	// initialize food db table
-	db.transaction(function(tx) {
-		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_favorite INT, food_usergen INT)');
 	});
 
 	// either no import has been done yet or the imported data
@@ -138,6 +138,7 @@ EntryDatabase.prototype.resetDatabase = function() {
 	// initialize db connection
 	var db = openDatabaseSync("FoodCompanion", "1.0", "Food Companion persistent data storage", 1);
 
+	// drop the database table
 	db.transaction(function(tx) {
 		tx.executeSql('DROP TABLE foodentries');
 	});

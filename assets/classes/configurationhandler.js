@@ -5,8 +5,6 @@
 // the application.
 // The general configuration data will be stored in the
 // local app database (table: configurationdata).
-// Note that it's a class that needs to be defined first:
-// conf = new ConfigurationHandler();
 //
 // Author: Dirk Songuer
 // License: All rights reserved
@@ -25,15 +23,18 @@ function ConfigurationHandler() {
 ConfigurationHandler.prototype.getConfiguration = function(configurationKey) {
 	// console.log("# Getting configuration");
 
+	// found configuration
 	var configurationData = new Array();
 
 	// initialize db connection
 	var db = openDatabaseSync("FoodCompanion", "1.0", "Food Companion persistent data storage", 1);
 
+	// initialize database table
 	db.transaction(function(tx) {
 		tx.executeSql('CREATE TABLE IF NOT EXISTS configurationdata(key TEXT, value TEXT)');
 	});
 
+	// get configuration
 	var dataStr = "SELECT * FROM configurationdata WHERE key = ?";
 	var data = [ configurationKey ];
 	db.transaction(function(tx) {
@@ -54,10 +55,13 @@ ConfigurationHandler.prototype.setConfiguration = function(configurationKey, con
 
 	// initialize db connection
 	var db = openDatabaseSync("FoodCompanion", "1.0", "Food Companion persistent data storage", 1);
+
+	// initialize database table
 	db.transaction(function(tx) {
 		tx.executeSql('CREATE TABLE IF NOT EXISTS configurationdata(key TEXT, value TEXT)');
 	});
 
+	// store configuration
 	var dataStr = "INSERT INTO configurationdata VALUES(?, ?)";
 	var data = [ configurationKey, configurationValue ];
 	db.transaction(function(tx) {
@@ -72,6 +76,7 @@ ConfigurationHandler.prototype.resetConfiguration = function() {
 	// initialize db connection
 	var db = openDatabaseSync("FoodCompanion", "1.0", "Food Companion persistent data storage", 1);
 
+	// drop the database table
 	db.transaction(function(tx) {
 		tx.executeSql('DROP TABLE configurationdata');
 	});

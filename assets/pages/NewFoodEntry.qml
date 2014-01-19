@@ -5,7 +5,7 @@
 // The process will be handled by the page itself, it
 // may call different sub pages or sheets to gather all
 // the data, eg. the CaptureImage sheet.
-// The new food item to enter will be held in the newFoodItem
+// The new food entry to enter will be held in the newFoodEntry
 // property.
 //
 // Author: Dirk Songuer
@@ -21,7 +21,7 @@ import "../components"
 // shared js files
 import "../global/globals.js" as Globals
 import "../global/copytext.js" as Copytext
-import "../structures/fooditem.js" as FoodItemType
+import "../structures/foodentry.js" as FoodEntryType
 import "../classes/entrydatabase.js" as EntryDatabase
 
 // this is a page that is available from the main tab, thus it has to be a navigation pane
@@ -38,12 +38,12 @@ NavigationPane {
 
         // signal that the description has been added
         // this will be called by the addDescriptionPage
-        // data is of type FoodItem()
-        signal descriptionAdded(variant newFoodDescription)
+        // data is of type FoodEntry()
+        signal descriptionAdded(variant foodEntry)
 
-        // the item object containing the data of the new item
-        // this is of type FoodItem()
-        property variant newFoodItem
+        // the object containing the data of the new entry
+        // this is of type FoodEntry()
+        property variant newFoodEntry
 
         Container {
             // layout orientation
@@ -181,7 +181,7 @@ NavigationPane {
                         navigationPane.push(searchFoodItemPageObject);
 
                         // indicate that page is now visible
-                        // this is a work around because requestFocus only works after page is visible in stack
+                        // this is a workaround because requestFocus only works after page is visible in stack
                         // see: http://supportforums.blackberry.com/t5/Native-Development/problems-with-request-focus-for-a-textfield/m-p/2652023#M51962
                         searchFoodItemPageObject.pageLoadedInNavigationStack = true;
                     }
@@ -202,10 +202,10 @@ NavigationPane {
                     // food favorite icon clicked
                     // Change favorite state for food item
                     onFavoriteClicked: {
-                        console.log("# Favorited food item: " + newFoodDescription.description);
+                        console.log("# Favorited food item: " + newFoodEntry.description);
 
                         // update food item in database
-                        var foundFoodItems = FoodDatabase.fooddb.updateFavoriteState(newFoodDescription);
+                        var foundFoodItems = FoodDatabase.fooddb.updateFavoriteState(newFoodEntry);
                     }
 
                     // food description clicked
@@ -237,15 +237,15 @@ NavigationPane {
                     var intImmediateValue = Math.round(immediateValue);
 
                     // if the slider value has changed, show the according text
-                    if ((typeof newFoodEntryPage.newFoodItem !== "undefined") && (newFoodEntryPage.newFoodItem.healthRating != intImmediateValue)) {
-                        // note that a temp item is needed because the children of the page variant are read only
-                        var tempItem = new FoodItemType.FoodItem();
-                        tempItem = newFoodEntryPage.newFoodItem;
+                    if ((typeof newFoodEntryPage.newFoodEntry !== "undefined") && (newFoodEntryPage.newFoodEntry.rating != intImmediateValue)) {
+                        // note that a temp entry is needed because the children of the page variant are read only
+                        var tempEntry = new FoodEntryType.FoodEntry();
+                        tempEntry = newFoodEntryPage.newFoodEntry;
 
                         // update values and write back the data
                         label = Copytext.foodcompanionHealthValues[intImmediateValue];
-                        tempItem.healthRating = intImmediateValue;
-                        newFoodEntryPage.newFoodItem = tempItem;
+                        tempEntry.rating = intImmediateValue;
+                        newFoodEntryPage.newFoodEntry = tempEntry;
                     }
                 }
             }
@@ -273,24 +273,28 @@ NavigationPane {
                     // this will stored in the entry database
                     onClicked: {
                         // check if picture is available
-                        if (! newFoodEntryPage.newFoodItem.imageFile) {
+                        if (! newFoodEntryPage.newFoodEntry.imageFile) {
                             foodcompanionToast.body = Copytext.foodcompanionNoFoodImageEntered;
                             foodcompanionToast.show();
+
+                            // WARNING: Activate this in productive version!
                             // return;
-                            
+
                             // this is only valid in debug environment
-                            var tempItem = new FoodItemType.FoodItem();
-                            tempItem = newFoodEntryPage.newFoodItem;
-                            tempItem.imageFile = "accounts/1000/shared/photos/IMG_00000470.jpg";
-                            newFoodEntryPage.newFoodItem = tempItem;
+                            var tempEntry = new FoodEntryType.FoodEntry();
+                            tempEntry = newFoodEntryPage.newFoodEntry;
+                            tempEntry.imageFile = "accounts/1000/shared/photos/IMG_00000470.jpg";
+                            newFoodEntryPage.newFoodEntry = tempEntry;
                         }
 
                         // add to entry database
-                        EntryDatabase.entrydb.addEntry(newFoodEntryPage.newFoodItem);
+                        EntryDatabase.entrydb.addEntry(newFoodEntryPage.newFoodEntry);
 
+                        // show confirmation toast
                         foodcompanionToast.body = Copytext.foodcompanionFoodItemSaved;
                         foodcompanionToast.show();
 
+                        // jump back to the gallery tab
                         tabbedPane.activeTab = foodEntryGalleryTab;
                     }
                 }
@@ -306,12 +310,12 @@ NavigationPane {
             // add image to thumbnail component
             cameraImagePreview.imageSource = "file:///" + imageName;
 
-            // store the image file to the page food item
-            // note that a temp item is needed because the children of the page variant are read only
-            var tempItem = new FoodItemType.FoodItem();
-            tempItem = newFoodEntryPage.newFoodItem;
-            tempItem.imageFile = imageName;
-            newFoodEntryPage.newFoodItem = tempItem;
+            // store the image file to the page food entry
+            // note that a temp entry is needed because the children of the page variant are read only
+            var tempEntry = new FoodEntryType.FoodEntry();
+            tempEntry = newFoodEntryPage.newFoodEntry;
+            tempEntry.imageFile = imageName;
+            newFoodEntryPage.newFoodEntry = tempEntry;
 
             // show camera thumbnail
             cameraImageContainer.visible = true;
@@ -320,35 +324,33 @@ NavigationPane {
         // signal that description has been added
         // hide call to action and show thumbnail
         onDescriptionAdded: {
-            // store the image file to the page food item
-            // note that a temp item is needed because the children of the page variant are read only
-            var tempItem = new FoodItemType.FoodItem();
-            tempItem = newFoodEntryPage.newFoodItem;
-            tempItem.id = newFoodDescription.id;
-            tempItem.description = newFoodDescription.description;
-            tempItem.calories = newFoodDescription.calories;
-            tempItem.portionSize = newFoodDescription.portionSize;
-            newFoodEntryPage.newFoodItem = tempItem;
+            // store the image file to the page food entry
+            // note that a temp entry is needed because the children of the page variant are read only
+            var tempEntry = new FoodEntryType.FoodEntry();
+            tempEntry = newFoodEntryPage.newFoodEntry;
+            tempEntry.foodid = foodEntry.foodid;
+            tempEntry.description = foodEntry.description;
+            tempEntry.calories = foodEntry.calories;
+            tempEntry.size = foodEntry.size;
+            newFoodEntryPage.newFoodEntry = tempEntry;
 
             // hide call to action
             descriptionCallToAction.visible = false;
 
             // fill in new data
-            descriptionLabelContainer.description = newFoodDescription.description;
-            var foodPortionAndCalories = Copytext.foodcompanionPortionValues[newFoodDescription.portionSize] + " portion, ";
-            foodPortionAndCalories += newFoodDescription.portion + " with " + newFoodDescription.calories + " calories";
+            descriptionLabelContainer.description = foodEntry.description;
+            var foodPortionAndCalories = Copytext.foodcompanionPortionValues[foodEntry.size] + " portion, ";
+            foodPortionAndCalories += foodEntry.portion + " with " + foodEntry.calories + " calories";
             descriptionLabelContainer.portion = foodPortionAndCalories;
-            descriptionLabelContainer.favorite = newFoodDescription.favorite;
 
             // show description
             descriptionLabelContainer.visible = true;
-
         }
 
         onCreationCompleted: {
-            // initialize the new food item object
-            var newFoodItem = new FoodItemType.FoodItem();
-            newFoodEntryPage.newFoodItem = newFoodItem;
+            // initialize the new food entry object
+            var newEntry = new FoodEntryType.FoodEntry();
+            newFoodEntryPage.newFoodEntry = newEntry;
 
             // TODO: automatically open camera capture sheet
             /*

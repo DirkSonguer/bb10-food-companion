@@ -30,23 +30,24 @@ TabbedPane {
     // pane definition
     showTabsOnActionBar: true
 
+    // tab to show food gallery
     Tab {
-        id: foodEntryGalleryTab
-        title: "Food gallery"
+        id: foodGalleryTab
+        title: "Gallery"
         imageSource: "asset:///images/icons/icon_gallery.png"
 
         // note that the page is bound to the component every time it loads
-        // this basically resets any pre given data and starts a new process
+        // TODO: how to update after a new entry has been added?
         onTriggered: {
-            foodEntryGalleryPageComponent.source = "pages/FoodEntryGallery.qml";
-            var foodEntryGalleryPageObject = foodEntryGalleryPageComponent.createObject();
-            foodEntryGalleryTab.setContent(foodEntryGalleryPageObject);
+            foodGalleryPageComponent.source = "pages/FoodGallery.qml";
+            var foodGalleryPageObject = foodGalleryPageComponent.createObject();
+            foodGalleryTab.setContent(foodGalleryPageObject);
         }
 
         // attach a component for the new food gallery page
         attachedObjects: [
             ComponentDefinition {
-                id: foodEntryGalleryPageComponent
+                id: foodGalleryPageComponent
             }
         ]
     }
@@ -87,24 +88,18 @@ TabbedPane {
 
     // main logic on startup
     onCreationCompleted: {
-        // check on startup if this is the first start of the application
-        var configurationData = Configuration.conf.getConfiguration("introduction");
-        if (configurationData.length < 1) {
-            // console.log("# Introduction not shown yet. Open intro sheet");
-
-            Configuration.conf.setConfiguration("introduction", "1");
-        }
-
         // load database content from local JSON file
         // note that the dataSource will check the food db if it has been imported correctly
         dataSource.load();
 
-        foodEntryGalleryPageComponent.source = "pages/FoodEntryGallery.qml";
-        var foodEntryGalleryPageObject = foodEntryGalleryPageComponent.createObject();
-        foodEntryGalleryTab.setContent(foodEntryGalleryPageObject);
+        // load gallery page into tab
+        foodGalleryPageComponent.source = "pages/FoodGallery.qml";
+        var foodGalleryPageObject = foodGalleryPageComponent.createObject();
+        foodGalleryTab.setContent(foodGalleryPageObject);
 
+        // activate gallery tab
         tabbedPane.activeTab = newFoodEntryTab;
-        tabbedPane.activeTab = foodEntryGalleryTab;
+        tabbedPane.activeTab = foodGalleryTab;
     }
 
     // application menu (top menu)
@@ -128,9 +123,9 @@ TabbedPane {
     }
 
     // attached objects
-    // this contains the sheets which are used for general page based popupos
+    // this contains the sheets which are used for general page based popups
     attachedObjects: [
-        // sheet for shooting images via the camera
+        // sheet for shooting images via the camera component
         Sheet {
             id: captureImageSheet
 

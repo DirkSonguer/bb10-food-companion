@@ -2,8 +2,7 @@
 // Food Database Script
 //
 // This script handles the calls to the food database.
-// Note that it's a class that needs to be defined first:
-// fooddb = new FoodDatabase();
+// Note that the class uses the FoodItem() structure.
 //
 // Author: Dirk Songuer
 // License: All rights reserved
@@ -60,7 +59,6 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 		foodItem.portion = foundItems.item(index).food_portion;
 		foodItem.calories = foundItems.item(index).food_calories;
 		foodItem.favorite = foundItems.item(index).food_favorite;
-		foodItem.portionSize = 1.0;
 
 		// store food item in return array
 		foodItemArray[index] = foodItem;
@@ -76,7 +74,7 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 // that the items have been imported correctly.
 // parameter is an array based on a DataSource import
 // returns a boolean if the import is correct
-FoodDatabase.prototype.checkDatabaseState = function(foodData) {
+FoodDatabase.prototype.checkDatabaseState = function(jsonData) {
 	// console.log("# Checking database state");
 
 	// initialize db connection
@@ -88,7 +86,7 @@ FoodDatabase.prototype.checkDatabaseState = function(foodData) {
 	});
 
 	// get number of items in JSON database
-	var numItemsInJSONDB = foodData.food.length;
+	var numItemsInJSONDB = jsonData.food.length;
 
 	// get number of items in SQL database
 	var numItemsInSQLDB = 0;
@@ -104,8 +102,7 @@ FoodDatabase.prototype.checkDatabaseState = function(foodData) {
 		return true;
 	}
 
-	// default return is false
-	// if in doubt, reimport
+	// default return is false, if in doubt, reimport
 	return false;
 };
 
@@ -114,7 +111,7 @@ FoodDatabase.prototype.checkDatabaseState = function(foodData) {
 // and imports it into the SQL database.
 // first parameter is an array based on a DataSource import
 // returns a boolean if the import has been done
-FoodDatabase.prototype.importDatabase = function(foodData, importProgress) {
+FoodDatabase.prototype.importDatabase = function(jsonData, importProgress) {
 	// console.log("# Importing items into the SQL db");
 
 	// initialize db connection
@@ -131,11 +128,11 @@ FoodDatabase.prototype.importDatabase = function(foodData, importProgress) {
 	// set to and from values for the next batch
 	// this makes sure that only 500 items max are imported
 	// per batch
-	importProgress.toValue = foodData.food.length;
+	importProgress.toValue = jsonData.food.length;
 	var currentFromValue = importProgress.currentIndex;
 	var currentToValue = importProgress.currentIndex + 500;
-	if (currentToValue > foodData.food.length) {
-		currentToValue = foodData.food.length;
+	if (currentToValue > jsonData.food.length) {
+		currentToValue = jsonData.food.length;
 	}
 
 	// either no import has been done yet or the imported data
@@ -147,24 +144,13 @@ FoodDatabase.prototype.importDatabase = function(foodData, importProgress) {
 	db.transaction(function(tx) {
 		// iterate through all food items and add the data to the transaction
 		for ( var index = currentFromValue; index < currentToValue; index++) {
-			data = [ index, foodData.food[index].description, foodData.food[index].portion, foodData.food[index].kcal ];
+			data = [ index, jsonData.food[index].description, jsonData.food[index].portion, jsonData.food[index].kcal ];
 			tx.executeSql(dataStr, data);
 		}
 	});
 
 	// store current index value in calling component
 	importProgress.value = currentToValue;
-
-	// get updated number of items in SQL database again
-	var numItemsInSQLDB = 0;
-	var dataStr = "SELECT COUNT(food_id) as foods FROM fooditems WHERE food_usergen = 0";
-	db.transaction(function(tx) {
-		var rs = tx.executeSql(dataStr);
-		numItemsInSQLDB = rs.rows.item(0).foods;
-	});
-
-	// console.log("# Imported " + numItemsInSQLDB + " items in SQL db (" +
-	// foodData.food.length + " items in JSON)");
 
 	// set current index in progress bar component
 	// this will be used as index how many items / batches have been imported
@@ -173,7 +159,7 @@ FoodDatabase.prototype.importDatabase = function(foodData, importProgress) {
 	// if the import is finished, set the state of the component
 	// to complete (ProgressIndicatorState.Complete = 2), otherwise
 	// set it to pause (ProgressIndicatorState.Pause = 4)
-	if (currentToValue != foodData.food.length) {
+	if (currentToValue != jsonData.food.length) {
 		importProgress.state = 2;
 	} else {
 		importProgress.state = 4;
@@ -201,24 +187,10 @@ FoodDatabase.prototype.updateFavoriteState = function(foodData) {
 	// update respective food item
 	var dataStr = "UPDATE fooditems SET food_favorite = ? WHERE food_id = ?";
 	var data = [ foodData.favorite, foodData.id ];
-
 	db.transaction(function(tx) {
-		var rs = tx.executeSql(dataStr, data);
+		tx.executeSql(dataStr, data);
 	});
 
-	
-	// update respective food item
-	var dataStr = "SELECT * FROM fooditems WHERE food_id = ?";
-	var data = [ foodData.id ];
-
-	var foundItems = new Array();
-	db.transaction(function(tx) {
-		var rs = tx.executeSql(dataStr, data);
-		foundItems = rs.rows;
-	});
-	
-	console.log("# Num: " + foundItems.length + " desc: " + foundItems.item(0).food_description + " and " + foundItems.item(0).food_favorite);
-	
 	return true;
 };
 
@@ -228,6 +200,7 @@ FoodDatabase.prototype.resetDatabase = function() {
 	// initialize db connection
 	var db = openDatabaseSync("FoodCompanion", "1.0", "Food Companion persistent data storage", 1);
 
+	// drop the database table
 	db.transaction(function(tx) {
 		tx.executeSql('DROP TABLE fooditems');
 	});

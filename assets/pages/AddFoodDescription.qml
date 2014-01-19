@@ -19,7 +19,7 @@ import "../components"
 import "../global/globals.js" as Globals
 import "../global/copytext.js" as Copytext
 import "../classes/fooddatabase.js" as FoodDatabase
-import "../structures/fooditem.js" as FoodItemType
+import "../structures/foodentry.js" as FoodEntryType
 
 Page {
     id: addDescriptionPage
@@ -136,12 +136,6 @@ Page {
                     var intImmediateValue = Math.round(immediateValue);
                     label = Copytext.foodcompanionPortionValues[intImmediateValue];
 
-                    // store portion size in local food object
-                    var tempItem = new FoodItemType.FoodItem();
-                    tempItem = addDescriptionPage.selectedFoodItem;
-                    tempItem.portionSize = intImmediateValue;
-                    addDescriptionPage.selectedFoodItem = tempItem;
-
                     // set new calory value based on portion size
                     var caloryModulation = parseInt(addDescriptionPage.selectedFoodItem.calories) + Math.round(((intImmediateValue - 1) / 2) * parseInt(addDescriptionPage.selectedFoodItem.calories));
                     foodCalories.text = "Calories: " + caloryModulation;
@@ -171,8 +165,15 @@ Page {
                 boldText: "Add food description"
 
                 onClicked: {
+                    // initialize a new food entry object and fill it
+                    var newEntry = new FoodEntryType.FoodEntry();                  
+                    newEntry.foodid = addDescriptionPage.selectedFoodItem.id;
+                    newEntry.description = addDescriptionPage.selectedFoodItem.description;
+                    newEntry.calories = addDescriptionPage.selectedFoodItem.calories;
+                    newEntry.size = Math.round(foodPortionSize.value);
+                    
                     // hand back the data
-                    newFoodEntryPage.descriptionAdded(selectedFoodItem);
+                    newFoodEntryPage.descriptionAdded(newEntry);
 
                     // navigate back to the new entry page (skipping the food search)
                     navigationPane.navigateTo(newFoodEntryPage);
