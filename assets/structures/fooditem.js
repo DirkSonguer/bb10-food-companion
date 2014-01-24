@@ -24,8 +24,8 @@ function FoodItem() {
 	// calories this food has per portion
 	this.calories = 0;
 
-	// flag if user has favorited the item
-	this.favorite = 0;
+	// flag if user has bookmarked the item
+	this.bookmark = 0;
 
 	// flag if item is user generated
 	this.usergen = 0;

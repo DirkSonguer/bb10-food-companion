@@ -35,7 +35,7 @@ TabbedPane {
         id: foodGalleryTab
         title: "Gallery"
         imageSource: "asset:///images/icons/icon_gallery.png"
-
+        
         // note that the page is bound to the component every time it loads
         // TODO: how to update after a new entry has been added?
         onTriggered: {
@@ -43,7 +43,7 @@ TabbedPane {
             var foodGalleryPageObject = foodGalleryPageComponent.createObject();
             foodGalleryTab.setContent(foodGalleryPageObject);
         }
-
+        
         // attach a component for the new food gallery page
         attachedObjects: [
             ComponentDefinition {
@@ -91,12 +91,12 @@ TabbedPane {
         // load database content from local JSON file
         // note that the dataSource will check the food db if it has been imported correctly
         dataSource.load();
-
+                
         // load gallery page into tab
         foodGalleryPageComponent.source = "pages/FoodGallery.qml";
         var foodGalleryPageObject = foodGalleryPageComponent.createObject();
         foodGalleryTab.setContent(foodGalleryPageObject);
-
+        
         // activate gallery tab
         tabbedPane.activeTab = newFoodEntryTab;
         tabbedPane.activeTab = foodGalleryTab;
@@ -141,7 +141,7 @@ TabbedPane {
         // this also contains the loader while importing database
         Sheet {
             id: firstStartupSheet
-
+            
             // attach a component for the about page
             attachedObjects: [
                 ComponentDefinition {
@@ -149,15 +149,6 @@ TabbedPane {
                     source: "sheets/FirstStartup.qml"
                 }
             ]
-        },
-        // invocation for bb world
-        // used by the action menu to switch to bb world
-        Invocation {
-            id: rateAppLink
-            query {
-                mimeType: "application/x-bb-appworld"
-                uri: "appworld://content/24485875"
-            }
         },
         // system toast used globally by all pages and components
         SystemToast {
@@ -175,7 +166,7 @@ TabbedPane {
                 // check database state and reimport if necessary
                 var dbstate = FoodDatabase.fooddb.checkDatabaseState(data);
                 if (! dbstate) {
-                    console.log("# Database is not up to date & needs reimport");
+                    console.log("# Database is not up to date & needs to be reimported");
 
                     // hand over the data to the first startup sheet and open it
                     // it will check if new data has been given and start the

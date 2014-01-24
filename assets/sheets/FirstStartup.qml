@@ -74,8 +74,8 @@ Page {
                 id: importMessage
                 
                 // message content
-                titleText: Copytext.foodcompanionImportDBHeadline
-                messageText: Copytext.foodcompanionImportDBText
+                titleText: Copytext.importDBHeadline
+                messageText: Copytext.importDBText
 
                 // layout definition
                 leftPadding: 0

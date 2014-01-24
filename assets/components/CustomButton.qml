@@ -150,7 +150,7 @@ Container {
         if (event.touchType == TouchType.Down) {
             // cache current color and set highlight
             componentBackground = customButtonComponent.background;
-            customButtonComponent.background = Color.create(Globals.foodcompanionHighlightBackgroundColor);
+            customButtonComponent.background = Color.create(Globals.defaultBackgroundColorActive);
         }
 
         // user released or is moving

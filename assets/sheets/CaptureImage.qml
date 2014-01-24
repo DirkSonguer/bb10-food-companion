@@ -27,7 +27,7 @@ Page {
     id: captureImagePage
 
     // property that holds the calling page
-    // this page will receive the imageCaptured() signal
+    // this page will receive the addCapturedImage() signal
     property variant callingPage
 
     // flag if flash is active
@@ -47,7 +47,7 @@ Page {
             // close sheet and hand over data
             onPhotoCaptured: {
                 // return the file name of the captured image back to the calling page
-                callingPage.imageCaptured(imageName);
+                callingPage.addCapturedImage(imageName);
 
                 // stop the camera control
                 cameraComponent.stopCamera();

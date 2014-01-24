@@ -1,5 +1,5 @@
 // *************************************************** //
-// Food Item Description Component
+// Food Item Component
 //
 // This component shows the food information like
 // name, description and favorited status.
@@ -17,22 +17,17 @@ import "../global/globals.js" as Globals
 import "../global/copytext.js" as Copytext
 
 Container {
-    id: foodItemDescriptionComponent
+    id: foodItemComponent
 
     // signal that the description has been clicked
-    signal descriptionClicked()
+    signal itemClicked()
 
-    // signal that the fav button has been clicked
-    signal favoriteClicked()
+    // signal that the bookmark button has been clicked
+    signal bookmarkClicked()
 
-    // property for the food description
-    property alias description: foodItemDescription.text
-    
-    // property for the food portion
-    property alias portion: foodItemPortion.text
-
-    // flag if food is favorited
-    property bool favorite
+    // data for the food item that should be shown
+    // this is of type FoodItem()
+    property variant foodItemData
 
     // layout orientation
     layout: StackLayout {
@@ -46,11 +41,11 @@ Container {
     rightPadding: 5
 
     // set background color
-    background: Color.create(Globals.foodcompanionDefaultBackgroundColor)
+    background: Color.create(Globals.defaultBackgroundColor)
 
     // standard width is minimum display width
     // however this should be overwritten by calling page
-    // with DisplayInfo.width
+    // with DisplayInfo.width by the calling page
     preferredWidth: 720
 
     // name and description container
@@ -79,21 +74,21 @@ Container {
                 multiline: true
 
                 // component width minus the icon width
-                preferredWidth: foodItemDescriptionComponent.preferredWidth - 81
+                preferredWidth: foodItemComponent.preferredWidth - 81
             }
 
             // image caption label
             Label {
                 id: foodItemPortion
-                
+
                 // layout definition
                 textStyle.base: SystemDefaults.TextStyles.SmallText
                 textStyle.fontWeight: FontWeight.W100
                 textStyle.textAlign: TextAlign.Left
                 multiline: true
-                
+
                 // component width minus the icon width
-                preferredWidth: foodItemDescriptionComponent.preferredWidth - 81
+                preferredWidth: foodItemComponent.preferredWidth - 81
             }
         }
 
@@ -102,13 +97,13 @@ Container {
             TapHandler {
                 onTapped: {
                     // console.log("# Container clicked");
-                    foodItemDescriptionComponent.descriptionClicked();
+                    foodItemComponent.itemClicked();
                 }
             }
         ]
     }
 
-    // Fav container
+    // Bookmark container
     Container {
         // layout orientation
         layout: DockLayout {
@@ -119,7 +114,7 @@ Container {
 
         // mask the profile image to make it round
         ImageView {
-            id: foodFavorite
+            id: foodItemBookmarked
 
             // position and layout properties
             verticalAlignment: VerticalAlignment.Center
@@ -131,7 +126,8 @@ Container {
             minHeight: 81
             minWidth: 81
 
-            imageSource: "asset:///images/icons/icon_notfaved.png"
+            // set as not bookmarked by default
+            imageSource: "asset:///images/icons/icon_notbookmarked.png"
         }
 
         // handle tap on profile picture
@@ -139,7 +135,7 @@ Container {
             TapHandler {
                 onTapped: {
                     // console.log("# User profile clicked");
-                    foodItemDescriptionComponent.favoriteClicked();
+                    foodItemComponent.bookmarkClicked();
                 }
             }
         ]
@@ -149,25 +145,25 @@ Container {
     onTouch: {
         // user pressed description
         if (event.touchType == TouchType.Down) {
-            foodItemDescriptionComponent.background = Color.create(Globals.foodcompanionHighlightBackgroundColor);
+            foodItemComponent.background = Color.create(Globals.buttonBackgroundColor);
         }
 
         // user release description or is moving
         if ((event.touchType == TouchType.Up) || (event.touchType == TouchType.Cancel)) {
-            foodItemDescriptionComponent.background = Color.create(Globals.foodcompanionDefaultBackgroundColor);
+            foodItemComponent.background = Color.create(Globals.defaultBackgroundColor);
         }
     }
 
     // change background and mask color according to confirmed state
-    onFavoriteChanged: {
-        if (foodItemDescriptionComponent.favorite) {
-            foodFavorite.imageSource = "asset:///images/icons/icon_faved.png";
+    onFoodItemDataChanged: {
+        foodItemDescription.text = foodItemData.description;
+        foodItemPortion.text = foodItemData.calories + " calories per " + foodItemData.portion;
+
+        // set bookmark icon according to state
+        if (foodItemData.bookmark == 1) {
+            foodItemBookmarked.imageSource = "asset:///images/icons/icon_bookmarked.png";
         } else {
-            foodFavorite.imageSource = "asset:///images/icons/icon_notfaved.png";
+            foodItemBookmarked.imageSource = "asset:///images/icons/icon_notbookmarked.png";
         }
-    }
-    
-    onFavoriteClicked: {
-        foodItemDescriptionComponent.favorite = (foodItemDescriptionComponent.favorite*(-1)) + 1;
     }
 }

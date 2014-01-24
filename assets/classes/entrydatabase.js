@@ -35,7 +35,7 @@ EntryDatabase.prototype.getEntries = function() {
 
 	// initialize database table
 	db.transaction(function(tx) {
-		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_favorite INT, food_usergen INT)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_bookmark INT, food_usergen INT)');
 	});
 
 	// get food items

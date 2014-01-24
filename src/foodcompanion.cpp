@@ -33,7 +33,8 @@ FoodCompanion::FoodCompanion(bb::cascades::Application *app) :
 		QObject(app) {
 
 	// register camera utilities
-	qmlRegisterType<CameraUtilities>("CameraUtilities", 1, 0, "CameraUtilities");
+	qmlRegisterType<CameraUtilities>("CameraUtilities", 1, 0,
+			"CameraUtilities");
 
 	// register timer functionalities
 	qmlRegisterType<QTimer>("QtTimer", 1, 0, "Timer");
@@ -67,17 +68,15 @@ FoodCompanion::FoodCompanion(bb::cascades::Application *app) :
 	// to ensure the document gets destroyed properly at shut down.
 	QmlDocument *qml = QmlDocument::create("asset:///main.qml").parent(this);
 
-    // Retrieve the path to the app's working directory
-    QString workingDir = QDir::currentPath();
+	// Retrieve the path to the app's working directory
+	QString workingDir = QDir::currentPath();
 
-    // Build the path, add it as a context property, and expose
-    // it to QML
-    QDeclarativePropertyMap* dirPaths = new QDeclarativePropertyMap;
-    dirPaths->insert("currentPath", QVariant(QString(
-            "file://" + workingDir)));
-    dirPaths->insert("assetPath", QVariant(QString(
-            "file://" + workingDir + "/app/native/assets/")));
-    qml->setContextProperty("dirPaths", dirPaths);
+	// Build the path, add it as a context property, and expose
+	// it to QML
+	QDeclarativePropertyMap* dirPaths = new QDeclarativePropertyMap;
+	dirPaths->insert("currentPath", QVariant(QString("file://" + workingDir)));
+	dirPaths->insert("assetPath", QVariant(QString("file://" + workingDir + "/app/native/assets/")));
+	qml->setContextProperty("dirPaths", dirPaths);
 
 	DisplayInfo display;
 	int width = display.pixelSize().width();
@@ -86,8 +85,11 @@ FoodCompanion::FoodCompanion(bb::cascades::Application *app) :
 	QDeclarativePropertyMap* displayProperties = new QDeclarativePropertyMap;
 	displayProperties->insert("width", QVariant(width));
 	displayProperties->insert("height", QVariant(height));
-
 	qml->setContextProperty("DisplayInfo", displayProperties);
+
+	QDeclarativePropertyMap* debugMode = new QDeclarativePropertyMap;
+	debugMode->insert("debugMode", QVariant(QBool(true)));
+	qml->setContextProperty("DebugMode", debugMode);
 
 	// Create root object for the UI
 	AbstractPane *root = qml->createRootObject<AbstractPane>();

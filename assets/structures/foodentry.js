@@ -22,7 +22,7 @@ function FoodEntry() {
 	this.imageFile = "";
 
 	// this is the health rating as integer
-	// it maps against Copytext.foodcompanionHealthValues
+	// it maps against Copytext.healthValues
 	this.rating = 2;
 
 	// portion size

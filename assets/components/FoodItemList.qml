@@ -20,10 +20,10 @@ Container {
     id: foodItemListComponent
 
     // signal if food item was clicked
-    signal itemClicked(variant foodData)
+    signal itemDescriptionClicked(variant foodItemData)
 
-    // signal if food favorite state was clicked
-    signal itemFavoriteClicked(variant foodData)
+    // signal if food bookmark state was clicked
+    signal itemBookmarkClicked(variant foodItemData)
 
     // property that holds the current index
     // this is incremented as new items are added
@@ -48,7 +48,7 @@ Container {
         // console.log("# Adding item with ID " + item.commentId + " to comment list data model");
         foodItemListComponent.currentItemIndex += 1;
         foodItemListDataModel.insert({
-                "foodData": item,
+                "foodItemData": item,
                 "currentIndex": foodItemListComponent.currentItemIndex
             });
     }
@@ -57,8 +57,8 @@ Container {
     // see here for details: http://supportforums.blackberry.com/t5/Cascades-Development/QML-Accessing-variables-defined-outside-a-list-component-from/m-p/1786265#M641
     onCreationCompleted: {
         Qt.foodItemListDataModel = foodItemListDataModel;
-        Qt.itemClicked = foodItemListComponent.itemClicked;
-        Qt.itemFavoriteClicked = foodItemListComponent.itemFavoriteClicked;
+        Qt.itemDescriptionClicked = foodItemListComponent.itemDescriptionClicked;
+        Qt.itemBookmarkClicked = foodItemListComponent.itemBookmarkClicked;
         Qt.DisplayInfo = DisplayInfo;
     }
 
@@ -92,33 +92,37 @@ Container {
                         orientation: LayoutOrientation.LeftToRight
                     }
 
-                    FoodItemDescription {
-                        description: ListItemData.foodData.description
-                        portion: ListItemData.foodData.calories + " calories per " + ListItemData.foodData.portion
-                        favorite: ListItemData.foodData.favorite
-                        
+                    FoodItem {
+                        foodItemData: ListItemData.foodItemData
+
                         preferredWidth: Qt.DisplayInfo.width
 
                         // description of item has been clicked
-                        onDescriptionClicked: {
-                            Qt.itemClicked(ListItemData.foodData);
+                        onItemClicked: {
+                            Qt.itemDescriptionClicked(ListItemData.foodItemData);
                         }
 
-                        onFavoriteClicked: {
+                        // signal that bookmark state of item should be changed
+                        onBookmarkClicked: {
                             var foodItemListDataModel = Qt.foodItemListDataModel;
+
+                            // iterate through all data items
                             for (var i = 0; i < foodItemListDataModel.size(); i ++) {
                                 var indexPath = new Array();
                                 indexPath[0] = i;
                                 var childItem = foodItemListDataModel.data(indexPath);
 
-                                if (childItem.foodData.id == ListItemData.foodData.id) {
-                                    console.log("# Child item foodData: " + childItem.foodData.description);
-                                    childItem.foodData.favorite = (childItem.foodData.favorite * (-1)) + 1;
+                                // check if food item in list is the selected one
+                                if (childItem.foodItemData.id == ListItemData.foodItemData.id) {
+                                    // console.log("# Child item foodItemData: " + childItem.foodItemData.description);
+                                    childItem.foodItemData.bookmark = (childItem.foodItemData.bookmark * (-1)) + 1;
                                     foodItemListDataModel.updateItem(indexPath, childItem);
+                                    break;
                                 }
                             }
 
-                            Qt.itemFavoriteClicked(ListItemData.foodData);
+                            // send signal that item has been bookmarked
+                            Qt.itemBookmarkClicked(ListItemData.foodItemData);
                         }
                     }
 

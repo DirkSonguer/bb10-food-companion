@@ -11,14 +11,8 @@
 
 var currentApplicationVersion = "1.0.0";
 
-var foodcompanionDefaultTextColor = "#333333";
-var foodcompanionLightTextColor = "#555555";
-var foodcompanionHighlightedTextColor = "#2E5E86";
-var foodcompanionLinkTextColor = "#0791FF";
+var defaultBackgroundColor = "#222222";
+var defaultBackgroundColorActive = "#303030";
+var transparentButtonBackgroundColor = "#386008";
+var buttonBackgroundColor = "#588008";
 
-var foodcompanionDefaultBackgroundColor = "#222222";
-var foodcompanionHighlightBackgroundColor = "#303030";
-var foodcompanionButtonBackgroundColor = "#588008";
-var foodcompanionListItemBackgroundColor = "#DCDCDC";
-
-var foodcompanionEntryHealthColors = new Array("#805808", "#789038", "#487008");

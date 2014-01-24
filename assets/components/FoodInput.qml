@@ -36,6 +36,15 @@ Container {
     property alias text: foodInputField.text
     property alias hintText: foodInputField.hintText
 
+    // layout definition
+    topPadding: 10
+    bottomPadding: 10
+    leftPadding: 10
+    rightPadding: 10
+
+    // green background
+    background: Color.create(Globals.buttonBackgroundColor)
+
     // layout orientation
     layout: StackLayout {
         orientation: LayoutOrientation.LeftToRight
@@ -44,6 +53,16 @@ Container {
     // set initial visibility to false
     visible: true
 
+    // comment submit button
+    ImageButton {
+        defaultImageSource: "asset:///images/icons/icon_search_dimmed.png"
+        pressedImageSource: "asset:///images/icons/icon_search.png"
+        onClicked: {
+            // signal that input has been triggered
+            foodInputField.input.submitted(foodInputField);
+        }
+    }
+
     // comment input field
     TextField {
         id: foodInputField
@@ -51,7 +70,8 @@ Container {
         // configure text field
         hintText: "Enter food name"
         clearButtonVisible: true
-        inputMode: TextFieldInputMode.Chat
+        focusHighlightEnabled: false
+        inputMode: TextFieldInputMode.Text
 
         // input behaviour and handling
         input {
@@ -76,19 +96,9 @@ Container {
                     foodInputComponent.cleared();
                 }
             }
-        }        
+        }
     }
-    /*
-     * // comment submit button
-     * ImageButton {
-     * defaultImageSource: "asset:///images/icons/icon_search_dimmed.png"
-     * pressedImageSource: "asset:///images/icons/icon_search.png"
-     * onClicked: {
-     * // signal that input has been triggered
-     * foodInputField.input.submitted(foodInputField);
-     * }
-     * }
-     */
+
     onFocus: {
         console.log("# Requesting focus via onFocus");
         foodInputField.requestFocus();

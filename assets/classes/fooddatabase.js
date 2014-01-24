@@ -29,12 +29,12 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 
 	// initialize food db table
 	db.transaction(function(tx) {
-		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_favorite INT, food_usergen INT)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_bookmark INT, food_usergen INT)');
 	});
 
 	// get number of items in SQL database based on the search term
 	// sort so that the faved items are on top and then alphabetical
-	var dataStr = "SELECT * FROM fooditems WHERE food_description LIKE ? ORDER BY food_favorite ASC, food_description DESC";
+	var dataStr = "SELECT * FROM fooditems WHERE food_description LIKE ? ORDER BY food_bookmark ASC, food_description DESC";
 	var data = [ "%" + searchQuery + "%" ];
 	var foundItems = new Array();
 	db.transaction(function(tx) {
@@ -58,7 +58,7 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 		foodItem.description = foundItems.item(index).food_description;
 		foodItem.portion = foundItems.item(index).food_portion;
 		foodItem.calories = foundItems.item(index).food_calories;
-		foodItem.favorite = foundItems.item(index).food_favorite;
+		foodItem.bookmark = foundItems.item(index).food_bookmark;
 
 		// store food item in return array
 		foodItemArray[index] = foodItem;
@@ -66,6 +66,31 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 
 	// return found items
 	return foodItemArray;
+};
+
+// update the bookmark state of the given item
+// this resets the contents of the database by removing all items
+// first parameter is an array based on a DataSource import
+// returns a boolean if the import has been done
+FoodDatabase.prototype.updateBookmarkState = function(foodData) {
+	console.log("# Updating bookmark state of food item " + foodData.id + " to value " + foodData.bookmark);
+
+	// initialize db connection
+	var db = openDatabaseSync("FoodCompanion", "1.0", "Food Companion persistent data storage", 1);
+
+	// initialize food db table
+	db.transaction(function(tx) {
+		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_bookmark INT, food_usergen INT)');
+	});
+
+	// update respective food item
+	var dataStr = "UPDATE fooditems SET food_bookmark = ? WHERE food_id = ?";
+	var data = [ foodData.bookmark, foodData.id ];
+	db.transaction(function(tx) {
+		tx.executeSql(dataStr, data);
+	});
+
+	return true;
 };
 
 // check the database state
@@ -82,7 +107,7 @@ FoodDatabase.prototype.checkDatabaseState = function(jsonData) {
 
 	// initialize food db table
 	db.transaction(function(tx) {
-		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_favorite INT, food_usergen INT)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_bookmark INT, food_usergen INT)');
 	});
 
 	// get number of items in JSON database
@@ -119,7 +144,7 @@ FoodDatabase.prototype.importDatabase = function(jsonData, importProgress) {
 
 	// initialize food db table
 	db.transaction(function(tx) {
-		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_favorite INT, food_usergen INT)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_bookmark INT, food_usergen INT)');
 	});
 
 	// set import progress state to active
@@ -137,7 +162,7 @@ FoodDatabase.prototype.importDatabase = function(jsonData, importProgress) {
 
 	// either no import has been done yet or the imported data
 	// is not up to date (maybe due to an update)
-	var dataStr = "INSERT INTO fooditems(food_id, food_description, food_portion, food_calories, food_favorite, food_usergen) VALUES (?, ?, ?, ?, 0, 0)";
+	var dataStr = "INSERT INTO fooditems(food_id, food_description, food_portion, food_calories, food_bookmark, food_usergen) VALUES (?, ?, ?, ?, 0, 0)";
 	var data = new Array();
 
 	// note start we start the transaction first
@@ -165,31 +190,6 @@ FoodDatabase.prototype.importDatabase = function(jsonData, importProgress) {
 		importProgress.state = 4;
 
 	}
-
-	return true;
-};
-
-// update the favorite state of the given item
-// this resets the contents of the database by removing all items
-// first parameter is an array based on a DataSource import
-// returns a boolean if the import has been done
-FoodDatabase.prototype.updateFavoriteState = function(foodData) {
-	console.log("# Updating favorite state of food item " + foodData.id + " to value " + foodData.favorite);
-
-	// initialize db connection
-	var db = openDatabaseSync("FoodCompanion", "1.0", "Food Companion persistent data storage", 1);
-
-	// initialize food db table
-	db.transaction(function(tx) {
-		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_favorite INT, food_usergen INT)');
-	});
-
-	// update respective food item
-	var dataStr = "UPDATE fooditems SET food_favorite = ? WHERE food_id = ?";
-	var data = [ foodData.favorite, foodData.id ];
-	db.transaction(function(tx) {
-		tx.executeSql(dataStr, data);
-	});
 
 	return true;
 };
