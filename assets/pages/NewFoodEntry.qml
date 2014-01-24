@@ -21,6 +21,7 @@ import "../components"
 // shared js files
 import "../global/globals.js" as Globals
 import "../global/copytext.js" as Copytext
+import "../structures/foodentry.js" as FoodEntryType
 
 // this is a page that is available from the main tab, thus it has to be a navigation pane
 // note that the id is always "navigationPane"
@@ -37,6 +38,10 @@ NavigationPane {
         // signal that food item has been selected
         // this will be called by the SelectFoodItem sheet
         signal addFoodItem(variant foodItemData)
+        
+        // the object containing the data of the new entry
+        // this is of type FoodEntry()
+        property variant newFoodEntry
 
         Container {
             // layout orientation
@@ -130,6 +135,10 @@ NavigationPane {
         }
 
         onCreationCompleted: {
+            // initialize the new food entry object
+            var newEntry = new FoodEntryType.FoodEntry();
+            newFoodEntryPage.newFoodEntry = newEntry;
+
             // create and open capture image sheet on creation
             // var captureImagePageObject = captureImagePageComponent.createObject();
             // captureImagePageObject.callingPage = newFoodEntryPage;
@@ -138,12 +147,27 @@ NavigationPane {
         }
         
         onAddCapturedImage: {
+            // add image to thumbnail component
+            foodCameraImage.imageSource = "file:///" + imageName;
             
-            
+            // store the image file to the page food entry
+            // note that a temp entry is needed because the children of the page variant are read only
+            var tempEntry = new FoodEntryType.FoodEntry();
+            tempEntry = newFoodEntryPage.newFoodEntry;
+            tempEntry.imageFile = imageName;
+            newFoodEntryPage.newFoodEntry = tempEntry;
         }
         
         onAddFoodItem: {
-            
+            // store the food item data to the page food entry
+            // note that a temp entry is needed because the children of the page variant are read only
+            var tempEntry = new FoodEntryType.FoodEntry();
+            tempEntry = newFoodEntryPage.newFoodEntry;
+            tempEntry.foodid = foodItemData.id;
+            tempEntry.description = foodItemData.description;
+            tempEntry.portion = foodItemData.portion;
+            tempEntry.calories = foodItemData.calories;
+            newFoodEntryPage.newFoodEntry = tempEntry;
         }
     }
 
