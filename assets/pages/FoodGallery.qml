@@ -27,6 +27,25 @@ Page {
         // layout orientation
         layout: DockLayout {
         }
+        
+        FoodGalleryList {
+            id: foodGalleryList
+            
+            // set initial definition to false
+            // this will be set true once the data has been loaded
+            visible: false
+            
+            // item has been deleted
+            // note that by this point it has only been removed from the list
+            // now it needs to be removed from the database
+            onItemDeleted: {
+                EntryDatabase.entrydb.deleteEntry(foodData.timestamp);
+                
+                // show confirmation toast
+                foodcompanionToast.body = Copytext.foodEntryDeleted + foodData.description + ")";
+                foodcompanionToast.show();
+            }
+        }
 
         // info message
         InfoMessage {
@@ -47,11 +66,11 @@ Page {
         if (foundFoodItems.length > 0) {
             // iterate through item data objects and add to list
             for (var index in foundFoodItems) {
-                // foodItemList.addToList(foundFoodItems[index]);
+                foodGalleryList.addToList(foundFoodItems[index]);
             }
 
             // show list
-            foodItemList.visible = true;
+            foodGalleryList.visible = true;
         } else {
             // if no food items have been logged yet, show note
             infoMessage.showMessage(Copytext.noFoodEntriesFoundText, Copytext.noFoodEntriesFoundHeadline);

@@ -1,0 +1,36 @@
+
+Aufgabe: Gestaltung eines digialen Tagebuchs, mit dem ein Nutzer seine tägliche Nahrungsmittelaufnahme via Handy protokollieren kann.
+
+Hintergrund: Unter bestimmten Umständen ist es hilfreich oder sogar notwendig, dass Menschen ihre tägliche Aufnahme von Nahrungsmitteln protkollieren, also ein Tagebuch führen, was sie wann und in welcher Menge gegessen oder getrunken haben. Gründe können sein, dass sie abnehmen wollen, sei es aus gesundheitlichen oder persönlichen Gründen, oder unter einer Krankheit leiden, beispielsweise Diabetis. Das Problem ist natürlich, dass das dauerhafte mitführen und pflegen eines solchen Tagebuches aufwändig und die regelmäßige Pflege mühsam und zeitintensiv ist, weshalb ein solches Tagebuch meist unregelmäßig oder gar nicht geführt wird.
+
+Im Gegensatz zu einem papiergebundenen Tagebuch tragen die meisten Menschen inzwischen ein Smartphone mit sich, welches sie für unterschiedlichste Zwecke nutzen, zuem Beispiel für Fotos, Termine oder Notizen. Die Idee ist es ein digitales Tagebuch zu entwickeln, welches Nutzern die Aufnahme und Pflege der relevanten Daten möglichst einfach macht.
+
+Als Plattform soll dabei BlackBerry 10 gewählt werden, weil die Plattform relativ neu und dort der Bereich der Gesundheits- und Wellnessanwendungen weitesgehend unbearbeitet ist (im Gegensatz zu Android und iPhone). Die Plattform selbst folgt dabei eigenen Gestaltungsregeln, so dass eine direkte Übernahme der Designs anderer Plattformen nicht möglich bzw. ratsam ist.
+
+
+Theoretischer Teil
+
+Grundlegende Recherchen:
+- Untersuchung und Vergleich von vergleichbaren Anwendungen, unabhängig der Plattform
+- Auseinandersetzung mit den Designrichtlinien der BlackBerry 10-Plattform
+- Untersuchung der beliebtesten Anwendungen für BlackBerry 10 und Ableitung von "Best Practises", die auf die zu gestaltende Anwendung angewendet werden können.
+
+Anwendungskonzept:
+- Kritische Betrachtung der benötigten Funktionalitäten der Anwendung
+- Gewichtung der Funktionalitäten nach wichtig / unwichtig
+- Beschreibung der typischen Nutzungsszenarien und -Abläufe der Anwendung
+
+
+Praktischer Teil
+
+Grundsätzliche Gestaltung:
+- Logo der Anwendung
+- Icon für die Anwendung (abgeleitet aus Logo)
+- Startbildschirm der Anwendung (abgeleitet aus Logo)
+- Generelles Farbschema der Anwendung
+- Zu nutzende Fonts
+
+Spezifische Gestaltung:
+- Design der einzelnen Screens der Anwendung
+- Gestaltung der Interaktionen (Touch, Swipe, ..)
+- Gestaltung der Übergänge und Animationen

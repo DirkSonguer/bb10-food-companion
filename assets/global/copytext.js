@@ -28,3 +28,5 @@ var enterFoodItemText = "Start typing in the name of your food to get a list of 
 
 var noFoodItemsFoundHeadline = "No search results";
 var noFoodItemsFoundText = "Could not find a food item for this search. Please refine your search or add the item to the database.";
+
+var foodEntryDeleted = "The diary entry has been deleted (";

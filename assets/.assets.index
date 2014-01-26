@@ -1,5 +1,5 @@
 1
-40
+42
 classes/configurationhandler.js
 classes/entrydatabase.js
 classes/fooddatabase.js
@@ -7,6 +7,8 @@ components/CustomButton.qml
 components/CustomCamera.qml
 components/CustomSlider.qml
 components/FoodEntryDescription.qml
+components/FoodGalleryItem.qml
+components/FoodGalleryList.qml
 components/FoodInput.qml
 components/FoodItem.qml
 components/FoodItemList.qml

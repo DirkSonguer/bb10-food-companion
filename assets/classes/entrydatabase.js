@@ -30,7 +30,7 @@ EntryDatabase.prototype.getEntries = function() {
 
 	// initialize database table
 	db.transaction(function(tx) {
-		tx.executeSql('CREATE TABLE IF NOT EXISTS foodentries(entry_filename TEXT, entry_foodid INT, entry_portion INT, entry_rating INT, entry_timestamp INT)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS foodentries(entry_filename TEXT, entry_foodid INT, entry_size INT, entry_rating INT, entry_timestamp INT)');
 	});
 
 	// initialize database table
@@ -40,7 +40,7 @@ EntryDatabase.prototype.getEntries = function() {
 	});
 
 	// get food items
-	var dataStr = "SELECT * FROM foodentries LEFT JOIN fooditems ON foodentries.entry_foodid = fooditems.item_foodid";
+	var dataStr = "SELECT * FROM foodentries LEFT JOIN fooditems ON foodentries.entry_foodid = fooditems.item_foodid ORDER BY foodentries.entry_timestamp ASC";
 	var foundItems = new Array();
 	db.transaction(function(tx) {
 		var rs = tx.executeSql(dataStr);
@@ -52,7 +52,7 @@ EntryDatabase.prototype.getEntries = function() {
 
 	// iterate through all found food items
 	for ( var index = 0; index < foundItems.length; index++) {
-		console.log("# Found image " + foundItems.item(index).entry_filename + " with food id " + foundItems.item(index).entry_foodid + " and description " + foundItems.item(index).item_description);
+		console.log("# Found image " + foundItems.item(index).entry_filename + " with food id " + foundItems.item(index).entry_foodid + ", description " + foundItems.item(index).item_description + " and timestamp " + foundItems.item(index).entry_timestamp);
 
 		// initialize new food item
 		var foodItem = new FoodItem();
@@ -60,7 +60,7 @@ EntryDatabase.prototype.getEntries = function() {
 		// fill item data
 		foodItem.imageFile = foundItems.item(index).entry_filename;
 		foodItem.rating = foundItems.item(index).entry_rating;
-		foodItem.size = foundItems.item(index).entry_portion;
+		foodItem.size = foundItems.item(index).entry_size;
 		foodItem.timestamp = foundItems.item(index).entry_timestamp;
 		foodItem.description = foundItems.item(index).item_description;
 		foodItem.calories = foundItems.item(index).item_calories;
@@ -85,19 +85,19 @@ EntryDatabase.prototype.addEntry = function(entryData) {
 
 	// initialize food db table
 	db.transaction(function(tx) {
-		tx.executeSql('CREATE TABLE IF NOT EXISTS foodentries(entry_filename TEXT, entry_foodid INT, entry_portion INT, entry_rating INT, entry_timestamp INT)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS foodentries(entry_filename TEXT, entry_foodid INT, entry_size INT, entry_rating INT, entry_timestamp INT)');
 	});
 
 	// either no import has been done yet or the imported data
 	// is not up to date (maybe due to an update)
-	var dataStr = "INSERT INTO foodentries(entry_filename, entry_foodid, entry_portion, entry_rating, entry_timestamp) VALUES (?, ?, ?, ?, ?)";
+	var dataStr = "INSERT INTO foodentries(entry_filename, entry_foodid, entry_size, entry_rating, entry_timestamp) VALUES (?, ?, ?, ?, ?)";
 
 	// calculate current timestamp (unix epoch in seconds)
 	var currentTimestamp = Math.round(new Date().getTime() / 1000);
 
 	// fill data array
 	var data = new Array();
-	data = [ entryData.imageFile, entryData.foodid, entryData.portionSize, entryData.rating, currentTimestamp ];
+	data = [ entryData.imageFile, entryData.foodid, entryData.size, entryData.rating, currentTimestamp ];
 
 	// note start we start the transaction first
 	db.transaction(function(tx) {
@@ -116,7 +116,7 @@ EntryDatabase.prototype.deleteEntry = function(entryTimestamp) {
 
 	// initialize food db table
 	db.transaction(function(tx) {
-		tx.executeSql('CREATE TABLE IF NOT EXISTS foodentries(entry_filename TEXT, entry_foodid INT, entry_portion INT, entry_rating INT, entry_timestamp INT)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS foodentries(entry_filename TEXT, entry_foodid INT, entry_size INT, entry_rating INT, entry_timestamp INT)');
 	});
 
 	var dataStr = "DELETE FROM foodentries WHERE entry_timestamp = ?";
