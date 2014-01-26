@@ -73,8 +73,8 @@ Container {
                 textStyle.textAlign: TextAlign.Left
                 multiline: true
 
-                // component width minus the icon width
-                preferredWidth: foodItemComponent.preferredWidth - 81
+                // component width minus the icon width and the paddings
+                preferredWidth: (foodItemComponent.preferredWidth - 110)
             }
 
             // image caption label
@@ -87,8 +87,8 @@ Container {
                 textStyle.textAlign: TextAlign.Left
                 multiline: true
 
-                // component width minus the icon width
-                preferredWidth: foodItemComponent.preferredWidth - 81
+                // component width minus the icon width and the paddings
+                preferredWidth: (foodItemComponent.preferredWidth - 110)
             }
         }
 

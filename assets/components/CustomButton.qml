@@ -54,7 +54,7 @@ Container {
 
         // set initial visibility to false
         visible: false
-        
+
         onImageSourceChanged: {
             visible = true;
         }
@@ -77,7 +77,7 @@ Container {
         // layout definition
         horizontalAlignment: HorizontalAlignment.Center
         verticalAlignment: VerticalAlignment.Center
-        preferredHeight: 60
+        preferredHeight: 105
 
         // icon for button
         ImageView {
@@ -101,40 +101,45 @@ Container {
             }
         }
 
-        // bold label for button
-        Label {
-            id: customButtonBoldLabel
+        // button labels
+        Container {
+            verticalAlignment: VerticalAlignment.Center
 
-            // layout definition
-            leftMargin: 0
-            rightMargin: 0
-            textStyle.base: SystemDefaults.TextStyles.BodyText
-            textStyle.fontWeight: FontWeight.W500
-            textStyle.textAlign: TextAlign.Left
+            // bold label for button
+            Label {
+                id: customButtonBoldLabel
 
-            // set initial visibility to false
-            // make label visible if text is added
-            visible: false
-            onTextChanged: {
-                visible = true;
+                // layout definition
+                leftMargin: 0
+                rightMargin: 0
+                textStyle.base: SystemDefaults.TextStyles.BodyText
+                textStyle.fontWeight: FontWeight.W500
+                textStyle.textAlign: TextAlign.Left
+
+                // set initial visibility to false
+                // make label visible if text is added
+                visible: false
+                onTextChanged: {
+                    visible = true;
+                }
             }
-        }
 
-        // narrow label for button
-        Label {
-            id: customButtonNarrowLabel
+            // narrow label for button
+            Label {
+                id: customButtonNarrowLabel
 
-            // layout definition
-            leftMargin: 5
-            textStyle.base: SystemDefaults.TextStyles.BodyText
-            textStyle.fontWeight: FontWeight.W100
-            textStyle.textAlign: TextAlign.Left
+                // layout definition
+                leftMargin: 5
+                textStyle.base: SystemDefaults.TextStyles.BodyText
+                textStyle.fontWeight: FontWeight.W100
+                textStyle.textAlign: TextAlign.Left
 
-            // set initial visibility to false
-            // make label visible if text is added
-            visible: false
-            onTextChanged: {
-                visible = true;
+                // set initial visibility to false
+                // make label visible if text is added
+                visible: false
+                onTextChanged: {
+                    visible = true;
+                }
             }
         }
     }
