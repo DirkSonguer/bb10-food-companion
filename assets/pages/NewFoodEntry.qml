@@ -90,7 +90,7 @@ NavigationPane {
 
                         // layout definition
                         alignText: HorizontalAlignment.Center
-                        backgroundColor: Color.create(Globals.transparentButtonBackgroundColor)
+                        backgroundColor: Color.create(Globals.greenBackgroundColor)
                         preferredWidth: DisplayInfo.width
                         opacity: 0.85
 
@@ -116,7 +116,7 @@ NavigationPane {
                         // layout definition
                         topMargin: 10
                         alignText: HorizontalAlignment.Center
-                        backgroundColor: Color.create(Globals.transparentButtonBackgroundColor)
+                        backgroundColor: Color.create(Globals.greenBackgroundColor)
                         preferredWidth: DisplayInfo.width
                         opacity: 0.85
 
@@ -140,7 +140,7 @@ NavigationPane {
 
                         // layout definition
                         topMargin: 10
-                        background: Color.create(Globals.transparentButtonBackgroundColor)
+                        background: Color.create(Globals.greenBackgroundColor)
                         preferredWidth: DisplayInfo.width
                         opacity: 0.85
 
@@ -177,7 +177,7 @@ NavigationPane {
                         topMargin: 10
                         bottomMargin: 10
                         alignText: HorizontalAlignment.Center
-                        backgroundColor: Color.create(Globals.transparentButtonBackgroundColor)
+                        backgroundColor: Color.create(Globals.greenBackgroundColor)
                         preferredWidth: DisplayInfo.width
                         opacity: 0.85
 

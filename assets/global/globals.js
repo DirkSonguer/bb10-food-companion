@@ -13,7 +13,6 @@ var currentApplicationVersion = "1.0.0";
 
 var defaultBackgroundColor = "#222222";
 var defaultBackgroundColorActive = "#303030";
-var transparentButtonBackgroundColor = "#386008";
-var buttonBackgroundColor = "#588008";
-// 487008
-var healthRatingColors = new Array("#805808", "#789038", "#386008");
+var greenBackgroundColor = "#386008";
+
+var healthRatingColors = new Array("#805808", "#707E08", "#386008");

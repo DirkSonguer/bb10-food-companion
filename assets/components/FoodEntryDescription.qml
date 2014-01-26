@@ -43,22 +43,23 @@ Container {
     Container {
         // image caption label
         Label {
-            id: foodItem
+            id: foodEntryDescripton
 
             bottomMargin: 0
 
             // layout definition
             textStyle.fontSize: FontSize.PointValue
-            textStyle.fontSizeValue: 12
+            textStyle.fontSizeValue: 10
             textStyle.fontWeight: FontWeight.W100
             textStyle.textAlign: TextAlign.Left
-            textStyle.lineHeight: 0.75
+            textStyle.lineHeight: 0.85
+            autoSize.maxLineCount: 2
             multiline: true
         }
 
         // image caption label
         Label {
-            id: foodItemPortion
+            id: foodPortionDescription
 
             topMargin: 0
 
@@ -146,8 +147,8 @@ Container {
         
         // fill in data values
         var foodPortionAndCalories = foodEntryData.portion + " with " + caloryModulation + " calories";
-        foodItemPortion.text = foodPortionAndCalories;
-        foodItem.text = foodEntryData.description;
+        foodPortionDescription.text = foodPortionAndCalories;
+        foodEntryDescripton.text = foodEntryData.description;
         foodPortionSize.label = Copytext.portionSizeValues[foodEntryData.size];
         foodHealthRating.label = Copytext.healthRatingValues[foodEntryData.rating];
         
