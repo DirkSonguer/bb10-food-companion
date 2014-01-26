@@ -113,7 +113,7 @@ Container {
                                 var childItem = foodItemListDataModel.data(indexPath);
 
                                 // check if food item in list is the selected one
-                                if (childItem.foodItemData.id == ListItemData.foodItemData.id) {
+                                if (childItem.foodItemData.foodid == ListItemData.foodItemData.foodid) {
                                     // console.log("# Child item foodItemData: " + childItem.foodItemData.description);
                                     childItem.foodItemData.bookmark = (childItem.foodItemData.bookmark * (-1)) + 1;
                                     foodItemListDataModel.updateItem(indexPath, childItem);

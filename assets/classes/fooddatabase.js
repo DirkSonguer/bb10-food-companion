@@ -29,12 +29,12 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 
 	// initialize food db table
 	db.transaction(function(tx) {
-		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_bookmark INT, food_usergen INT)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(item_foodid INT, item_description TEXT, item_portion TEXT, item_calories INT, item_bookmark INT, item_usergen INT)');
 	});
 
 	// get number of items in SQL database based on the search term
 	// sort so that the faved items are on top and then alphabetical
-	var dataStr = "SELECT * FROM fooditems WHERE food_description LIKE ? ORDER BY food_bookmark ASC, food_description DESC";
+	var dataStr = "SELECT * FROM fooditems WHERE item_description LIKE ? ORDER BY item_bookmark ASC, item_description DESC";
 	var data = [ "%" + searchQuery + "%" ];
 	var foundItems = new Array();
 	db.transaction(function(tx) {
@@ -47,18 +47,18 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 
 	// iterate through all found food items
 	for ( var index = 0; index < foundItems.length; index++) {
-		// console.log("# Found " + foundItems.item(index).food_description + ",
-		// " + foundItems.item(index).food_portion);
+		// console.log("# Found " + foundItems.item(index).item_description + ",
+		// " + foundItems.item(index).item_portion);
 
 		// initialize new food item
 		var foodItem = new FoodItem();
 
 		// fill item data
-		foodItem.id = foundItems.item(index).food_id;
-		foodItem.description = foundItems.item(index).food_description;
-		foodItem.portion = foundItems.item(index).food_portion;
-		foodItem.calories = foundItems.item(index).food_calories;
-		foodItem.bookmark = foundItems.item(index).food_bookmark;
+		foodItem.foodid = foundItems.item(index).item_foodid;
+		foodItem.description = foundItems.item(index).item_description;
+		foodItem.portion = foundItems.item(index).item_portion;
+		foodItem.calories = foundItems.item(index).item_calories;
+		foodItem.bookmark = foundItems.item(index).item_bookmark;
 
 		// store food item in return array
 		foodItemArray[index] = foodItem;
@@ -73,19 +73,19 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 // first parameter is an array based on a DataSource import
 // returns a boolean if the import has been done
 FoodDatabase.prototype.updateBookmarkState = function(foodData) {
-	console.log("# Updating bookmark state of food item " + foodData.id + " to value " + foodData.bookmark);
+	console.log("# Updating bookmark state of food item " + foodData.foodid + " to value " + foodData.bookmark);
 
 	// initialize db connection
 	var db = openDatabaseSync("FoodCompanion", "1.0", "Food Companion persistent data storage", 1);
 
 	// initialize food db table
 	db.transaction(function(tx) {
-		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_bookmark INT, food_usergen INT)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(item_foodid INT, item_description TEXT, item_portion TEXT, item_calories INT, item_bookmark INT, item_usergen INT)');
 	});
 
 	// update respective food item
-	var dataStr = "UPDATE fooditems SET food_bookmark = ? WHERE food_id = ?";
-	var data = [ foodData.bookmark, foodData.id ];
+	var dataStr = "UPDATE fooditems SET item_bookmark = ? WHERE item_foodid = ?";
+	var data = [ foodData.bookmark, foodData.foodid ];
 	db.transaction(function(tx) {
 		tx.executeSql(dataStr, data);
 	});
@@ -107,7 +107,7 @@ FoodDatabase.prototype.checkDatabaseState = function(jsonData) {
 
 	// initialize food db table
 	db.transaction(function(tx) {
-		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_bookmark INT, food_usergen INT)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(item_foodid INT, item_description TEXT, item_portion TEXT, item_calories INT, item_bookmark INT, item_usergen INT)');
 	});
 
 	// get number of items in JSON database
@@ -115,7 +115,7 @@ FoodDatabase.prototype.checkDatabaseState = function(jsonData) {
 
 	// get number of items in SQL database
 	var numItemsInSQLDB = 0;
-	var dataStr = "SELECT COUNT(food_id) as foods FROM fooditems WHERE food_usergen = 0";
+	var dataStr = "SELECT COUNT(item_foodid) as foods FROM fooditems WHERE item_usergen = 0";
 	db.transaction(function(tx) {
 		var rs = tx.executeSql(dataStr);
 		numItemsInSQLDB = rs.rows.item(0).foods;
@@ -144,7 +144,7 @@ FoodDatabase.prototype.importDatabase = function(jsonData, importProgress) {
 
 	// initialize food db table
 	db.transaction(function(tx) {
-		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_bookmark INT, food_usergen INT)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(item_foodid INT, item_description TEXT, item_portion TEXT, item_calories INT, item_bookmark INT, item_usergen INT)');
 	});
 
 	// set import progress state to active
@@ -162,7 +162,7 @@ FoodDatabase.prototype.importDatabase = function(jsonData, importProgress) {
 
 	// either no import has been done yet or the imported data
 	// is not up to date (maybe due to an update)
-	var dataStr = "INSERT INTO fooditems(food_id, food_description, food_portion, food_calories, food_bookmark, food_usergen) VALUES (?, ?, ?, ?, 0, 0)";
+	var dataStr = "INSERT INTO fooditems(item_foodid, item_description, item_portion, item_calories, item_bookmark, item_usergen) VALUES (?, ?, ?, ?, 0, 0)";
 	var data = new Array();
 
 	// note start we start the transaction first

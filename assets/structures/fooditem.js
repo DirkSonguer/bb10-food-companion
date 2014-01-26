@@ -13,7 +13,7 @@
 function FoodItem() {
 	// food database id
 	// note that this is the primary field for the fooditem table
-	this.id = 0;
+	this.foodid = 0;
 
 	// description for the food item
 	this.description = "";

@@ -36,11 +36,11 @@ EntryDatabase.prototype.getEntries = function() {
 	// initialize database table
 	db.transaction(function(tx) {
 		// TODO: Change to item_ prefix (eg. item_foodid, ..)
-		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(food_id INT, food_description TEXT, food_portion TEXT, food_calories INT, food_bookmark INT, food_usergen INT)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(item_foodid INT, item_description TEXT, item_portion TEXT, item_calories INT, item_bookmark INT, item_usergen INT)');
 	});
 
 	// get food items
-	var dataStr = "SELECT * FROM foodentries LEFT JOIN fooditems ON foodentries.entry_foodid = fooditems.food_id";
+	var dataStr = "SELECT * FROM foodentries LEFT JOIN fooditems ON foodentries.entry_foodid = fooditems.item_foodid";
 	var foundItems = new Array();
 	db.transaction(function(tx) {
 		var rs = tx.executeSql(dataStr);
@@ -52,7 +52,7 @@ EntryDatabase.prototype.getEntries = function() {
 
 	// iterate through all found food items
 	for ( var index = 0; index < foundItems.length; index++) {
-		console.log("# Found image " + foundItems.item(index).entry_filename + " with food id " + foundItems.item(index).entry_foodid + " and description " + foundItems.item(index).food_description);
+		console.log("# Found image " + foundItems.item(index).entry_filename + " with food id " + foundItems.item(index).entry_foodid + " and description " + foundItems.item(index).item_description);
 
 		// initialize new food item
 		var foodItem = new FoodItem();
@@ -61,10 +61,10 @@ EntryDatabase.prototype.getEntries = function() {
 		foodItem.imageFile = foundItems.item(index).entry_filename;
 		foodItem.rating = foundItems.item(index).entry_rating;
 		foodItem.size = foundItems.item(index).entry_portion;
-		foodItem.description = foundItems.item(index).food_description;
-		foodItem.calories = foundItems.item(index).food_calories;
 		foodItem.timestamp = foundItems.item(index).entry_timestamp;
-		foodItem.portion = foundItems.item(index).food_portion;
+		foodItem.description = foundItems.item(index).item_description;
+		foodItem.calories = foundItems.item(index).item_calories;
+		foodItem.portion = foundItems.item(index).item_portion;
 
 		// store food item in return array
 		foodItemArray[index] = foodItem;

@@ -64,7 +64,7 @@ Container {
             customCameraSettings.focusMode = CameraFocusMode.ContinuousAuto
             customCameraSettings.shootingMode = CameraShootingMode.Stabilization
             customCameraSettings.flashMode = customCameraComponent.cameraFlashMode
-            customCameraSettings.cameraRollPath = "/accounts/1000/shared/photos/";
+            customCameraSettings.cameraRollPath = "/accounts/1000/shared/photos";
             applySettings(customCameraSettings)
 
             // start the viewfinder as soon as the camera is ready

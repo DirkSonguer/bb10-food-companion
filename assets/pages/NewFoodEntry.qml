@@ -150,7 +150,7 @@ NavigationPane {
                         
                         // food entry description changed
                         onFoodDescriptionChanged: {
-                            // store the food item data to the page food entry
+                            // store the food entry data to the page food entry
                             // note that a temp entry is needed because the children of the page variant are read only
                             var tempEntry = new FoodEntryType.FoodEntry();
                             tempEntry = newFoodEntryPage.newFoodEntry;
@@ -163,15 +163,9 @@ NavigationPane {
                         }
                         
                         onClicked: {
-                            // create and open food selection sheet
-                            var selectFoodItemPageObject = selectFoodItemPageComponent.createObject();
-                            selectFoodItemPageObject.callingPage = newFoodEntryPage;
-                            navigationPane.push(selectFoodItemPageObject);
-                            
-                            // indicate that page is now visible
-                            // this is a workaround because requestFocus only works after page is visible in stack
-                            // see: http://supportforums.blackberry.com/t5/Native-Development/problems-with-request-focus-for-a-textfield/m-p/2652023#M51962
-                            selectFoodItemPageObject.pageLoadedInNavigationStack = true;
+                            // this shuld open the food item selection page
+                            // basically the same as with pressing the call to action
+                            selectFoodItemButton.clicked();
                         }
                     }
 
@@ -263,7 +257,7 @@ NavigationPane {
             // note that a temp entry is needed because the children of the page variant are read only
             var tempEntry = new FoodEntryType.FoodEntry();
             tempEntry = newFoodEntryPage.newFoodEntry;
-            tempEntry.foodid = foodItemData.id;
+            tempEntry.foodid = foodItemData.foodid;
             tempEntry.description = foodItemData.description;
             tempEntry.portion = foodItemData.portion;
             tempEntry.calories = foodItemData.calories;

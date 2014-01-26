@@ -47,7 +47,7 @@ Page {
         if (foundFoodItems.length > 0) {
             // iterate through item data objects and add to list
             for (var index in foundFoodItems) {
-                foodItemList.addToList(foundFoodItems[index]);
+                // foodItemList.addToList(foundFoodItems[index]);
             }
 
             // show list
