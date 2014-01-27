@@ -40,10 +40,10 @@ EntryDatabase.prototype.getEntries = function() {
 	});
 
 	// get food items
-	var dataStr = "SELECT * FROM foodentries LEFT JOIN fooditems ON foodentries.entry_foodid = fooditems.item_foodid ORDER BY foodentries.entry_timestamp ASC";
+	var sqlQuery = "SELECT * FROM foodentries LEFT JOIN fooditems ON foodentries.entry_foodid = fooditems.item_foodid ORDER BY foodentries.entry_timestamp ASC";
 	var foundItems = new Array();
 	db.transaction(function(tx) {
-		var rs = tx.executeSql(dataStr);
+		var rs = tx.executeSql(sqlQuery);
 		foundItems = rs.rows;
 	});
 
@@ -90,7 +90,7 @@ EntryDatabase.prototype.addEntry = function(entryData) {
 
 	// either no import has been done yet or the imported data
 	// is not up to date (maybe due to an update)
-	var dataStr = "INSERT INTO foodentries(entry_filename, entry_foodid, entry_size, entry_rating, entry_timestamp) VALUES (?, ?, ?, ?, ?)";
+	var sqlQuery = "INSERT INTO foodentries(entry_filename, entry_foodid, entry_size, entry_rating, entry_timestamp) VALUES (?, ?, ?, ?, ?)";
 
 	// calculate current timestamp (unix epoch in seconds)
 	var currentTimestamp = Math.round(new Date().getTime() / 1000);
@@ -101,7 +101,7 @@ EntryDatabase.prototype.addEntry = function(entryData) {
 
 	// note start we start the transaction first
 	db.transaction(function(tx) {
-		tx.executeSql(dataStr, data);
+		tx.executeSql(sqlQuery, data);
 	});
 
 	return true;
@@ -119,7 +119,7 @@ EntryDatabase.prototype.deleteEntry = function(entryTimestamp) {
 		tx.executeSql('CREATE TABLE IF NOT EXISTS foodentries(entry_filename TEXT, entry_foodid INT, entry_size INT, entry_rating INT, entry_timestamp INT)');
 	});
 
-	var dataStr = "DELETE FROM foodentries WHERE entry_timestamp = ?";
+	var sqlQuery = "DELETE FROM foodentries WHERE entry_timestamp = ?";
 
 	// fill data array
 	var data = new Array();
@@ -127,7 +127,7 @@ EntryDatabase.prototype.deleteEntry = function(entryTimestamp) {
 
 	// note start we start the transaction first
 	db.transaction(function(tx) {
-		tx.executeSql(dataStr, data);
+		tx.executeSql(sqlQuery, data);
 	});
 	
 	return true;
