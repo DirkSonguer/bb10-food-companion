@@ -18,6 +18,9 @@ function FoodEntry() {
 	// note that this is the primary field for the foodentry table
 	this.timestamp = "";
 
+	// creation date
+	this.date = "";
+
 	// image path and filename
 	this.imageFile = "";
 

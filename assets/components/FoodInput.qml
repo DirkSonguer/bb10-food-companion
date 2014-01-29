@@ -43,7 +43,7 @@ Container {
     rightPadding: 10
 
     // green background
-    background: Color.create(Globals.buttonBackgroundColor)
+    background: Color.create(Globals.greenBackgroundColor)
 
     // layout orientation
     layout: StackLayout {

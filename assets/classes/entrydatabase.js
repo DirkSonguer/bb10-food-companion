@@ -66,6 +66,11 @@ EntryDatabase.prototype.getEntries = function() {
 		foodItem.calories = foundItems.item(index).item_calories;
 		foodItem.portion = foundItems.item(index).item_portion;
 
+		// convert timestamp to reguar date
+		var date = new Date(foodItem.timestamp * 1000);
+		// foodItem.date = new Date(foodItem.timestamp * 1000);
+		foodItem.date = date.getFullYear() + "/" + (date.getMonth()+1) + "/" + date.getDate();
+
 		// store food item in return array
 		foodItemArray[index] = foodItem;
 	}
@@ -129,7 +134,7 @@ EntryDatabase.prototype.deleteEntry = function(entryTimestamp) {
 	db.transaction(function(tx) {
 		tx.executeSql(sqlQuery, data);
 	});
-	
+
 	return true;
 };
 

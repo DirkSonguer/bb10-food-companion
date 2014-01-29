@@ -35,6 +35,9 @@ Page {
             // this will be set true once the data has been loaded
             visible: false
             
+            // list sorting
+            listSortAscending: false
+            
             // item has been deleted
             // note that by this point it has only been removed from the list
             // now it needs to be removed from the database

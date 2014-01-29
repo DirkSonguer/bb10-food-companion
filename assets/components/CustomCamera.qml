@@ -54,10 +54,12 @@ Container {
     // This is the camera control that is defined in the cascades multimedia library
     Camera {
         id: customCamera
+        
+        preferredHeight: DisplayInfo.height
 
         onCameraOpened: {
             // TODO: Check and iterate through all available camwera resolutions and set it accordingly
-            // cameraUtilities.selectAspectRatio(customCamera,9/16);
+            cameraUtilities.selectAspectRatio(customCamera,DisplayInfo.width/DisplayInfo.height);
 
             // define additional camera settings, eg. setting focus mode and stabilization
             getSettings(customCameraSettings);

@@ -32,7 +32,7 @@ Container {
     property int currentItemIndex: 0
 
     // properties to define how the list should be sorted
-    property string listSortingKey: "currentIndex"
+    property string listSortingKey: "foodDate"
     property alias listSortAscending: foodGalleryListDataModel.sortedAscending
 
     // signal to clear the gallery contents
@@ -48,6 +48,7 @@ Container {
         // console.log("# Adding item with ID " + item.commentId + " to comment list data model");
         foodGalleryListComponent.currentItemIndex += 1;
         foodGalleryListDataModel.insert({
+                "foodDate": item.date,
                 "foodData": item,
                 "currentIndex": foodGalleryListComponent.currentItemIndex
             });
@@ -81,13 +82,38 @@ Container {
         // define component which will represent list item GUI appearence
         listItemComponents: [
             ListItemComponent {
+                type: "header"
+
+                Container {
+                    // layout definition
+                    topMargin: 10
+                    leftPadding: 5
+                    background: Color.create(Globals.defaultBackgroundColor)
+
+                    // date label
+                    Label {
+                        // content is handed over in ListItemData
+                        text: ListItemData
+
+                        // layout definition
+                        bottomMargin: 0
+                        textStyle.fontWeight: FontWeight.W100
+                    }
+
+                    // divider component
+                    Divider {
+                        topMargin: 0
+                    }
+                }
+            },
+            ListItemComponent {
                 type: "item"
 
                 Container {
                     layout: StackLayout {
                         orientation: LayoutOrientation.LeftToRight
                     }
-                    
+
                     // layout definitions
                     bottomPadding: 5
 
@@ -140,7 +166,7 @@ Container {
 
             // items are grouped by the view and transformators
             // no need to set a behaviour by the data model
-            grouping: ItemGrouping.None
+            grouping: ItemGrouping.ByFullValue
         }
     ]
 }

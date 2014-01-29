@@ -86,7 +86,7 @@ Container {
         listItemComponents: [
             ListItemComponent {
                 type: "item"
-
+                
                 Container {
                     layout: StackLayout {
                         orientation: LayoutOrientation.LeftToRight

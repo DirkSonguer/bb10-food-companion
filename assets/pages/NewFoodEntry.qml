@@ -85,7 +85,7 @@ NavigationPane {
                         id: captureImageButton
 
                         // content
-                        narrowText: "Recapture image"
+                        narrowText: "Capture image"
                         iconSource: "asset:///images/icons/icon_camera.png"
 
                         // layout definition
