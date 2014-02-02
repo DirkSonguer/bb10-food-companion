@@ -17,7 +17,7 @@ import "../components"
 // shared js files
 import "../global/globals.js" as Globals
 import "../global/copytext.js" as Copytext
-import "../classes/fooddatabase.js" as FoodDatabase
+import "../classes/itemdatabase.js" as ItemDatabase
 import "../structures/fooditem.js" as FoodItemType
 
 Page {
@@ -57,7 +57,7 @@ Page {
                     foodItemList.clearList();
 
                     // search food items from database for search term
-                    var foundFoodItems = FoodDatabase.fooddb.searchDatabase(text);
+                    var foundFoodItems = ItemDatabase.itemdb.searchDatabase(text);
 
                     // if there are results, fill the food list
                     // otherwise show the info message
@@ -113,7 +113,7 @@ Page {
                     console.log("# Bookmarked food item: " + foodItemData.description);
                     
                     // search food items from database for search term
-                    var foundFoodItems = FoodDatabase.fooddb.updateBookmarkState(foodItemData);
+                    var foundFoodItems = ItemDatabase.itemdb.updateBookmarkState(foodItemData);
                 }
             }            
         }
@@ -139,4 +139,32 @@ Page {
             selectFoodInput.focus();
         }
     }
+    
+    actions: [
+        // add new food item
+        ActionItem {
+            id: addItemAction
+            ActionBar.placement: ActionBarPlacement.OnBar
+            
+            title: "Add item to database"            
+            imageSource: "asset:///images/icons/icon_add.png"
+            
+            // add item
+            onTriggered: {
+                var newFoodItemPageObject = newFoodItemPageComponent.createObject();
+                // selectFoodItemPageObject.callingPage = newFoodEntryPage;
+                navigationPane.push(newFoodItemPageObject);
+            }
+        }
+    ]    
+
+    // attach components
+    attachedObjects: [
+        // page to add a new food item
+        // will be called if user clicks on add description
+        ComponentDefinition {
+            id: newFoodItemPageComponent
+            source: "NewFoodItem.qml"
+        }
+    ]
 }

@@ -1,7 +1,7 @@
 // *************************************************** //
-// Food Database Script
+// Item Database Script
 //
-// This script handles the calls to the food database.
+// This script handles the calls to the food ite database.
 // Note that the class uses the FoodItem() structure.
 //
 // Author: Dirk Songuer
@@ -12,16 +12,16 @@
 Qt.include(dirPaths.assetPath + "structures/fooditem.js");
 
 // singleton instance of class
-var fooddb = new FoodDatabase();
+var itemdb = new ItemDatabase();
 
 // class function that gets the prototype methods
-function FoodDatabase() {
+function ItemDatabase() {
 }
 
 // search the database
 // parameter is the search query used
 // return value is an array of type FoodItem()
-FoodDatabase.prototype.searchDatabase = function(searchQuery) {
+ItemDatabase.prototype.searchDatabase = function(searchQuery) {
 	// console.log("# Searching database for " + searchQuery);
 
 	// initialize db connection
@@ -92,7 +92,7 @@ FoodDatabase.prototype.searchDatabase = function(searchQuery) {
 // this resets the contents of the database by removing all items
 // first parameter is an array based on a DataSource import
 // returns a boolean if the import has been done
-FoodDatabase.prototype.updateBookmarkState = function(foodData) {
+ItemDatabase.prototype.updateBookmarkState = function(foodData) {
 	console.log("# Updating bookmark state of food item " + foodData.foodid + " to value " + foodData.bookmark);
 
 	// initialize db connection
@@ -119,7 +119,7 @@ FoodDatabase.prototype.updateBookmarkState = function(foodData) {
 // that the items have been imported correctly.
 // parameter is an array based on a DataSource import
 // returns a boolean if the import is correct
-FoodDatabase.prototype.checkDatabaseState = function(jsonData) {
+ItemDatabase.prototype.checkDatabaseState = function(jsonData) {
 	// console.log("# Checking database state");
 
 	// initialize db connection
@@ -156,7 +156,7 @@ FoodDatabase.prototype.checkDatabaseState = function(jsonData) {
 // and imports it into the SQL database.
 // first parameter is an array based on a DataSource import
 // returns a boolean if the import has been done
-FoodDatabase.prototype.importDatabase = function(jsonData, importProgress) {
+ItemDatabase.prototype.importDatabase = function(jsonData, importProgress) {
 	// console.log("# Importing items into the SQL db");
 
 	// initialize db connection
@@ -216,7 +216,7 @@ FoodDatabase.prototype.importDatabase = function(jsonData, importProgress) {
 
 // reset the database
 // this resets the contents of the database by removing all items
-FoodDatabase.prototype.resetDatabase = function() {
+ItemDatabase.prototype.resetDatabase = function() {
 	// initialize db connection
 	var db = openDatabaseSync("FoodCompanion", "1.0", "Food Companion persistent data storage", 1);
 

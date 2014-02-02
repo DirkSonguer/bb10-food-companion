@@ -20,7 +20,7 @@ import "../components"
 import "../global/globals.js" as Globals
 import "../global/copytext.js" as Copytext
 import "../classes/configurationhandler.js" as Configuration
-import "../classes/fooddatabase.js" as FoodDatabase
+import "../classes/itemdatabase.js" as ItemDatabase
 
 // import timer type
 import QtTimer 1.0
@@ -134,7 +134,7 @@ Page {
 
     // new data to import has been given
     onFoodDataChanged: {
-        FoodDatabase.fooddb.importDatabase(firstStartupPage.foodData, importProgress);
+        ItemDatabase.itemdb.importDatabase(firstStartupPage.foodData, importProgress);
     }
 
     // attach components
@@ -152,7 +152,7 @@ Page {
 
             // when triggered, import next batch
             onTimeout: {
-                FoodDatabase.fooddb.importDatabase(firstStartupPage.foodData, importProgress);
+                ItemDatabase.itemdb.importDatabase(firstStartupPage.foodData, importProgress);
             }
         }
     ]

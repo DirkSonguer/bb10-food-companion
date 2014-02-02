@@ -97,6 +97,8 @@ Container {
 
                         // layout definition
                         bottomMargin: 0
+                        textStyle.fontSize: FontSize.PointValue
+                        textStyle.fontSizeValue: 8
                         textStyle.fontWeight: FontWeight.W100
                     }
 

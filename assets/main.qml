@@ -21,7 +21,7 @@ import "pages"
 
 // shared js files
 import "classes/configurationhandler.js" as Configuration
-import "classes/fooddatabase.js" as FoodDatabase
+import "classes/itemdatabase.js" as ItemDatabase
 import "classes/entrydatabase.js" as EntryDatabase
 
 TabbedPane {
@@ -114,7 +114,7 @@ TabbedPane {
                 title: "Clear Database"
                 imageSource: "asset:///images/icons/icon_notavailable.png"
                 onTriggered: {
-                    FoodDatabase.fooddb.resetDatabase();
+                    ItemDatabase.itemdb.resetDatabase();
                     EntryDatabase.entrydb.resetDatabase();
                     Application.requestExit();
                 }
@@ -164,7 +164,7 @@ TabbedPane {
                 console.log("# Food DB loaded, found " + data.food.length + " items");
 
                 // check database state and reimport if necessary
-                var dbstate = FoodDatabase.fooddb.checkDatabaseState(data);
+                var dbstate = ItemDatabase.itemdb.checkDatabaseState(data);
                 if (! dbstate) {
                     console.log("# Database is not up to date & needs to be reimported");
 
