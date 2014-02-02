@@ -18,7 +18,6 @@ import "../components"
 import "../global/globals.js" as Globals
 import "../global/copytext.js" as Copytext
 import "../classes/itemdatabase.js" as ItemDatabase
-import "../structures/fooditem.js" as FoodItemType
 
 Page {
     id: selectFoodItemPage

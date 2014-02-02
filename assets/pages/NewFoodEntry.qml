@@ -207,7 +207,7 @@ NavigationPane {
                             EntryDatabase.entrydb.addEntry(newFoodEntryPage.newFoodEntry);
 
                             // show confirmation toast
-                            foodcompanionToast.body = Copytext.foodItemSaved;
+                            foodcompanionToast.body = Copytext.foodEntrySaved;
                             foodcompanionToast.show();
 
                             // jump back to the gallery tab

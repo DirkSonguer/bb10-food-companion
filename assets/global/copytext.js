@@ -21,7 +21,6 @@ var noFoodEntriesFoundHeadline = "No entries found";
 var noFoodEntriesFoundText = "It seems you don't have any food entries in your diary yet. Why not tap here and start logging your food?";
 
 var noFoodImageTaken = "Please take a picture of your food first";
-var foodItemSaved = "Food entry has been saved in your diary";
 
 var enterFoodItemHeadline = "Enter food name";
 var enterFoodItemText = "Start typing in the name of your food to get a list of known items.";
@@ -29,4 +28,7 @@ var enterFoodItemText = "Start typing in the name of your food to get a list of 
 var noFoodItemsFoundHeadline = "No search results";
 var noFoodItemsFoundText = "Could not find a food item for this search. Please refine your search or add the item to the database.";
 
+var foodEntrySaved = "Food entry has been saved in your diary";
 var foodEntryDeleted = "The diary entry has been deleted (";
+
+var foodItemSaved = "Food item has been saved in the database";

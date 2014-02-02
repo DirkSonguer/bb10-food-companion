@@ -13,7 +13,6 @@ import bb.cascades 1.2
 // shared js files
 import "../global/globals.js" as Globals
 import "../global/copytext.js" as Copytext
-import "../structures/fooditem.js" as FoodItemType
 
 Container {
     id: customSliderComponent

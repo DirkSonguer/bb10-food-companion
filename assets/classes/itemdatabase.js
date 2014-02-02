@@ -31,7 +31,7 @@ ItemDatabase.prototype.searchDatabase = function(searchQuery) {
 	db.transaction(function(tx) {
 		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(item_foodid INT, item_description TEXT, item_portion TEXT, item_calories INT, item_bookmark INT, item_usergen INT)');
 	});
-	
+
 	// get number of items in SQL database based on the search term
 	// split search terms based on space
 	var searchArray = new Array();
@@ -43,14 +43,14 @@ ItemDatabase.prototype.searchDatabase = function(searchQuery) {
 
 	// iterate through all search terms
 	for ( var index = 0; index < searchArray.length; index++) {
-		if (searchArray[index].length > 0) {			
+		if (searchArray[index].length > 0) {
 			sqlQuery += "(item_description LIKE ?) AND ";
 			sqlData.push("%" + searchArray[index] + "%");
 		}
 	}
-	
+
 	// remove trailing "AND"
-	sqlQuery = sqlQuery.substring(0, (sqlQuery.length-4));
+	sqlQuery = sqlQuery.substring(0, (sqlQuery.length - 4));
 
 	// sort so that the faved items are on top and then alphabetical
 	sqlQuery += "ORDER BY item_bookmark ASC, item_description DESC";
@@ -106,6 +106,30 @@ ItemDatabase.prototype.updateBookmarkState = function(foodData) {
 	// update respective food item
 	var sqlQuery = "UPDATE fooditems SET item_bookmark = ? WHERE item_foodid = ?";
 	var sqlData = [ foodData.bookmark, foodData.foodid ];
+	db.transaction(function(tx) {
+		tx.executeSql(sqlQuery, sqlData);
+	});
+
+	return true;
+};
+
+// add a given item to the database
+// first parameter is an array of type FoodItem()
+// returns a boolean if the import has been done
+ItemDatabase.prototype.addItem = function(foodData) {
+	console.log("# Adding food item " + foodData.description + " with portion " + foodData.portion + " and " + foodData.calories + " calories");
+
+	// initialize db connection
+	var db = openDatabaseSync("FoodCompanion", "1.0", "Food Companion persistent data storage", 1);
+
+	// initialize food db table
+	db.transaction(function(tx) {
+		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(item_foodid INT, item_description TEXT, item_portion TEXT, item_calories INT, item_bookmark INT, item_usergen INT)');
+	});
+
+	// update respective food item
+	var sqlQuery = "INSERT INTO fooditems(item_foodid, item_description, item_portion, item_calories, item_bookmark, item_usergen) VALUES (?, ?, ?, ?, ?, ?)";
+	var sqlData = [ foodData.foodid, foodData.description, foodData.portion, foodData.calories, foodData.bookmark, foodData.usergen ];
 	db.transaction(function(tx) {
 		tx.executeSql(sqlQuery, sqlData);
 	});
