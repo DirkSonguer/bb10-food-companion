@@ -134,7 +134,7 @@ Container {
     // food entry data has been given
     onFoodEntryDataChanged: {
         // fill portion data (portion, size, calories)
-        var foodPortionAndCalories = Copytext.portionSizeValues[foodEntryData.size] + " portion, ";
+        var foodPortionAndCalories = Copytext.portionSizeValues[foodEntryData.size] + ", ";
         foodPortionAndCalories += foodEntryData.portion + " with " + foodEntryData.calories + " calories";
         foodEntryPortion.text = foodPortionAndCalories;
 

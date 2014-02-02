@@ -37,155 +37,163 @@ Page {
             imageSource: "asset:///images/header_background.png"
         }
 
-        Container {
-            // layout definition
-            topMargin: 5
-            leftPadding: 10
-            rightPadding: 10
-
-            Label {
-                text: "The name of the food item.\nExample: \"My own chicken and ham sandwich\"."
-
-                // layout definition
-                bottomMargin: 5
-                textStyle.base: SystemDefaults.TextStyles.BodyText
-                textStyle.fontStyle: FontStyle.Italic
-                textStyle.fontWeight: FontWeight.W100
-                textStyle.textAlign: TextAlign.Left
-                multiline: true
+        // scroll view as the page might not fit on the Q10 / Q5 screen
+        ScrollView {
+            // only vertical scrolling is needed
+            scrollViewProperties {
+                scrollMode: ScrollMode.Vertical
+                pinchToZoomEnabled: false
             }
 
-            // item description
-            TextField {
-                id: foodItemDescription
-
+            Container {
                 // layout definition
-                topMargin: 0
+                topMargin: 5
+                leftPadding: 10
+                rightPadding: 10
 
-                // configure text field
-                hintText: "Enter food name"
-                clearButtonVisible: false
-                inputMode: TextFieldInputMode.Text
-            }
+                Label {
+                    text: "The name of the food item.\nExample: \"My own chicken and ham sandwich\"."
 
-            Label {
-                text: "The portion description.\nExample: \"serving\", \"cup\" or \"slice\"."
+                    // layout definition
+                    bottomMargin: 5
+                    textStyle.base: SystemDefaults.TextStyles.BodyText
+                    textStyle.fontStyle: FontStyle.Italic
+                    textStyle.fontWeight: FontWeight.W100
+                    textStyle.textAlign: TextAlign.Left
+                    multiline: true
+                }
 
-                // layout definition
-                bottomMargin: 5
-                textStyle.base: SystemDefaults.TextStyles.BodyText
-                textStyle.fontStyle: FontStyle.Italic
-                textStyle.fontWeight: FontWeight.W100
-                textStyle.textAlign: TextAlign.Left
-                multiline: true
-            }
+                // item description
+                TextField {
+                    id: foodItemDescription
 
-            // item description
-            TextField {
-                id: foodItemPortion
+                    // layout definition
+                    topMargin: 0
 
-                // layout definition
-                topMargin: 0
+                    // configure text field
+                    hintText: "Enter food name"
+                    clearButtonVisible: false
+                    inputMode: TextFieldInputMode.Text
+                }
 
-                // configure text field
-                hintText: "Enter food portion description"
-                clearButtonVisible: false
-                inputMode: TextFieldInputMode.Text
-            }
+                Label {
+                    text: "The portion description.\nExample: \"serving\", \"cup\" or \"slice\"."
 
-            Label {
-                text: "The estimated amount of calories per portion.\nExample: \"250\"."
+                    // layout definition
+                    bottomMargin: 5
+                    textStyle.base: SystemDefaults.TextStyles.BodyText
+                    textStyle.fontStyle: FontStyle.Italic
+                    textStyle.fontWeight: FontWeight.W100
+                    textStyle.textAlign: TextAlign.Left
+                    multiline: true
+                }
 
-                // layout definition
-                bottomMargin: 5
-                textStyle.base: SystemDefaults.TextStyles.BodyText
-                textStyle.fontStyle: FontStyle.Italic
-                textStyle.fontWeight: FontWeight.W100
-                textStyle.textAlign: TextAlign.Left
-                multiline: true
-            }
+                // item description
+                TextField {
+                    id: foodItemPortion
 
-            // item description
-            TextField {
-                id: foodItemCalories
+                    // layout definition
+                    topMargin: 0
 
-                // layout definition
-                topMargin: 0
+                    // configure text field
+                    hintText: "Enter food portion description"
+                    clearButtonVisible: false
+                    inputMode: TextFieldInputMode.Text
+                }
 
-                // configure text field
-                hintText: "Enter food portion description"
-                clearButtonVisible: false
-                inputMode: TextFieldInputMode.NumbersAndPunctuation
-            }
+                Label {
+                    text: "The estimated amount of calories per portion.\nExample: \"250\"."
 
-            CustomButton {
-                id: foodItemBookmark
+                    // layout definition
+                    bottomMargin: 5
+                    textStyle.base: SystemDefaults.TextStyles.BodyText
+                    textStyle.fontStyle: FontStyle.Italic
+                    textStyle.fontWeight: FontWeight.W100
+                    textStyle.textAlign: TextAlign.Left
+                    multiline: true
+                }
 
-                // property to store bookmark state
-                property int bookmarked: 0
+                // item description
+                TextField {
+                    id: foodItemCalories
 
-                // layout definition
-                topMargin: 10
-                bottomMargin: 10
-                alignText: HorizontalAlignment.Left
-                preferredWidth: DisplayInfo.width
+                    // layout definition
+                    topMargin: 0
 
-                // bookmark text
-                iconSource: "asset:///images/icons/icon_notbookmarked.png"
-                narrowText: "Tap to add as favorite"
+                    // configure text field
+                    hintText: "Enter food portion description"
+                    clearButtonVisible: false
+                    inputMode: TextFieldInputMode.NumbersAndPunctuation
+                }
 
-                onClicked: {
-                    if (bookmarked == 0) {
-                        iconSource = "asset:///images/icons/icon_bookmarked.png";
-                        narrowText = "Item will be added as favorite";
-                        bookmarked = 1;
-                    } else {
-                        iconSource = "asset:///images/icons/icon_notbookmarked.png";
-                        narrowText = "Tap to add as favorite";
-                        bookmarked = 0;
+                CustomButton {
+                    id: foodItemBookmark
+
+                    // property to store bookmark state
+                    property int bookmarked: 0
+
+                    // layout definition
+                    topMargin: 10
+                    bottomMargin: 10
+                    alignText: HorizontalAlignment.Left
+                    preferredWidth: DisplayInfo.width
+
+                    // bookmark text
+                    iconSource: "asset:///images/icons/icon_notbookmarked.png"
+                    narrowText: "Tap to add as favorite"
+
+                    onClicked: {
+                        if (bookmarked == 0) {
+                            iconSource = "asset:///images/icons/icon_bookmarked.png";
+                            narrowText = "Item will be added as favorite";
+                            bookmarked = 1;
+                        } else {
+                            iconSource = "asset:///images/icons/icon_notbookmarked.png";
+                            narrowText = "Tap to add as favorite";
+                            bookmarked = 0;
+                        }
+                    }
+                }
+
+                // confirmation button
+                CustomButton {
+                    id: addItemButton
+
+                    // layout definition
+                    topMargin: 10
+                    bottomMargin: 10
+                    alignText: HorizontalAlignment.Center
+                    backgroundColor: Color.create(Globals.greenBackgroundColor)
+                    preferredWidth: DisplayInfo.width
+
+                    // confirmation text
+                    boldText: "Add new food item to database"
+                    iconSource: "asset:///images/icons/icon_add.png"
+
+                    // add food item clicked
+                    // this will stored in the item database
+                    onClicked: {
+                        // create and fill new food item
+                        var foodItem = new FoodItemType.FoodItem();
+                        foodItem.foodid = Math.round(new Date().getTime() / 1000);
+                        foodItem.description = foodItemDescription.text;
+                        foodItem.portion = foodItemPortion.text;
+                        foodItem.calories = foodItemCalories.text;
+                        foodItem.bookmark = foodItemBookmark.bookmarked;
+                        foodItem.usergen = 1;
+
+                        // add item data to database
+                        ItemDatabase.itemdb.addItem(foodItem);
+
+                        // show confirmation toast
+                        foodcompanionToast.body = Copytext.foodItemSaved;
+                        foodcompanionToast.show();
+
+                        // close page
+                        navigationPane.pop();
                     }
                 }
             }
-
-            // confirmation button
-            CustomButton {
-                id: addItemButton
-
-                // layout definition
-                topMargin: 10
-                bottomMargin: 10
-                alignText: HorizontalAlignment.Center
-                backgroundColor: Color.create(Globals.greenBackgroundColor)
-                preferredWidth: DisplayInfo.width
-
-                // confirmation text
-                boldText: "Add new food item to database"
-                iconSource: "asset:///images/icons/icon_add.png"
-
-                // add food item clicked
-                // this will stored in the item database
-                onClicked: {
-                    // create and fill new food item
-                    var foodItem = new FoodItemType.FoodItem();
-                    foodItem.foodid = Math.round(new Date().getTime() / 1000);
-                    foodItem.description = foodItemDescription.text;
-                    foodItem.portion = foodItemPortion.text;
-                    foodItem.calories = foodItemCalories.text;
-                    foodItem.bookmark = foodItemBookmark.bookmarked;
-                    foodItem.usergen = 1;
-
-                    // add item data to database
-                    ItemDatabase.itemdb.addItem(foodItem);
-                                        
-                    // show confirmation toast
-                    foodcompanionToast.body = Copytext.foodItemSaved;
-                    foodcompanionToast.show();
-                    
-                    // close page
-                    navigationPane.pop();
-                }
-            }
-
         }
 
         onCreationCompleted: {

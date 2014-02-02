@@ -52,7 +52,10 @@ EntryDatabase.prototype.getEntries = function() {
 
 	// iterate through all found food items
 	for ( var index = 0; index < foundItems.length; index++) {
-		console.log("# Found image " + foundItems.item(index).entry_filename + " with food id " + foundItems.item(index).entry_foodid + ", description " + foundItems.item(index).item_description + " and timestamp " + foundItems.item(index).entry_timestamp);
+		// console.log("# Found image " + foundItems.item(index).entry_filename
+		// + " with food id " + foundItems.item(index).entry_foodid + ",
+		// description " + foundItems.item(index).item_description + " and
+		// timestamp " + foundItems.item(index).entry_timestamp);
 
 		// initialize new food item
 		var foodItem = new FoodItem();

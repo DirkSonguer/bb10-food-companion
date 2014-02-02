@@ -37,8 +37,8 @@ Container {
     property alias hintText: foodInputField.hintText
 
     // layout definition
-    topPadding: 10
-    bottomPadding: 10
+    topPadding: 20
+    bottomPadding: 5
     leftPadding: 10
     rightPadding: 10
 
@@ -66,6 +66,8 @@ Container {
     // comment input field
     TextField {
         id: foodInputField
+        
+        topMargin: 10
 
         // configure text field
         hintText: "Enter food name"
