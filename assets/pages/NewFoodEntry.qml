@@ -209,7 +209,10 @@ NavigationPane {
                             // show confirmation toast
                             foodcompanionToast.body = Copytext.foodEntrySaved;
                             foodcompanionToast.show();
-
+                            
+                            // send signal to reload data
+                            foodGalleryTab.content.reloadData();
+                            
                             // jump back to the gallery tab
                             tabbedPane.activeTab = foodGalleryTab;
                         }

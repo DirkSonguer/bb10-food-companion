@@ -52,16 +52,26 @@ TabbedPane {
         ]
     }
 
+    // tab to show food entry statistics
     Tab {
-        title: qsTr("Statistics") + Retranslate.onLocaleOrLanguageChanged
+        id: foodStatisticsTab
+        title: "Statistics"
         imageSource: "asset:///images/icons/icon_statistics.png"
-        Page {
-            Container {
-                Label {
-                    text: qsTr("Statistics") + Retranslate.onLocaleOrLanguageChanged
-                }
-            }
+        
+        // note that the page is bound to the component every time it loads
+        // TODO: how to update after a new entry has been added?
+        onTriggered: {
+            foodStatisticsPageComponent.source = "pages/FoodStatistics.qml";
+            var foodStatisticsPageObject = foodStatisticsPageComponent.createObject();
+            foodStatisticsTab.setContent(foodStatisticsPageObject);
         }
+        
+        // attach a component for the new food gallery page
+        attachedObjects: [
+            ComponentDefinition {
+                id: foodStatisticsPageComponent
+            }
+        ]
     }
 
     // tab to add new food entry
@@ -178,5 +188,5 @@ TabbedPane {
                 }
             }
         }
-    ]
+    ]    
 }

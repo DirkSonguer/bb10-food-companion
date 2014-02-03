@@ -23,7 +23,7 @@ Container {
 
     // signal that the item has been clicked
     signal clicked()
-    
+
     // signal that food description data has been changed
     signal foodDescriptionChanged(variant foodEntryData)
 
@@ -48,6 +48,8 @@ Container {
             bottomMargin: 0
 
             // layout definition
+            textStyle.base: customTextStyle.style
+            textStyle.fontFamily: "Lato-Hai"
             textStyle.fontSize: FontSize.PointValue
             textStyle.fontSizeValue: 10
             textStyle.fontWeight: FontWeight.W100
@@ -144,14 +146,14 @@ Container {
         // set new calory value based on portion size
         var caloryModulation = parseInt(foodEntryData.calories) + Math.round(((foodEntryData.size - 1) / 2) * parseInt(foodEntryData.calories));
         // console.log("# calories: " + foodEntryData.calories + " size: " + foodEntryData.size + " modulation: " + caloryModulation);
-        
+
         // fill in data values
         var foodPortionAndCalories = foodEntryData.portion + " with " + caloryModulation + " calories";
         foodPortionDescription.text = foodPortionAndCalories;
         foodEntryDescripton.text = foodEntryData.description;
         foodPortionSize.label = Copytext.portionSizeValues[foodEntryData.size];
         foodHealthRating.label = Copytext.healthRatingValues[foodEntryData.rating];
-        
+
         // signal that entry data has been changed
         foodEntryDescriptionComponent.foodDescriptionChanged(foodEntryData);
     }
