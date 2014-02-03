@@ -48,8 +48,6 @@ Container {
             bottomMargin: 0
 
             // layout definition
-            textStyle.base: customTextStyle.style
-            textStyle.fontFamily: "Lato-Hai"
             textStyle.fontSize: FontSize.PointValue
             textStyle.fontSizeValue: 10
             textStyle.fontWeight: FontWeight.W100

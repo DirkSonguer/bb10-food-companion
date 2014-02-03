@@ -72,11 +72,46 @@ EntryDatabase.prototype.getEntries = function() {
 		// convert timestamp to reguar date
 		var date = new Date(foodItem.timestamp * 1000);
 		// foodItem.date = new Date(foodItem.timestamp * 1000);
-		foodItem.date = date.getFullYear() + "/" + (date.getMonth()+1) + "/" + date.getDate();
+		foodItem.date = date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
 
 		// store food item in return array
 		foodItemArray[index] = foodItem;
 	}
+
+	// return found items
+	return foodItemArray;
+};
+
+// This reads out the statistics for all entries
+// It can either be the item array if successful
+// or it can contain an error with respective message
+EntryDatabase.prototype.getStatistics = function() {
+	// console.log("# Getting statistics data");
+
+	// initialize db connection
+	var db = openDatabaseSync("FoodCompanion", "1.0", "Food Companion persistent data storage", 1);
+
+	// initialize database table
+	db.transaction(function(tx) {
+		tx.executeSql('CREATE TABLE IF NOT EXISTS foodentries(entry_filename TEXT, entry_foodid INT, entry_size INT, entry_rating INT, entry_timestamp INT)');
+	});
+
+	// initialize database table
+	db.transaction(function(tx) {
+		// TODO: Change to item_ prefix (eg. item_foodid, ..)
+		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(item_foodid INT, item_description TEXT, item_portion TEXT, item_calories INT, item_bookmark INT, item_usergen INT)');
+	});
+
+	// get food items
+	var sqlQuery = "SELECT COUNT(entry_timestamp) as numberOfEntries, AVG(item_calories) as averageCalories, AVG(entry_rating) as averageRating FROM foodentries LEFT JOIN fooditems ON foodentries.entry_foodid = fooditems.item_foodid";
+	var foundItems = new Array();
+	db.transaction(function(tx) {
+		var rs = tx.executeSql(sqlQuery);
+		foundItems = rs.rows;
+	});
+
+	// initialize return array
+	var foodItemArray = foundItems.item(0);
 
 	// return found items
 	return foodItemArray;

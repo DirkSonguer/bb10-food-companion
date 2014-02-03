@@ -32,3 +32,8 @@ var foodEntrySaved = "Food entry has been saved in your diary";
 var foodEntryDeleted = "The diary entry has been deleted (";
 
 var foodItemSaved = "Food item has been saved in the database";
+
+var statBaseText = "Your diary has %1 entries with an average of %2 calories. All in all you eat %3. %4%5";
+var statAvgRatingComment =  new Array("pretty unhealthy", "pretty healthy", "very healthy");
+var statLogActivityComment = new Array("Keep going", "Well done", "Awesome");
+var statLogRatingComment =  new Array(", but try to eat more healthy!", ", you are doing ok.", " and keep it healthy!");

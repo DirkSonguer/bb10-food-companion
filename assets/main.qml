@@ -102,14 +102,13 @@ TabbedPane {
         // note that the dataSource will check the food db if it has been imported correctly
         dataSource.load();
                 
-        // load gallery page into tab
-        foodGalleryPageComponent.source = "pages/FoodGallery.qml";
-        var foodGalleryPageObject = foodGalleryPageComponent.createObject();
-        foodGalleryTab.setContent(foodGalleryPageObject);
+        // load statistics page into tab
+        foodStatisticsPageComponent.source = "pages/FoodStatistics.qml";
+        var foodStatisticsPageObject = foodStatisticsPageComponent.createObject();
+        foodStatisticsTab.setContent(foodStatisticsPageObject);
         
-        // activate gallery tab
-        tabbedPane.activeTab = newFoodEntryTab;
-        tabbedPane.activeTab = foodGalleryTab;
+        // activate statistics tab
+        tabbedPane.activeTab = foodStatisticsTab;
     }
 
     // application menu (top menu)
