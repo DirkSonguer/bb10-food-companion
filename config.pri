@@ -65,9 +65,9 @@ lupdate_inclusion {
              $$quote($$BASEDIR/../assets/images/*.qml) \
              $$quote($$BASEDIR/../assets/images/*.js) \
              $$quote($$BASEDIR/../assets/images/*.qs) \
-             $$quote($$BASEDIR/../assets/images/emotions/*.qml) \
-             $$quote($$BASEDIR/../assets/images/emotions/*.js) \
-             $$quote($$BASEDIR/../assets/images/emotions/*.qs) \
+             $$quote($$BASEDIR/../assets/images/emoticons/*.qml) \
+             $$quote($$BASEDIR/../assets/images/emoticons/*.js) \
+             $$quote($$BASEDIR/../assets/images/emoticons/*.qs) \
              $$quote($$BASEDIR/../assets/images/icons/*.qml) \
              $$quote($$BASEDIR/../assets/images/icons/*.js) \
              $$quote($$BASEDIR/../assets/images/icons/*.qs) \
