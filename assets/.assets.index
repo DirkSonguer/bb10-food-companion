@@ -1,5 +1,5 @@
 1
-45
+46
 classes/configurationhandler.js
 classes/entrydatabase.js
 classes/itemdatabase.js
@@ -19,6 +19,7 @@ global/copytext.js
 global/globals.js
 images/header_background.png
 images/icons/icon_add.png
+images/icons/icon_addentry.png
 images/icons/icon_bookmarked.png
 images/icons/icon_camera.png
 images/icons/icon_close.png

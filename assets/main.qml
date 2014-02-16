@@ -55,7 +55,7 @@ TabbedPane {
     // tab to show food entry statistics
     Tab {
         id: foodStatisticsTab
-        title: "Statistics"
+        title: "You"
         imageSource: "asset:///images/icons/icon_statistics.png"
         
         // note that the page is bound to the component every time it loads
@@ -78,7 +78,7 @@ TabbedPane {
     Tab {
         id: newFoodEntryTab
         title: "Add food entry"
-        imageSource: "asset:///images/icons/icon_add.png"
+        imageSource: "asset:///images/icons/icon_addentry.png"
 
         // note that the page is bound to the component every time it loads
         // this basically resets any pre given data and starts a new process
