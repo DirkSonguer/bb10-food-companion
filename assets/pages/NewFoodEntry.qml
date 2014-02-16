@@ -54,12 +54,13 @@ NavigationPane {
             ImageView {
                 id: foodCameraImage
 
-                imageSource: "file:///accounts/1000/shared/photos/IMG_00000470.jpg"
+                imageSource: "asset:///images/foodentry_default.png"
 
                 // layout definition
                 verticalAlignment: VerticalAlignment.Center
                 horizontalAlignment: HorizontalAlignment.Center
                 scalingMethod: ScalingMethod.AspectFill
+                opacity: 0.25
             }
 
             // scroll view as the page might not fit on the Q10 / Q5 screen
@@ -194,13 +195,22 @@ NavigationPane {
                                 foodcompanionToast.show();
 
                                 // WARNING: Activate this in productive version!
-                                // return;
+                                return;
 
                                 // this is only valid in debug environment
                                 var tempEntry = new FoodEntryType.FoodEntry();
                                 tempEntry = newFoodEntryPage.newFoodEntry;
                                 tempEntry.imageFile = "accounts/1000/shared/photos/IMG_00000470.jpg";
                                 newFoodEntryPage.newFoodEntry = tempEntry;
+                            }
+
+                            // check if description is available
+                            if (! newFoodEntryPage.newFoodEntry.description) {
+                                foodcompanionToast.body = Copytext.noFoodDescription;
+                                foodcompanionToast.show();
+                                
+                                // WARNING: Activate this in productive version!
+                                return;
                             }
 
                             // add to entry database
@@ -246,6 +256,7 @@ NavigationPane {
         onAddCapturedImage: {
             // add image to thumbnail component
             foodCameraImage.imageSource = "file:///" + imageName;
+            foodCameraImage.opacity = 1.0;
 
             // store the image file to the page food entry
             // note that a temp entry is needed because the children of the page variant are read only

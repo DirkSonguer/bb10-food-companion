@@ -31,6 +31,24 @@ Page {
         layout: DockLayout {
         }
 
+        // background image slot
+        // this just shows the green food companion background
+        ImageView {
+            id: backgroundImage
+
+            // layout definition
+            verticalAlignment: VerticalAlignment.Top
+            preferredWidth: DisplayInfo.width
+            preferredHeight: DisplayInfo.height
+
+            // image scaling and opacity
+            scalingMethod: ScalingMethod.AspectFill
+            opacity: 0.75
+
+            // image file
+            imageSource: "asset:///images/page_background.png"
+        }
+
         FoodGalleryList {
             id: foodGalleryList
 
@@ -53,18 +71,20 @@ Page {
             }
         }
 
-        // info message
-        InfoMessage {
-            id: infoMessage
-
+        Container {
             // layout definition
             verticalAlignment: VerticalAlignment.Center
             leftPadding: 10
             rightPadding: 10
 
-            onMessageClicked: {
-                // jump to the food entry tab
-                tabbedPane.activeTab = newFoodEntryTab;
+            // info message
+            InfoMessage {
+                id: infoMessage
+
+                onMessageClicked: {
+                    // jump to the food entry tab
+                    tabbedPane.activeTab = newFoodEntryTab;
+                }
             }
         }
     }
@@ -72,10 +92,10 @@ Page {
     onCreationCompleted: {
         foodGalleryPage.reloadData();
     }
-    
+
     onReloadData: {
         var foundFoodItems = EntryDatabase.entrydb.getEntries();
-        
+
         // check if they are entries in the database
         // if so, show the logged entries
         if (foundFoodItems.length > 0) {
@@ -83,9 +103,11 @@ Page {
             for (var index in foundFoodItems) {
                 foodGalleryList.addToList(foundFoodItems[index]);
             }
-            
-            // show list
+
+            // show list, hide everything else
             foodGalleryList.visible = true;
+            backgroundImage.visible = false;
+            infoMessage.hideMessage();
         } else {
             // if no food items have been logged yet, show note
             infoMessage.showMessage(Copytext.noFoodEntriesFoundText, Copytext.noFoodEntriesFoundHeadline);

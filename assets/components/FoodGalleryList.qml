@@ -135,22 +135,28 @@ Container {
                             var tempDataModel = Qt.foodGalleryListDataModel;
 
                             // iterate through all gallery items
-                            for (var i = 0; i < tempDataModel.size(); i ++) {
-                                // get the current child data
-                                var indexPath = new Array();
-                                indexPath[0] = i;
-                                var childEntry = tempDataModel.data(indexPath);
+                            // first order is the date, second order the actual food entry data
+                            for (var iFirstOrder = 0; iFirstOrder < tempDataModel.size(); iFirstOrder ++) {
+                                for (var iSecondOrder = 0; iSecondOrder < tempDataModel.size(); iSecondOrder ++) {
+                                    var indexPath = new Array();
+                                    indexPath[0] = iFirstOrder;
+                                    indexPath[1] = iSecondOrder;
+                                    var childEntry = tempDataModel.data(indexPath);
 
-                                // check if the current child is the one that sent the signal
-                                // if so, then remove it from the data model
-                                if (childEntry.foodData.timestamp == ListItemData.foodData.timestamp) {
-                                    console.log("# Child entry foodData: " + childEntry.foodData.description);
-                                    tempDataModel.removeAt(indexPath);
+                                    // only act if the child has data
+                                    if (typeof childEntry !== "undefined") {
+                                        // check if the current child is the one that sent the signal
+                                        // if so, then remove it from the data model
+                                        if (childEntry.foodData.timestamp == ListItemData.foodData.timestamp) {
+                                            // console.log("# Child entry foodData: " + childEntry.foodData.description);
+                                            tempDataModel.removeAt(indexPath);
+                                        }
+                                    }
                                 }
-                            }
 
-                            // hand over the delete signal to the calling page
-                            Qt.itemDeleted(ListItemData.foodData);
+                                // hand over the delete signal to the calling page
+                                Qt.itemDeleted(ListItemData.foodData);
+                            }
                         }
                     }
                 }

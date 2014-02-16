@@ -22,6 +22,7 @@ var noFoodEntriesFoundHeadline = "No entries found";
 var noFoodEntriesFoundText = "It seems you don't have any food entries in your diary yet. Why not tap here and start logging your food?";
 
 var noFoodImageTaken = "Please take a picture of your food first";
+var noFoodDescription = "Please add a description for your food first";
 
 var enterFoodItemHeadline = "Enter food name";
 var enterFoodItemText = "Start typing in the name of your food to get a list of known items.";

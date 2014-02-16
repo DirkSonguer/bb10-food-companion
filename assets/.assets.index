@@ -1,5 +1,5 @@
 1
-56
+57
 classes/configurationhandler.js
 classes/entrydatabase.js
 classes/itemdatabase.js
@@ -24,6 +24,7 @@ images/emoticons/04_surprised.png
 images/emoticons/05_happy.png
 images/emoticons/06_wink.png
 images/emoticons/07_lol.png
+images/foodentry_default.png
 images/header_background.png
 images/icons/icon_about.png
 images/icons/icon_add.png
