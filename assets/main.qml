@@ -127,6 +127,27 @@ TabbedPane {
                     EntryDatabase.entrydb.resetDatabase();
                     Application.requestExit();
                 }
+            },
+            // action for ratinig the app
+            ActionItem {
+                id: mainMenuAbout
+                title: "About"
+                imageSource: "asset:///images/icons/icon_about.png"
+                onTriggered: {
+                    // create logout sheet
+                    var aboutSheetPageObject = aboutPageComponent.createObject();
+                    aboutSheet.setContent(aboutSheetPageObject);
+                    aboutSheet.open();
+                }
+            },
+            // action for rate sheet
+            ActionItem {
+                id: mainMenuRate
+                title: "Update & Rate"
+                imageSource: "asset:///images/icons/icon_bbworld.png"
+                onTriggered: {
+                    rateAppLink.trigger("bb.action.OPEN");
+                }
             }
         ]
     }
@@ -156,6 +177,19 @@ TabbedPane {
                 ComponentDefinition {
                     id: firstStartupPageComponent
                     source: "sheets/FirstStartup.qml"
+                }
+            ]
+        },
+        // sheet for about page
+        // this is used by the main menu about item
+        Sheet {
+            id: aboutSheet
+            
+            // attach a component for the about page
+            attachedObjects: [
+                ComponentDefinition {
+                    id: aboutPageComponent
+                    source: "sheets/About.qml"
                 }
             ]
         },
