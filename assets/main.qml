@@ -36,7 +36,7 @@ TabbedPane {
         title: "Gallery"
         imageSource: "asset:///images/icons/icon_gallery.png"
 
-        // reset the page contents
+        // reload the gallery data
         onTriggered: {
             foodGalleryTab.content.reloadData();
         }
@@ -54,6 +54,11 @@ TabbedPane {
         id: newFoodEntryTab
         title: "Add food entry"
         imageSource: "asset:///images/icons/icon_addentry.png"
+        
+        // reset the page contents
+        onTriggered: {
+            newFoodEntryTab.content.resetPage();
+        }
     }
 
     // main logic on startup

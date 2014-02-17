@@ -28,6 +28,13 @@ import "../classes/entrydatabase.js" as EntryDatabase
 // note that the id is always "navigationPane"
 NavigationPane {
     id: navigationPane
+    
+    // signal that page should be reset
+    // this will be handed over to the page event
+    signal resetPage()
+    onResetPage: {
+        newFoodEntryPage.resetPage();
+    }
 
     Page {
         id: newFoodEntryPage
@@ -39,6 +46,9 @@ NavigationPane {
         // signal that food item has been selected
         // this will be called by the SelectFoodItem sheet
         signal addFoodItem(variant foodItemData)
+
+        // signal that page should be reset
+        signal resetPage()
 
         // the object containing the data of the new entry
         // this is of type FoodEntry()
@@ -148,7 +158,7 @@ NavigationPane {
                         // set initial visibility to false
                         // will be set visible when a food item has been selected
                         visible: false
-                        
+
                         // food entry description changed
                         onFoodDescriptionChanged: {
                             // store the food entry data to the page food entry
@@ -158,11 +168,11 @@ NavigationPane {
                             tempEntry.size = foodEntryData.size;
                             tempEntry.rating = foodEntryData.rating;
                             newFoodEntryPage.newFoodEntry = tempEntry;
-                            
+
                             // changing background color according to health rating
                             foodEntryDescription.background = Color.create(Globals.healthRatingColors[tempEntry.rating]);
                         }
-                        
+
                         onClicked: {
                             // this shuld open the food item selection page
                             // basically the same as with pressing the call to action
@@ -208,7 +218,7 @@ NavigationPane {
                             if (! newFoodEntryPage.newFoodEntry.description) {
                                 foodcompanionToast.body = Copytext.noFoodDescription;
                                 foodcompanionToast.show();
-                                
+
                                 // WARNING: Activate this in productive version!
                                 return;
                             }
@@ -219,10 +229,10 @@ NavigationPane {
                             // show confirmation toast
                             foodcompanionToast.body = Copytext.foodEntrySaved;
                             foodcompanionToast.show();
-                            
+
                             // send signal to reload data
                             foodGalleryTab.content.reloadData();
-                            
+
                             // jump back to the gallery tab
                             tabbedPane.activeTab = foodGalleryTab;
                         }
@@ -283,6 +293,18 @@ NavigationPane {
 
             // show / hide other elements
             selectFoodItemButton.visible = false;
+        }
+
+        onResetPage: {
+            console.log("# Resetting page data");
+            
+            // reset food entry data
+            var newEntry = new FoodEntryType.FoodEntry();
+            newFoodEntryPage.newFoodEntry = newEntry;
+
+            // reset UI element
+            foodEntryDescription.visible = false;
+            selectFoodItemButton.visible = true;
         }
     }
 
