@@ -47,6 +47,11 @@ TabbedPane {
         id: foodStatisticsTab
         title: "You"
         imageSource: "asset:///images/icons/icon_statistics.png"
+        
+        // reload the statistics data
+        onTriggered: {
+            foodStatisticsTab.content.reloadData();
+        }
     }
 
     // tab to add new food entry

@@ -22,6 +22,9 @@ import "../classes/entrydatabase.js" as EntryDatabase
 Page {
     id: foodStatisticsPage
 
+    // signal that data should be reloaded
+    signal reloadData()
+
     Container {
         // layout orientation
         layout: DockLayout {
@@ -62,26 +65,33 @@ Page {
                 textStyle.textAlign: TextAlign.Left
                 textStyle.lineHeight: 0.9
                 multiline: true
+
+                // set initial visibility to false
+                visible: false
+
+                onTextChanged: {
+                    visible = true;
+                }
             }
-            
+
             // emoticon
             ImageView {
                 id: foodStatisticsEmoticon
-                
+
                 // layout definition
-                topMargin: 10
+                topMargin: 20
                 horizontalAlignment: HorizontalAlignment.Center
                 preferredHeight: 150
                 preferredWidth: 150
                 opacity: 1
-                
+
                 // set initial visibility to false
                 visible: false
-                
+
                 onImageSourceChanged: {
                     visible = true;
                 }
-            }            
+            }
 
             // info message
             InfoMessage {
@@ -96,31 +106,48 @@ Page {
     }
 
     onCreationCompleted: {
+        foodStatisticsPage.reloadData();
+    }
+
+    onReloadData: {
+        // get entries from db
         var foundFoodItems = EntryDatabase.entrydb.getStatistics();
 
         // check if they are entries in the database
         // if so, show the logged entries
         if (foundFoodItems.numberOfEntries > 0) {
+            // hide info message
+            infoMessage.hideMessage();
+
+            // prepare statistics string
             var statistics = Copytext.statBaseText;
             statistics = statistics.replace(/%1/g, foundFoodItems.numberOfEntries);
-
             statistics = statistics.replace(/%2/g, Math.round(foundFoodItems.averageCalories));
-
             statistics = statistics.replace(/%3/g, Copytext.statAvgRatingComment[Math.round(foundFoodItems.averageRating)]);
 
+            // calculate activity rating
             var activityRating = 0;
             if ((foundFoodItems.numberOfEntries >= 10) && (foundFoodItems.length < 20)) activityRating = 1;
             if (foundFoodItems.numberOfEntries >= 20) activityRating = 2;
             statistics = statistics.replace(/%4/g, Copytext.statLogActivityComment[activityRating]);
             statistics = statistics.replace(/%5/g, Copytext.statLogRatingComment[Math.round(foundFoodItems.averageRating)]);
             foodStatistics.text = statistics;
-            
-            var emoticonRating = Math.round(activityRating) + Math.round(foundFoodItems.averageRating*2);
-            console.log("# activity rating: " + activityRating + " average rating: " + foundFoodItems.averageRating + " = emoticon rating: " + emoticonRating);
+
+            // calculate emoticon rating
+            var emoticonRating = Math.round(activityRating) + Math.round(foundFoodItems.averageRating * 2);
+            // console.log("# activity rating: " + activityRating + " average rating: " + foundFoodItems.averageRating + " = emoticon rating: " + emoticonRating);
             foodStatisticsEmoticon.imageSource = "asset:///images/emoticons/" + Copytext.summaryRatingEmoticons[emoticonRating];
         } else {
             // if no food items have been logged yet, show note
             infoMessage.showMessage(Copytext.noFoodEntriesFoundText, Copytext.noFoodEntriesFoundHeadline);
+
+            // hide statistics
+            foodStatistics.text = "";
+            foodStatistics.visible = false;
+
+            // hide emoticon
+            foodStatisticsEmoticon.imageSource = "";
+            foodStatisticsEmoticon.visible = false;
         }
     }
 }
