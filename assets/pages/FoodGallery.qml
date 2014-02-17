@@ -57,7 +57,7 @@ Page {
             visible: false
 
             // list sorting
-            listSortAscending: false
+            listSortAscending: true
 
             // item has been deleted
             // note that by this point it has only been removed from the list
@@ -90,10 +90,15 @@ Page {
     }
 
     onCreationCompleted: {
+        // load the data once page is initialized
         foodGalleryPage.reloadData();
     }
 
     onReloadData: {
+        // clear current list items
+        foodGalleryList.clearList();
+        
+        // get food entries from database
         var foundFoodItems = EntryDatabase.entrydb.getEntries();
 
         // check if they are entries in the database

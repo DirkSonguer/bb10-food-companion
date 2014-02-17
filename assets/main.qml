@@ -35,21 +35,11 @@ TabbedPane {
         id: foodGalleryTab
         title: "Gallery"
         imageSource: "asset:///images/icons/icon_gallery.png"
-        
-        // note that the page is bound to the component every time it loads
-        // TODO: how to update after a new entry has been added?
+
+        // reset the page contents
         onTriggered: {
-            foodGalleryPageComponent.source = "pages/FoodGallery.qml";
-            var foodGalleryPageObject = foodGalleryPageComponent.createObject();
-            foodGalleryTab.setContent(foodGalleryPageObject);
+            foodGalleryTab.content.reloadData();
         }
-        
-        // attach a component for the new food gallery page
-        attachedObjects: [
-            ComponentDefinition {
-                id: foodGalleryPageComponent
-            }
-        ]
     }
 
     // tab to show food entry statistics
@@ -57,21 +47,6 @@ TabbedPane {
         id: foodStatisticsTab
         title: "You"
         imageSource: "asset:///images/icons/icon_statistics.png"
-        
-        // note that the page is bound to the component every time it loads
-        // TODO: how to update after a new entry has been added?
-        onTriggered: {
-            foodStatisticsPageComponent.source = "pages/FoodStatistics.qml";
-            var foodStatisticsPageObject = foodStatisticsPageComponent.createObject();
-            foodStatisticsTab.setContent(foodStatisticsPageObject);
-        }
-        
-        // attach a component for the new food gallery page
-        attachedObjects: [
-            ComponentDefinition {
-                id: foodStatisticsPageComponent
-            }
-        ]
     }
 
     // tab to add new food entry
@@ -79,21 +54,6 @@ TabbedPane {
         id: newFoodEntryTab
         title: "Add food entry"
         imageSource: "asset:///images/icons/icon_addentry.png"
-
-        // note that the page is bound to the component every time it loads
-        // this basically resets any pre given data and starts a new process
-        onTriggered: {
-            newFoodEntryPageComponent.source = "pages/NewFoodEntry.qml";
-            var newFoodEntryPageObject = newFoodEntryPageComponent.createObject();
-            newFoodEntryTab.setContent(newFoodEntryPageObject);
-        }
-
-        // attach a component for the new food item page
-        attachedObjects: [
-            ComponentDefinition {
-                id: newFoodEntryPageComponent
-            }
-        ]
     }
 
     // main logic on startup
@@ -101,12 +61,22 @@ TabbedPane {
         // load database content from local JSON file
         // note that the dataSource will check the food db if it has been imported correctly
         dataSource.load();
-                
-        // load statistics page into tab
+
+        // load page contents into food gallery tab
+        foodGalleryPageComponent.source = "pages/FoodGallery.qml";
+        var foodGalleryPageObject = foodGalleryPageComponent.createObject();
+        foodGalleryTab.setContent(foodGalleryPageObject);
+
+        // load page contents into statistics tab
         foodStatisticsPageComponent.source = "pages/FoodStatistics.qml";
         var foodStatisticsPageObject = foodStatisticsPageComponent.createObject();
         foodStatisticsTab.setContent(foodStatisticsPageObject);
-        
+
+        // load page contents into new entry tab
+        newFoodEntryPageComponent.source = "pages/NewFoodEntry.qml";
+        var newFoodEntryPageObject = newFoodEntryPageComponent.createObject();
+        newFoodEntryTab.setContent(newFoodEntryPageObject);
+
         // activate statistics tab
         tabbedPane.activeTab = foodStatisticsTab;
     }
@@ -171,7 +141,7 @@ TabbedPane {
         // this also contains the loader while importing database
         Sheet {
             id: firstStartupSheet
-            
+
             // attach a component for the about page
             attachedObjects: [
                 ComponentDefinition {
@@ -184,7 +154,7 @@ TabbedPane {
         // this is used by the main menu about item
         Sheet {
             id: aboutSheet
-            
+
             // attach a component for the about page
             attachedObjects: [
                 ComponentDefinition {
@@ -192,6 +162,18 @@ TabbedPane {
                     source: "sheets/About.qml"
                 }
             ]
+        },
+        // component for the food statistics page
+        ComponentDefinition {
+            id: foodStatisticsPageComponent
+        },
+        // component for the food gallery page
+        ComponentDefinition {
+            id: foodGalleryPageComponent
+        },
+        // component for the new food entry page
+        ComponentDefinition {
+            id: newFoodEntryPageComponent
         },
         // system toast used globally by all pages and components
         SystemToast {
@@ -221,5 +203,5 @@ TabbedPane {
                 }
             }
         }
-    ]    
+    ]
 }
