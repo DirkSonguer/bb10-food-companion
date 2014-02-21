@@ -57,7 +57,7 @@ Page {
             visible: false
 
             // list sorting
-            listSortAscending: true
+            listSortAscending: false
 
             // item has been deleted
             // note that by this point it has only been removed from the list

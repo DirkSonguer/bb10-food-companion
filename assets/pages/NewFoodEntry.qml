@@ -205,7 +205,7 @@ NavigationPane {
                                 foodcompanionToast.show();
 
                                 // WARNING: Activate this in productive version!
-                                return;
+                                // return;
 
                                 // this is only valid in debug environment
                                 var tempEntry = new FoodEntryType.FoodEntry();

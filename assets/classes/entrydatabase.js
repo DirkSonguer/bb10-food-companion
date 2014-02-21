@@ -71,8 +71,7 @@ EntryDatabase.prototype.getEntries = function() {
 
 		// convert timestamp to reguar date
 		var date = new Date(foodItem.timestamp * 1000);
-		// foodItem.date = new Date(foodItem.timestamp * 1000);
-		foodItem.date = date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
+		foodItem.date = date.getFullYear() + "/" + ('0' + (date.getMonth()+1)).slice(-2) + "/" + ('0' + date.getDate()).slice(-2);
 
 		// store food item in return array
 		foodItemArray[index] = foodItem;
