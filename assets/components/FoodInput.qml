@@ -37,13 +37,13 @@ Container {
     property alias hintText: foodInputField.hintText
 
     // layout definition
-    topPadding: 20
-    bottomPadding: 5
+    topPadding: 15
+    bottomPadding: 10
     leftPadding: 10
     rightPadding: 10
 
     // green background
-    background: Color.create(Globals.greenBackgroundColor)
+    background: Color.create(Globals.defaultBackgroundColor)
 
     // layout orientation
     layout: StackLayout {
@@ -102,7 +102,7 @@ Container {
     }
 
     onFocus: {
-        console.log("# Requesting focus via onFocus");
+        // console.log("# Requesting focus via onFocus");
         foodInputField.requestFocus();
     }
 }

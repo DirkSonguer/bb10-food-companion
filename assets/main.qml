@@ -38,19 +38,7 @@ TabbedPane {
 
         // reload the gallery data
         onTriggered: {
-            foodGalleryTab.content.reloadData();
-        }
-    }
-
-    // tab to show food entry statistics
-    Tab {
-        id: foodStatisticsTab
-        title: "You"
-        imageSource: "asset:///images/icons/icon_statistics.png"
-        
-        // reload the statistics data
-        onTriggered: {
-            foodStatisticsTab.content.reloadData();
+            // foodGalleryTab.content.reloadData();
         }
     }
 
@@ -62,7 +50,7 @@ TabbedPane {
         
         // reset the page contents
         onTriggered: {
-            newFoodEntryTab.content.resetPage();
+            // newFoodEntryTab.content.resetPage();
         }
     }
 
@@ -77,18 +65,13 @@ TabbedPane {
         var foodGalleryPageObject = foodGalleryPageComponent.createObject();
         foodGalleryTab.setContent(foodGalleryPageObject);
 
-        // load page contents into statistics tab
-        foodStatisticsPageComponent.source = "pages/FoodStatistics.qml";
-        var foodStatisticsPageObject = foodStatisticsPageComponent.createObject();
-        foodStatisticsTab.setContent(foodStatisticsPageObject);
-
         // load page contents into new entry tab
         newFoodEntryPageComponent.source = "pages/NewFoodEntry.qml";
         var newFoodEntryPageObject = newFoodEntryPageComponent.createObject();
         newFoodEntryTab.setContent(newFoodEntryPageObject);
 
         // activate statistics tab
-        tabbedPane.activeTab = foodStatisticsTab;
+        tabbedPane.activeTab = foodGalleryTab;
     }
 
     // application menu (top menu)
@@ -108,7 +91,7 @@ TabbedPane {
                     Application.requestExit();
                 }
             },
-            // action for ratinig the app
+            // action for the about sheet
             ActionItem {
                 id: mainMenuAbout
                 title: "About"
@@ -120,7 +103,7 @@ TabbedPane {
                     aboutSheet.open();
                 }
             },
-            // action for rate sheet
+            // action for rating the app
             ActionItem {
                 id: mainMenuRate
                 title: "Update & Rate"

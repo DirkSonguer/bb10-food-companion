@@ -20,102 +20,112 @@ import "../global/globals.js" as Globals
 import "../global/copytext.js" as Copytext
 import "../classes/entrydatabase.js" as EntryDatabase
 
-Page {
-    id: foodGalleryPage
+// this is a page that is available from the main tab, thus it has to be a navigation pane
+// note that the id is always "navigationPane"
+NavigationPane {
+    id: navigationPane
 
-    // signal that data should be reloaded
-    signal reloadData()
-
-    Container {
-        // layout orientation
-        layout: DockLayout {
-        }
-
-        // background image slot
-        // this just shows the green food companion background
-        ImageView {
-            id: backgroundImage
-
-            // layout definition
-            verticalAlignment: VerticalAlignment.Top
-            preferredWidth: DisplayInfo.width
-            preferredHeight: DisplayInfo.height
-
-            // image scaling and opacity
-            scalingMethod: ScalingMethod.AspectFill
-            opacity: 0.75
-
-            // image file
-            imageSource: "asset:///images/page_background.png"
-        }
-
-        FoodGalleryList {
-            id: foodGalleryList
-
-            // set initial definition to false
-            // this will be set true once the data has been loaded
-            visible: false
-
-            // list sorting
-            listSortAscending: false
-
-            // item has been deleted
-            // note that by this point it has only been removed from the list
-            // now it needs to be removed from the database
-            onItemDeleted: {
-                EntryDatabase.entrydb.deleteEntry(foodData.timestamp);
-
-                // show confirmation toast
-                foodcompanionToast.body = Copytext.foodEntryDeleted + foodData.description + ")";
-                foodcompanionToast.show();
-            }
-        }
-
-        Container {
-            // layout definition
-            verticalAlignment: VerticalAlignment.Center
-            leftPadding: 10
-            rightPadding: 10
-
-            // info message
-            InfoMessage {
-                id: infoMessage
-
-                onMessageClicked: {
-                    // jump to the food entry tab
-                    tabbedPane.activeTab = newFoodEntryTab;
-                }
-            }
-        }
-    }
-
-    onCreationCompleted: {
-        // load the data once page is initialized
+    // signal that page should be reset
+    // this will be handed over to the page event
+    // to reset / reload data
+    signal resetPage()
+    onResetPage: {
         foodGalleryPage.reloadData();
     }
 
-    onReloadData: {
-        // clear current list items
-        foodGalleryList.clearList();
-        
-        // get food entries from database
-        var foundFoodItems = EntryDatabase.entrydb.getEntries();
+    Page {
+        id: foodGalleryPage
 
-        // check if they are entries in the database
-        // if so, show the logged entries
-        if (foundFoodItems.length > 0) {
-            // iterate through item data objects and add to list
-            for (var index in foundFoodItems) {
-                foodGalleryList.addToList(foundFoodItems[index]);
+        // signal that data should be reloaded
+        signal reloadData()
+
+        Container {
+            // layout orientation
+            layout: DockLayout {
             }
 
-            // show list, hide everything else
-            foodGalleryList.visible = true;
-            backgroundImage.visible = false;
-            infoMessage.hideMessage();
-        } else {
-            // if no food items have been logged yet, show note
-            infoMessage.showMessage(Copytext.noFoodEntriesFoundText, Copytext.noFoodEntriesFoundHeadline);
+            // background image slot
+            // this just shows the wooden background
+            ImageView {
+                id: backgroundImage
+
+                // layout definition
+                verticalAlignment: VerticalAlignment.Top
+                preferredWidth: DisplayInfo.width
+                preferredHeight: DisplayInfo.height
+
+                // image scaling and opacity
+                scalingMethod: ScalingMethod.AspectFill
+
+                // image file
+                imageSource: "asset:///images/page_background.png"
+            }
+
+            // food gallery component
+            // this contains the food entry items
+            FoodGalleryList {
+                id: foodGalleryList
+
+                // set initial definition to false
+                // this will be set true once the data has been loaded
+                visible: false
+            }
+
+            // info message container
+            Container {
+                // layout definition
+                verticalAlignment: VerticalAlignment.Center
+                leftPadding: 10
+                rightPadding: 10
+
+                // info message
+                InfoMessage {
+                    id: infoMessage
+
+                    onMessageClicked: {
+                        // jump to the food entry tab
+                        tabbedPane.activeTab = newFoodEntryTab;
+                    }
+                }
+            }
         }
+
+        // creation complete
+        onCreationCompleted: {
+            // load the data once page is initialized
+            foodGalleryPage.reloadData();
+        }
+
+        // gallery data should be reloaded
+        onReloadData: {
+            // clear current list items
+            foodGalleryList.clearList();
+
+            // get food entries from database
+            var foundFoodItems = EntryDatabase.entrydb.getEntries();
+
+            // check if they are entries in the database
+            // if so, show the logged entries
+            if (foundFoodItems.length > 0) {
+                // iterate through item data objects and add to list
+                for (var index in foundFoodItems) {
+                    foodGalleryList.addToList(foundFoodItems[index]);
+                }
+
+                // show list, hide everything else
+                backgroundImage.imageSource = "asset:///images/wood_background.png";
+                foodGalleryList.visible = true;
+                infoMessage.hideMessage();
+            } else {
+                // if no food items have been logged yet, show note
+                backgroundImage.imageSource = "asset:///images/page_background.png";
+                infoMessage.showMessage(Copytext.noFoodEntriesFoundText, Copytext.noFoodEntriesFoundHeadline);
+            }
+        }
+    }
+
+    // destroy pages after use
+    onPopTransitionEnded: {
+        page.destroy();
     }
 }

@@ -39,7 +39,7 @@
 
     <!-- Fourth digit segment of the package version. First three segments are taken from the
          <versionNumber> element.  Must be an integer from 0 to 2^16-1 -->
-    <buildId>1</buildId>
+    <buildId>1000</buildId>
 
     <!-- A string value (such as "v1", "2.5", or "Alpha 1") that represents the version of the application, as it should be shown to users. Optional. -->
     <!-- <versionLabel></versionLabel> -->
@@ -53,7 +53,7 @@
     <!--  Name of author which is used for signing. Must match the developer name of your development certificate. -->
     <author>Dirk Songuer</author>
     <authorId>gYAAgBdeWwop_OlO2UhxazMyvtM</authorId>
-    <description>A foto diary for your daily food as well as a calory and nutrition logger for BlackBerry 10.</description>
+    <description>A photo diary for your daily food as well as a calorie and nutrition logger for BlackBerry 10.</description>
     <splashScreens>
        <image>splashscreen_1280x720.png</image>
        <image>splashscreen_1280x768.png</image>
@@ -95,7 +95,7 @@
     <asset path="icon.png">icon.png</asset>
     <asset path="assets">assets</asset>
 
-    <!-- Set theme to dark as default -->
+    <!-- Set theme to bright as default -->
     <env var="CASCADES_THEME" value="dark"/>
 
     <!-- Locale support -->

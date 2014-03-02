@@ -73,10 +73,6 @@ Container {
         // associate the data model for the list view
         dataModel: foodItemListDataModel
 
-        leadingVisual: Container {
-            id: foodHeaderContainer
-        }
-
         // layout orientation
         layout: StackListLayout {
             orientation: LayoutOrientation.TopToBottom
@@ -86,18 +82,23 @@ Container {
         listItemComponents: [
             ListItemComponent {
                 type: "item"
-                
+
                 Container {
                     layout: StackLayout {
                         orientation: LayoutOrientation.LeftToRight
                     }
 
+                    // actual food item
                     FoodItem {
                         foodItemData: ListItemData.foodItemData
 
+                        // layout definition
                         preferredWidth: Qt.DisplayInfo.width
+                        topPadding: 5
+                        opacity: 0.9
 
                         // description of item has been clicked
+                        // hand over click to parent page
                         onItemClicked: {
                             Qt.itemDescriptionClicked(ListItemData.foodItemData);
                         }
@@ -108,6 +109,7 @@ Container {
 
                             // iterate through all data items
                             for (var i = 0; i < foodItemListDataModel.size(); i ++) {
+                                // get current child food item
                                 var indexPath = new Array();
                                 indexPath[0] = i;
                                 var childItem = foodItemListDataModel.data(indexPath);
@@ -125,8 +127,6 @@ Container {
                             Qt.itemBookmarkClicked(ListItemData.foodItemData);
                         }
                     }
-
-                    bottomPadding: 5
                 }
             }
         ]

@@ -47,7 +47,6 @@ Page {
 
             // image scaling and opacity
             scalingMethod: ScalingMethod.AspectFill
-            opacity: 0.75
 
             // image file
             imageSource: "asset:///images/page_background.png"
@@ -78,8 +77,8 @@ Page {
                 messageText: Copytext.importDBText
 
                 // layout definition
-                leftPadding: 0
-                rightPadding: 0
+                leftPadding: 10
+                rightPadding: 10
                 bottomPadding: 30
             }
 

@@ -86,9 +86,8 @@ Container {
 
                 Container {
                     // layout definition
-                    topMargin: 10
-                    leftPadding: 5
-                    background: Color.create(Globals.defaultBackgroundColor)
+                    topMargin: 30
+                    leftPadding: 15
 
                     // date label
                     Label {
@@ -98,8 +97,15 @@ Container {
                         // layout definition
                         bottomMargin: 0
                         textStyle.fontSize: FontSize.PointValue
-                        textStyle.fontSizeValue: 8
+                        textStyle.fontSizeValue: 10
                         textStyle.fontWeight: FontWeight.W100
+                        textStyle.fontStyle: FontStyle.Italic
+                        textStyle.color: Color.White
+                        
+                        onCreationCompleted: {
+                            var textSplit = text.split("#");
+                            text = textSplit[1];
+                        }
                     }
 
                     // divider component
@@ -126,38 +132,6 @@ Container {
 
                         // this sets the component width to the full device width
                         preferredWidth: Qt.DisplayInfo.width
-
-                        // food entry should be deleted
-                        // note that this will only remove the item from the list, not from the database
-                        // the calling page is responsible for this
-                        onDeleteFoodEntry: {
-                            // get the data model, containing all gallery items
-                            var tempDataModel = Qt.foodGalleryListDataModel;
-
-                            // iterate through all gallery items
-                            // first order is the date, second order the actual food entry data
-                            for (var iFirstOrder = 0; iFirstOrder < tempDataModel.size(); iFirstOrder ++) {
-                                for (var iSecondOrder = 0; iSecondOrder < tempDataModel.size(); iSecondOrder ++) {
-                                    var indexPath = new Array();
-                                    indexPath[0] = iFirstOrder;
-                                    indexPath[1] = iSecondOrder;
-                                    var childEntry = tempDataModel.data(indexPath);
-
-                                    // only act if the child has data
-                                    if (typeof childEntry !== "undefined") {
-                                        // check if the current child is the one that sent the signal
-                                        // if so, then remove it from the data model
-                                        if (childEntry.foodData.timestamp == ListItemData.foodData.timestamp) {
-                                            // console.log("# Child entry foodData: " + childEntry.foodData.description);
-                                            tempDataModel.removeAt(indexPath);
-                                        }
-                                    }
-                                }
-
-                                // hand over the delete signal to the calling page
-                                Qt.itemDeleted(ListItemData.foodData);
-                            }
-                        }
                     }
                 }
             }

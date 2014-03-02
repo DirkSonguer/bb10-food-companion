@@ -30,112 +30,146 @@ Container {
     // data for the food entry
     property variant foodEntryData
 
+    // appearance properties
+    property alias backgroundImage: foodEntryDescriptonBackgroundImage.imageSource
+    property alias backgroundColor: foodEntryDescriptionComponent.background
+
     // layout orientation
-    layout: StackLayout {
-        orientation: LayoutOrientation.TopToBottom
+    layout: DockLayout {
     }
 
-    leftPadding: 10
-    rightPadding: 10
-    bottomPadding: 10
-
-    // wrapper container for description labels
+    // set initial background color
+    // can be changed via the componentBackground property
+    background: Color.create(Globals.defaultBackgroundColor)
+    
+    ImageView {
+        id: foodEntryDescriptonBackgroundImage
+        
+        // layout definition
+        verticalAlignment: VerticalAlignment.Fill
+        horizontalAlignment: HorizontalAlignment.Fill
+        scalingMethod: ScalingMethod.AspectFill
+        preferredHeight: 100
+        
+        // set initial visibility to false
+        visible: false
+        
+        onImageSourceChanged: {
+            visible = true;
+        }
+    }
+    
     Container {
-        // image caption label
-        Label {
-            id: foodEntryDescripton
-
-            bottomMargin: 0
-
-            // layout definition
-            textStyle.fontSize: FontSize.PointValue
-            textStyle.fontSizeValue: 10
-            textStyle.fontWeight: FontWeight.W100
-            textStyle.textAlign: TextAlign.Left
-            textStyle.lineHeight: 0.85
-            autoSize.maxLineCount: 2
-            multiline: true
+        // layout orientation
+        layout: StackLayout {
+            orientation: LayoutOrientation.TopToBottom
         }
 
-        // image caption label
-        Label {
-            id: foodPortionDescription
+        // layout definition
+        topPadding: 10
+        bottomPadding: 10
+        leftPadding: 20
+        rightPadding: 20
 
-            topMargin: 0
+        // wrapper container for description labels
+        Container {
+            // image caption label
+            Label {
+                id: foodEntryDescripton
 
-            // layout definition
-            textStyle.base: SystemDefaults.TextStyles.BodyText
-            textStyle.fontWeight: FontWeight.W100
-            textStyle.textAlign: TextAlign.Left
-            multiline: true
+                // layout definition
+                bottomMargin: 0
+
+                // text definition
+                textStyle.base: SystemDefaults.TextStyles.BodyText
+                textStyle.fontWeight: FontWeight.W100
+                textStyle.textAlign: TextAlign.Left
+                textStyle.lineHeight: 0.85
+                autoSize.maxLineCount: 2
+                multiline: true
+            }
+
+            // image caption label
+            Label {
+                id: foodPortionDescription
+
+                // layout definition
+                topMargin: 5
+
+                // text definition
+                textStyle.base: SystemDefaults.TextStyles.SmallText
+                textStyle.fontWeight: FontWeight.W100
+                textStyle.textAlign: TextAlign.Left
+                multiline: true
+            }
+
+            // handle tap on custom button
+            gestureHandlers: [
+                TapHandler {
+                    onTapped: {
+                        foodEntryDescriptionComponent.clicked();
+                    }
+                }
+            ]
         }
 
-        // handle tap on custom button
-        gestureHandlers: [
-            TapHandler {
-                onTapped: {
-                    foodEntryDescriptionComponent.clicked();
+        // slider to select food portion size
+        // not that this will only visible if a food item has been selected
+        CustomSlider {
+            id: foodPortionSize
+
+            // slider range definition
+            fromValue: 0
+            toValue: 2
+            value: 1
+
+            // initial health rating and description
+            label: "Normal portion"
+
+            // add logic to change rating on slider movement
+            onValueChanged: {
+                if ((typeof foodEntryDescriptionComponent.foodEntryData !== "undefined") && (foodEntryDescriptionComponent.foodEntryData.size != Math.round(immediateValue))) {
+                    // set label based on slider value
+                    var intImmediateValue = Math.round(immediateValue);
+
+                    // update values and write back the data
+                    // note that a temp entry is needed because the children of the page variant are read only
+                    var tempEntry = new FoodEntryType.FoodEntry();
+                    tempEntry = foodEntryDescriptionComponent.foodEntryData;
+                    tempEntry.size = intImmediateValue;
+                    foodEntryDescriptionComponent.foodEntryData = tempEntry;
                 }
             }
-        ]
-    }
-
-    // slider to select food portion size
-    // not that this will only visible if a food item has been selected
-    CustomSlider {
-        id: foodPortionSize
-
-        // slider range definition
-        fromValue: 0
-        toValue: 2
-        value: 1
-
-        // initial health rating and description
-        label: "Normal portion"
-
-        // add logic to change rating on slider movement
-        onValueChanged: {
-            if ((typeof foodEntryDescriptionComponent.foodEntryData !== "undefined") && (foodEntryDescriptionComponent.foodEntryData.size != Math.round(immediateValue))) {
-                // set label based on slider value
-                var intImmediateValue = Math.round(immediateValue);
-
-                // update values and write back the data
-                // note that a temp entry is needed because the children of the page variant are read only
-                var tempEntry = new FoodEntryType.FoodEntry();
-                tempEntry = foodEntryDescriptionComponent.foodEntryData;
-                tempEntry.size = intImmediateValue;
-                foodEntryDescriptionComponent.foodEntryData = tempEntry;
-            }
         }
-    }
 
-    // health rating slider
-    CustomSlider {
-        id: foodHealthRating
+        // health rating slider
+        CustomSlider {
+            id: foodHealthRating
 
-        // slider range definition
-        fromValue: 0
-        toValue: 2
-        value: 2
+            // slider range definition
+            fromValue: 0
+            toValue: 2
+            value: 2
 
-        // initial health rating and description
-        label: "Healthy"
+            // initial health rating and description
+            label: "Healthy"
 
-        // add logic to change rating on slider movement
-        onValueChanged: {
-            var intImmediateValue = Math.round(immediateValue);
-
-            // if the slider value has changed, show the according text
-            if ((typeof foodEntryDescriptionComponent.foodEntryData !== "undefined") && (foodEntryDescriptionComponent.foodEntryData.rating != intImmediateValue)) {
-                // set label based on slider value
+            // add logic to change rating on slider movement
+            onValueChanged: {
                 var intImmediateValue = Math.round(immediateValue);
 
-                // update values and write back the data
-                // note that a temp entry is needed because the children of the page variant are read only
-                var tempEntry = new FoodEntryType.FoodEntry();
-                tempEntry = foodEntryDescriptionComponent.foodEntryData;
-                tempEntry.rating = intImmediateValue;
-                foodEntryDescriptionComponent.foodEntryData = tempEntry;
+                // if the slider value has changed, show the according text
+                if ((typeof foodEntryDescriptionComponent.foodEntryData !== "undefined") && (foodEntryDescriptionComponent.foodEntryData.rating != intImmediateValue)) {
+                    // set label based on slider value
+                    var intImmediateValue = Math.round(immediateValue);
+
+                    // update values and write back the data
+                    // note that a temp entry is needed because the children of the page variant are read only
+                    var tempEntry = new FoodEntryType.FoodEntry();
+                    tempEntry = foodEntryDescriptionComponent.foodEntryData;
+                    tempEntry.rating = intImmediateValue;
+                    foodEntryDescriptionComponent.foodEntryData = tempEntry;
+                }
             }
         }
     }
@@ -148,7 +182,7 @@ Container {
         // fill in data values
         var foodPortionAndCalories = foodEntryData.portion + " with " + caloryModulation + " calories";
         foodPortionDescription.text = foodPortionAndCalories;
-        foodEntryDescripton.text = foodEntryData.description;
+        foodEntryDescripton.text = foodEntryData.description.toUpperCase();
         foodPortionSize.label = Copytext.portionSizeValues[foodEntryData.size];
         foodHealthRating.label = Copytext.healthRatingValues[foodEntryData.rating];
 

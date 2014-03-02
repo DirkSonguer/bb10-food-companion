@@ -38,9 +38,8 @@ Container {
         horizontalAlignment: HorizontalAlignment.Center
         bottomMargin: 0
 
-        // text style definition
-        textStyle.fontSize: FontSize.PointValue
-        textStyle.fontSizeValue: 10
+        // text definition
+        textStyle.base: SystemDefaults.TextStyles.BodyText
         textStyle.fontWeight: FontWeight.W100
         textStyle.textAlign: TextAlign.Right
         textStyle.color: Color.White

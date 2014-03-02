@@ -40,17 +40,16 @@ Container {
 
     // set initial background color
     // can be changed via the componentBackground property
-    background: Color.create(Globals.foodcompanionDefaultBackgroundColor)
+    background: Color.create(Globals.defaultBackgroundColor)
 
     ImageView {
         id: customButtonBackgroundImage
 
         // layout definition
-        verticalAlignment: VerticalAlignment.Center
-        horizontalAlignment: HorizontalAlignment.Center
+        verticalAlignment: VerticalAlignment.Fill
+        horizontalAlignment: HorizontalAlignment.Fill
         scalingMethod: ScalingMethod.AspectFill
         preferredHeight: 100
-        opacity: 0.5
 
         // set initial visibility to false
         visible: false

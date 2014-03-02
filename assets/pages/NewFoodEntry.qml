@@ -28,16 +28,20 @@ import "../classes/entrydatabase.js" as EntryDatabase
 // note that the id is always "navigationPane"
 NavigationPane {
     id: navigationPane
-    
+
     // signal that page should be reset
     // this will be handed over to the page event
+    // to reset / reload data
     signal resetPage()
     onResetPage: {
-        newFoodEntryPage.resetPage();
+        foodGalleryPage.reloadData();
     }
 
     Page {
         id: newFoodEntryPage
+
+        // signal that page should be reset
+        signal resetPage()
 
         // signal that image has been captured
         // this will be called by the CaptureImage sheet
@@ -46,9 +50,6 @@ NavigationPane {
         // signal that food item has been selected
         // this will be called by the SelectFoodItem sheet
         signal addFoodItem(variant foodItemData)
-
-        // signal that page should be reset
-        signal resetPage()
 
         // the object containing the data of the new entry
         // this is of type FoodEntry()
@@ -59,183 +60,176 @@ NavigationPane {
             layout: DockLayout {
             }
 
-            // camera image
-            // this is filled by the camera control when the image has been taken
+            // background image slot
+            // this just shows the wooden background
             ImageView {
-                id: foodCameraImage
-
-                imageSource: "asset:///images/foodentry_default.png"
+                id: backgroundImage
 
                 // layout definition
-                verticalAlignment: VerticalAlignment.Center
-                horizontalAlignment: HorizontalAlignment.Center
+                verticalAlignment: VerticalAlignment.Top
+                preferredWidth: DisplayInfo.width
+                preferredHeight: DisplayInfo.height
+
+                // image scaling and opacity
                 scalingMethod: ScalingMethod.AspectFill
-                opacity: 0.25
+
+                // image file
+                imageSource: "asset:///images/wood_background.png"
             }
 
-            // scroll view as the page might not fit on the Q10 / Q5 screen
-            ScrollView {
-                // only vertical scrolling is needed
-                scrollViewProperties {
-                    scrollMode: ScrollMode.Vertical
-                    pinchToZoomEnabled: false
-                }
-
+            Container {
                 // layout definition
                 verticalAlignment: VerticalAlignment.Bottom
+                leftPadding: 10
+                rightPadding: 10
+                bottomPadding: 10
 
-                // wrapper for controls
-                // this is needed for the scroll view
-                Container {
+                // recapture the image
+                CustomButton {
+                    id: captureImageButton
+
+                    // content
+                    narrowText: "Capture image"
+                    iconSource: "asset:///images/icons/icon_camera.png"
+                    backgroundImage: "asset:///images/button_background_dark.png"
+
                     // layout definition
-                    topPadding: 5
-                    bottomPadding: 5
+                    alignText: HorizontalAlignment.Center
+                    backgroundColor: Color.create(Globals.defaultBackgroundColor)
+                    preferredWidth: DisplayInfo.width
+                    opacity: 0.7
 
-                    // recapture the image
-                    CustomButton {
-                        id: captureImageButton
+                    // call to action clicked
+                    // open capture image sheet
+                    onClicked: {
+                        // create and open capture image sheet
+                        var captureImagePageObject = captureImagePageComponent.createObject();
+                        captureImagePageObject.callingPage = newFoodEntryPage;
+                        captureImageSheet.setContent(captureImagePageObject);
+                        captureImageSheet.open();
+                    }
+                }
 
-                        // content
-                        narrowText: "Capture image"
-                        iconSource: "asset:///images/icons/icon_camera.png"
+                // add food item
+                CustomButton {
+                    id: selectFoodItemButton
 
-                        // layout definition
-                        alignText: HorizontalAlignment.Center
-                        backgroundColor: Color.create(Globals.greenBackgroundColor)
-                        preferredWidth: DisplayInfo.width
-                        opacity: 0.85
+                    // content
+                    narrowText: "Add a description"
+                    iconSource: "asset:///images/icons/icon_description.png"
+                    backgroundImage: "asset:///images/button_background_dark.png"
 
-                        // call to action clicked
-                        // open capture image sheet
-                        onClicked: {
-                            // create and open capture image sheet
-                            var captureImagePageObject = captureImagePageComponent.createObject();
-                            captureImagePageObject.callingPage = newFoodEntryPage;
-                            captureImageSheet.setContent(captureImagePageObject);
-                            captureImageSheet.open();
-                        }
+                    // layout definition
+                    topMargin: 5
+                    alignText: HorizontalAlignment.Center
+                    backgroundColor: Color.create(Globals.defaultBackgroundColor)
+                    preferredWidth: DisplayInfo.width
+                    opacity: 0.7
+
+                    // call to action clicked
+                    // open capture image sheet
+                    onClicked: {
+                        // create and open food selection sheet
+                        var selectFoodItemPageObject = selectFoodItemPageComponent.createObject();
+                        selectFoodItemPageObject.callingPage = newFoodEntryPage;
+                        navigationPane.push(selectFoodItemPageObject);
+
+                        // indicate that page is now visible
+                        // this is a workaround because requestFocus only works after page is visible in stack
+                        // see: http://supportforums.blackberry.com/t5/Native-Development/problems-with-request-focus-for-a-textfield/m-p/2652023#M51962
+                        selectFoodItemPageObject.pageLoadedInNavigationStack = true;
+                    }
+                }
+
+                FoodEntryDescription {
+                    id: foodEntryDescription
+
+                    // layout definition
+                    backgroundImage: "asset:///images/button_background_dark.png"
+                    topMargin: 5
+                    preferredWidth: DisplayInfo.width
+                    opacity: 0.7
+
+                    // set initial visibility to false
+                    // will be set visible when a food item has been selected
+                    visible: false
+
+                    // food entry description changed
+                    onFoodDescriptionChanged: {
+                        // store the food entry data to the page food entry
+                        // note that a temp entry is needed because the children of the page variant are read only
+                        var tempEntry = new FoodEntryType.FoodEntry();
+                        tempEntry = newFoodEntryPage.newFoodEntry;
+                        tempEntry.size = foodEntryData.size;
+                        tempEntry.rating = foodEntryData.rating;
+                        newFoodEntryPage.newFoodEntry = tempEntry;
+
+                        // changing background color according to health rating
+                        addEntryButton.background = Color.create(Globals.healthRatingColors[tempEntry.rating]);
                     }
 
-                    // add food item
-                    CustomButton {
-                        id: selectFoodItemButton
-
-                        // content
-                        narrowText: "Add a description"
-                        iconSource: "asset:///images/icons/icon_description.png"
-
-                        // layout definition
-                        topMargin: 10
-                        alignText: HorizontalAlignment.Center
-                        backgroundColor: Color.create(Globals.greenBackgroundColor)
-                        preferredWidth: DisplayInfo.width
-                        opacity: 0.85
-
-                        // call to action clicked
-                        // open capture image sheet
-                        onClicked: {
-                            // create and open food selection sheet
-                            var selectFoodItemPageObject = selectFoodItemPageComponent.createObject();
-                            selectFoodItemPageObject.callingPage = newFoodEntryPage;
-                            navigationPane.push(selectFoodItemPageObject);
-
-                            // indicate that page is now visible
-                            // this is a workaround because requestFocus only works after page is visible in stack
-                            // see: http://supportforums.blackberry.com/t5/Native-Development/problems-with-request-focus-for-a-textfield/m-p/2652023#M51962
-                            selectFoodItemPageObject.pageLoadedInNavigationStack = true;
-                        }
+                    onClicked: {
+                        // this shuld open the food item selection page
+                        // basically the same as with pressing the call to action
+                        selectFoodItemButton.clicked();
                     }
+                }
 
-                    FoodEntryDescription {
-                        id: foodEntryDescription
+                // confirmation button
+                CustomButton {
+                    id: addEntryButton
 
-                        // layout definition
-                        topMargin: 10
-                        background: Color.create(Globals.greenBackgroundColor)
-                        preferredWidth: DisplayInfo.width
-                        opacity: 0.85
+                    // content
+                    boldText: "Store food entry"
+                    iconSource: "asset:///images/icons/icon_add.png"
+                    // backgroundImage: "asset:///images/button_background_green.png"
+                    backgroundColor: Color.create(Globals.healthRatingColors[2])
+                    
+                    // layout definition
+                    topMargin: 5
+                    alignText: HorizontalAlignment.Center
+                    preferredWidth: DisplayInfo.width
+                    opacity: 0.9
 
-                        // set initial visibility to false
-                        // will be set visible when a food item has been selected
-                        visible: false
-
-                        // food entry description changed
-                        onFoodDescriptionChanged: {
-                            // store the food entry data to the page food entry
-                            // note that a temp entry is needed because the children of the page variant are read only
-                            var tempEntry = new FoodEntryType.FoodEntry();
-                            tempEntry = newFoodEntryPage.newFoodEntry;
-                            tempEntry.size = foodEntryData.size;
-                            tempEntry.rating = foodEntryData.rating;
-                            newFoodEntryPage.newFoodEntry = tempEntry;
-
-                            // changing background color according to health rating
-                            foodEntryDescription.background = Color.create(Globals.healthRatingColors[tempEntry.rating]);
-                        }
-
-                        onClicked: {
-                            // this shuld open the food item selection page
-                            // basically the same as with pressing the call to action
-                            selectFoodItemButton.clicked();
-                        }
-                    }
-
-                    // confirmation button
-                    CustomButton {
-                        id: addEntryButton
-
-                        // layout definition
-                        topMargin: 10
-                        bottomMargin: 10
-                        alignText: HorizontalAlignment.Center
-                        backgroundColor: Color.create(Globals.greenBackgroundColor)
-                        preferredWidth: DisplayInfo.width
-                        opacity: 0.85
-
-                        // confirmation text
-                        boldText: "Store food entry"
-                        iconSource: "asset:///images/icons/icon_add.png"
-
-                        // add food item clicked
-                        // this will stored in the entry database
-                        onClicked: {
-                            // check if picture is available
-                            if (! newFoodEntryPage.newFoodEntry.imageFile) {
-                                foodcompanionToast.body = Copytext.noFoodImageTaken;
-                                foodcompanionToast.show();
-
-                                // WARNING: Activate this in productive version!
-                                // return;
-
-                                // this is only valid in debug environment
-                                var tempEntry = new FoodEntryType.FoodEntry();
-                                tempEntry = newFoodEntryPage.newFoodEntry;
-                                tempEntry.imageFile = "accounts/1000/shared/photos/IMG_00000470.jpg";
-                                newFoodEntryPage.newFoodEntry = tempEntry;
-                            }
-
-                            // check if description is available
-                            if (! newFoodEntryPage.newFoodEntry.description) {
-                                foodcompanionToast.body = Copytext.noFoodDescription;
-                                foodcompanionToast.show();
-
-                                // WARNING: Activate this in productive version!
-                                return;
-                            }
-
-                            // add to entry database
-                            EntryDatabase.entrydb.addEntry(newFoodEntryPage.newFoodEntry);
-
-                            // show confirmation toast
-                            foodcompanionToast.body = Copytext.foodEntrySaved;
+                    // add food item clicked
+                    // this will stored in the entry database
+                    onClicked: {
+                        // check if picture is available
+                        if (! newFoodEntryPage.newFoodEntry.imageFile) {
+                            foodcompanionToast.body = Copytext.noFoodImageTaken;
                             foodcompanionToast.show();
 
-                            // send signal to reload data
-                            foodGalleryTab.content.reloadData();
+                            // WARNING: Activate this in productive version!
+                            // return;
 
-                            // jump back to the gallery tab
-                            tabbedPane.activeTab = foodGalleryTab;
+                            // this is only valid in debug environment
+                            var tempEntry = new FoodEntryType.FoodEntry();
+                            tempEntry = newFoodEntryPage.newFoodEntry;
+                            tempEntry.imageFile = "accounts/1000/shared/photos/IMG_00000470.jpg";
+                            newFoodEntryPage.newFoodEntry = tempEntry;
                         }
+
+                        // check if description is available
+                        if (! newFoodEntryPage.newFoodEntry.description) {
+                            foodcompanionToast.body = Copytext.noFoodDescription;
+                            foodcompanionToast.show();
+
+                            // WARNING: Activate this in productive version!
+                            return;
+                        }
+
+                        // add to entry database
+                        EntryDatabase.entrydb.addEntry(newFoodEntryPage.newFoodEntry);
+
+                        // show confirmation toast
+                        foodcompanionToast.body = Copytext.foodEntrySaved;
+                        foodcompanionToast.show();
+
+                        // send signal to reload data
+                        foodGalleryTab.content.reloadData();
+
+                        // jump back to the gallery tab
+                        tabbedPane.activeTab = foodGalleryTab;
                     }
                 }
             }
@@ -263,20 +257,9 @@ NavigationPane {
             // captureImageSheet.open();
         }
 
-        onAddCapturedImage: {
-            // add image to thumbnail component
-            foodCameraImage.imageSource = "file:///" + imageName;
-            foodCameraImage.opacity = 1.0;
-
-            // store the image file to the page food entry
-            // note that a temp entry is needed because the children of the page variant are read only
-            var tempEntry = new FoodEntryType.FoodEntry();
-            tempEntry = newFoodEntryPage.newFoodEntry;
-            tempEntry.imageFile = imageName;
-            newFoodEntryPage.newFoodEntry = tempEntry;
-        }
-
         onAddFoodItem: {
+            console.log("# Updating new food item data: " + foodItemData.description);
+
             // store the food item data to the page food entry
             // note that a temp entry is needed because the children of the page variant are read only
             var tempEntry = new FoodEntryType.FoodEntry();
@@ -295,28 +278,16 @@ NavigationPane {
             selectFoodItemButton.visible = false;
         }
 
-        onResetPage: {
-            console.log("# Resetting page data");
-            
-            // reset food entry data
-            var newEntry = new FoodEntryType.FoodEntry();
-            newFoodEntryPage.newFoodEntry = newEntry;
-
-            // reset UI element
-            foodEntryDescription.visible = false;
-            selectFoodItemButton.visible = true;
-        }
+        // attach components
+        attachedObjects: [
+            // page to select food for an item
+            // will be called if user clicks on add description
+            ComponentDefinition {
+                id: selectFoodItemPageComponent
+                source: "SelectFoodItem.qml"
+            }
+        ]
     }
-
-    // attach components
-    attachedObjects: [
-        // page to select food for an item
-        // will be called if user clicks on add description
-        ComponentDefinition {
-            id: selectFoodItemPageComponent
-            source: "SelectFoodItem.qml"
-        }
-    ]
 
     // destroy pages after use
     onPopTransitionEnded: {

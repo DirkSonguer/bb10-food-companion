@@ -54,12 +54,12 @@ Container {
     // This is the camera control that is defined in the cascades multimedia library
     Camera {
         id: customCamera
-        
+
         preferredHeight: DisplayInfo.height
 
         onCameraOpened: {
             // TODO: Check and iterate through all available camwera resolutions and set it accordingly
-            cameraUtilities.selectAspectRatio(customCamera,DisplayInfo.width/DisplayInfo.height);
+            cameraUtilities.selectAspectRatio(customCamera, DisplayInfo.width / DisplayInfo.height);
 
             // define additional camera settings, eg. setting focus mode and stabilization
             getSettings(customCameraSettings);
@@ -145,7 +145,15 @@ Container {
             // console.log("# photoSaveFailed signal received with error " + error);
             customCameraComponent.errorOccured(error);
         }
-        
+
+        onFocusStateChanged: {
+            if (state == CameraFocusState.Locked) {
+                customCameraFocusIndicator.imageSource = "asset:///images/icons/icon_focussed.png";
+            } else {
+                customCameraFocusIndicator.imageSource = "asset:///images/icons/icon_focussing.png";
+            }
+        }
+
         attachedObjects: [
             CameraSettings {
                 id: customCameraSettings
@@ -158,6 +166,20 @@ Container {
                 id: cameraUtilities
             }
         ]
+    }
+
+    // call to action container
+    Container {
+        // layout definition
+        horizontalAlignment: HorizontalAlignment.Center
+        verticalAlignment: VerticalAlignment.Center
+
+        ImageView {
+            id: customCameraFocusIndicator
+            preferredHeight: 162
+            preferredWidth: 162
+            imageSource: "asset:///images/icons/icon_focussing.png"
+        }
     }
 
     // call to action container
@@ -215,12 +237,12 @@ Container {
     onStopCamera: {
         customCamera.close();
     }
-    
+
     // error occured signal was sent
     // show the error message on the control
     onErrorOccured: {
         customCameraMessage.text = "Sorry, an error occured. The error ID is " + errorMessage + ", please restart the app and try again.";
-        
+
         // stop camera control to reset states
         customCameraComponent.stopCamera();
     }
