@@ -177,14 +177,24 @@ Container {
     onFoodEntryDataChanged: {
         // set new calory value based on portion size
         var caloryModulation = parseInt(foodEntryData.calories) + Math.round(((foodEntryData.size - 1) / 2) * parseInt(foodEntryData.calories));
-        // console.log("# calories: " + foodEntryData.calories + " size: " + foodEntryData.size + " modulation: " + caloryModulation);
+        console.log("# calories: " + foodEntryData.calories + " size: " + foodEntryData.size + " modulation: " + caloryModulation);
 
         // fill in data values
         var foodPortionAndCalories = foodEntryData.portion + " with " + caloryModulation + " calories";
         foodPortionDescription.text = foodPortionAndCalories;
         foodEntryDescripton.text = foodEntryData.description.toUpperCase();
+        
+        // portion size
+        // note that we also set the slider values again
+        // as this might have been called externally
         foodPortionSize.label = Copytext.portionSizeValues[foodEntryData.size];
+        foodPortionSize.value = foodEntryData.size;
+        
+        // health rating
+        // note that we also set the slider values again
+        // as this might have been called externally
         foodHealthRating.label = Copytext.healthRatingValues[foodEntryData.rating];
+        foodHealthRating.value = foodEntryData.rating;
 
         // signal that entry data has been changed
         foodEntryDescriptionComponent.foodDescriptionChanged(foodEntryData);

@@ -299,6 +299,25 @@ NavigationPane {
             selectFoodItemButton.visible = false;
         }
 
+        // signal that page should be reset
+        // image should be reset, food description cleared
+        // and buttons should be shown in original form
+        onResetPage: {
+            // reset image
+            backgroundImage.imageSource = "asset:///images/wood_background.png";
+
+            // reset new food entry object
+            var tempEntry = new FoodEntryType.FoodEntry();
+            newFoodEntryPage.newFoodEntry = tempEntry;
+
+            // reset description component
+            foodEntryDescription.foodEntryData = newFoodEntryPage.newFoodEntry;
+
+            // show / hide elements
+            selectFoodItemButton.visible = true;
+            foodEntryDescription.visible = false;
+        }
+
         // attach components
         attachedObjects: [
             // page to select food for an item

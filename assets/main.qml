@@ -50,7 +50,7 @@ TabbedPane {
         
         // reset the page contents
         onTriggered: {
-            // newFoodEntryTab.content.resetPage();
+            newFoodEntryTab.content.resetPage();
         }
     }
 
