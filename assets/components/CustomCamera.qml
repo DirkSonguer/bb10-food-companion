@@ -182,6 +182,46 @@ Container {
         }
     }
 
+    // container for upper focus mask
+    // this is shown when on Z series
+    Container {
+        background: Color.Black
+        opacity: 0.6
+        preferredHeight: 250
+        horizontalAlignment: HorizontalAlignment.Fill
+        verticalAlignment: VerticalAlignment.Top
+
+        // set initial visibility to false
+        visible: false
+
+        // show when on Z series
+        onCreationCompleted: {
+            if (DisplayInfo.height > 900) {
+                visible = true;
+            }
+        }
+    }
+
+    // container for lower focus mask
+    // this is shown when on Z series
+    Container {
+        background: Color.Black
+        opacity: 0.6
+        preferredHeight: 250
+        horizontalAlignment: HorizontalAlignment.Fill
+        verticalAlignment: VerticalAlignment.Bottom
+
+        // set initial visibility to false
+        visible: false
+
+        // show when on Z series
+        onCreationCompleted: {
+            if (DisplayInfo.height > 900) {
+                visible = true;
+            }
+        }
+    }
+
     // call to action container
     Container {
         // layout definition
@@ -189,7 +229,7 @@ Container {
         verticalAlignment: VerticalAlignment.Bottom
         leftPadding: 10
         rightPadding: 10
-        bottomPadding: 10
+        bottomPadding: 20
 
         Label {
             id: customCameraMessage

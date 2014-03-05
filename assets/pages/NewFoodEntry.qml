@@ -34,7 +34,7 @@ NavigationPane {
     // to reset / reload data
     signal resetPage()
     onResetPage: {
-        foodGalleryPage.reloadData();
+        newFoodEntryPage.resetPage();
     }
 
     Page {
@@ -184,7 +184,7 @@ NavigationPane {
                     iconSource: "asset:///images/icons/icon_add.png"
                     // backgroundImage: "asset:///images/button_background_green.png"
                     backgroundColor: Color.create(Globals.healthRatingColors[2])
-                    
+
                     // layout definition
                     topMargin: 5
                     alignText: HorizontalAlignment.Center
@@ -226,7 +226,7 @@ NavigationPane {
                         foodcompanionToast.show();
 
                         // send signal to reload data
-                        foodGalleryTab.content.reloadData();
+                        foodGalleryTab.content.resetPage();
 
                         // jump back to the gallery tab
                         tabbedPane.activeTab = foodGalleryTab;
@@ -257,6 +257,27 @@ NavigationPane {
             // captureImageSheet.open();
         }
 
+        // camera image has been captured
+        // this will be called by the CaptureImage sheet
+        // data will be the path to the captured image
+        onAddCapturedImage: {
+            console.log("# Updating new food item image: " + imageName);
+
+            // add image to thumbnail component
+            backgroundImage.imageSource = "file:///" + imageName;
+            backgroundImage.opacity = 1.0;
+
+            // store the image file to the page food entry
+            // note that a temp entry is needed because the children of the page variant are read only
+            var tempEntry = new FoodEntryType.FoodEntry();
+            tempEntry = newFoodEntryPage.newFoodEntry;
+            tempEntry.imageFile = imageName;
+            newFoodEntryPage.newFoodEntry = tempEntry;
+        }
+
+        // food description has been added or changed
+        // this is originally entered by the SelectFoodItem page
+        // data will later be changed by the FoodEntryDescription component
         onAddFoodItem: {
             console.log("# Updating new food item data: " + foodItemData.description);
 
