@@ -38,7 +38,7 @@ TabbedPane {
 
         // reload the gallery data
         onTriggered: {
-            // foodGalleryTab.content.reloadData();
+            foodGalleryTab.content.resetPage();
         }
     }
 

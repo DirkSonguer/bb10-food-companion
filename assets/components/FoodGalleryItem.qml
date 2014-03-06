@@ -22,6 +22,9 @@ Container {
     // signal that the item has been clicked
     signal clicked()
 
+    // signal that the item should be deleted
+    signal deleteFoodEntry()
+
     // data for the food entry
     property variant foodEntryData
 
@@ -29,99 +32,133 @@ Container {
     layout: DockLayout {
     }
 
+    // layout definition
+    leftPadding: 5
+    rightPadding: 5
+
     // standard width is minimum display width
     // however this should be overwritten by calling page
     // with DisplayInfo.width
     preferredWidth: 720
 
     // default height
-    preferredHeight: 280
+    //    preferredHeight: 240
+
+    // general background image
+    // this will be changed from green to wood once there is content to show
+    ImageView {
+        id: foodItemBackgroundImage
+
+        // layout definition
+        verticalAlignment: VerticalAlignment.Fill
+        horizontalAlignment: HorizontalAlignment.Fill
+        scalingMethod: ScalingMethod.AspectFill
+        preferredHeight: 100
+
+        imageSource: "asset:///images/button_background_dark.png"
+    }
 
     Container {
-        layout: DockLayout {
-
+        // layout orientation
+        layout: StackLayout {
+            orientation: LayoutOrientation.LeftToRight
         }
 
-        horizontalAlignment: HorizontalAlignment.Center
-        preferredWidth: (foodGalleryItemComponent.preferredWidth - 10)
+        // layout definition
+        horizontalAlignment: HorizontalAlignment.Fill
+        verticalAlignment: VerticalAlignment.Fill
+        topPadding: 20
+        bottomPadding: 20
+        leftPadding: 25
+        rightPadding: 10
 
-        ImageView {
-            horizontalAlignment: HorizontalAlignment.Fill
-            verticalAlignment: VerticalAlignment.Fill
+        // food item image
+        ImageWithBorder {
+            id: foodEntryImage
 
-            imageSource: "asset:///images/card_background.png"
+            minHeight: 200
+            maxHeight: 200
+            minWidth: 200
+            maxWidth: 200
         }
 
+        // food item description
         Container {
-            horizontalAlignment: HorizontalAlignment.Fill
-            verticalAlignment: VerticalAlignment.Fill
-
-            topPadding: 40
-            leftPadding: 30
-
+            // layout orientation
             layout: StackLayout {
-                orientation: LayoutOrientation.LeftToRight
+                orientation: LayoutOrientation.TopToBottom
             }
 
-            ImageWithBorder {
-                id: foodEntryImage
-                
-                minHeight: 200
-                maxHeight: 200
-                minWidth: 200
-                maxWidth: 200
-            }
+            // layout definition
+            topPadding: -10
+            leftPadding: 20
+            rightPadding: 10
 
+            // food item description
             Container {
-                leftPadding: 10
-                rightPadding: 20
+                Label {
+                    id: foodEntryDescription
 
-                layout: StackLayout {
-                    orientation: LayoutOrientation.TopToBottom
-                }
+                    // layout definition
+                    topMargin: 0
 
-                Container {
-                    // portion information
-                    // this contains the portion, size and calory information of the item
-                    Label {
-                        id: foodEntryDescription
-
-                        // layout definition
-                        topMargin: 0
-                        textStyle.fontSize: FontSize.PointValue
-                        textStyle.fontSizeValue: 8
-                        textStyle.fontWeight: FontWeight.W400
-                        textStyle.textAlign: TextAlign.Left
-                        textStyle.lineHeight: 0.85
-                        multiline: true
-                        autoSize {
-                            maxLineCount: 3
-                        }
+                    // text style definition
+                    textStyle.base: SystemDefaults.TextStyles.BodyText
+                    textStyle.fontWeight: FontWeight.W400
+                    textStyle.textAlign: TextAlign.Left
+                    textStyle.lineHeight: 0.85
+                    multiline: true
+                    autoSize {
+                        maxLineCount: 3
                     }
                 }
-                
-                Container {
-                    Label {
-                        id: foodEntryPortion
-                        
-                        // layout definition
-                        topMargin: 10
-                        textStyle.fontSize: FontSize.PointValue
-                        textStyle.fontSizeValue: 7
-                        textStyle.fontWeight: FontWeight.W100
-                        textStyle.textAlign: TextAlign.Left
-                        textStyle.fontStyle: FontStyle.Italic
-                        textStyle.color: Color.create(Globals.greenBackgroundColor)
-                        textStyle.lineHeight: 0.85
-                        multiline: true
-                        autoSize {
-                            maxLineCount: 2
-                        }
-                    }                    
-                }
             }
 
+            // food item portion
+            Container {
+                // portion information
+                // this contains the portion, size and calory information of the item
+                Label {
+                    id: foodEntryPortion
+
+                    // layout definition
+                    topMargin: 10
+
+                    // text style definition
+                    textStyle.fontSize: FontSize.PointValue
+                    textStyle.fontSizeValue: 7
+                    textStyle.fontWeight: FontWeight.W100
+                    textStyle.textAlign: TextAlign.Left
+                    textStyle.fontStyle: FontStyle.Italic
+                    textStyle.color: Color.create(Globals.greenBackgroundColor)
+                    textStyle.lineHeight: 0.85
+                    multiline: true
+                    autoSize {
+                        maxLineCount: 2
+                    }
+                }
+            }
         }
+
+        // context menu for the item
+        contextActions: [
+            ActionSet {
+                id: foodEntryDescriptionActionSet
+                title: "Your food diary"
+
+                // comment image action
+                ActionItem {
+                    id: deleteFoorEntryAction
+                    imageSource: "asset:///images/icons/icon_delete.png"
+                    title: "Delete food entry"
+
+                    // click action
+                    onTriggered: {
+                        foodGalleryItemComponent.deleteFoodEntry();
+                    }
+                }
+            }
+        ]
     }
 
     // food entry data has been given
@@ -130,14 +167,16 @@ Container {
         var foodPortionAndCalories = Copytext.portionSizeValues[foodEntryData.size] + ", ";
         foodPortionAndCalories += foodEntryData.portion + " with " + foodEntryData.calories + " calories";
         foodEntryPortion.text = foodPortionAndCalories;
-                
+
         // fill food item name
         foodEntryDescription.text = foodEntryData.description.toUpperCase();
-        
+
+        // set food item image and border
         foodEntryImage.imageSource = "file:///" + foodEntryData.imageFile;
         foodEntryImage.borderColor = Color.create(Globals.healthRatingColors[foodEntryData.rating]);
         foodEntryImage.borderSize = 5;
-        
+
+        // set color rating
         foodEntryPortion.textStyle.color = Color.create(Globals.healthRatingColors[foodEntryData.rating]);
     }
 

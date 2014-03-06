@@ -279,7 +279,7 @@ NavigationPane {
         // this is originally entered by the SelectFoodItem page
         // data will later be changed by the FoodEntryDescription component
         onAddFoodItem: {
-            console.log("# Updating new food item data: " + foodItemData.description);
+            // console.log("# Updating new food item data: " + foodItemData.description);
 
             // store the food item data to the page food entry
             // note that a temp entry is needed because the children of the page variant are read only

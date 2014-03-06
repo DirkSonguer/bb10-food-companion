@@ -177,7 +177,7 @@ Container {
     onFoodEntryDataChanged: {
         // set new calory value based on portion size
         var caloryModulation = parseInt(foodEntryData.calories) + Math.round(((foodEntryData.size - 1) / 2) * parseInt(foodEntryData.calories));
-        console.log("# calories: " + foodEntryData.calories + " size: " + foodEntryData.size + " modulation: " + caloryModulation);
+        // console.log("# calories: " + foodEntryData.calories + " size: " + foodEntryData.size + " modulation: " + caloryModulation);
 
         // fill in data values
         var foodPortionAndCalories = foodEntryData.portion + " with " + caloryModulation + " calories";

@@ -87,10 +87,11 @@ Container {
                 Label {
                     id: foodItemDescription
 
-                    // layout definition
+                    // text style definition
                     textStyle.base: SystemDefaults.TextStyles.BodyText
-                    textStyle.fontWeight: FontWeight.W100
+                    textStyle.fontWeight: FontWeight.W400
                     textStyle.textAlign: TextAlign.Left
+                    textStyle.lineHeight: 0.85
                     multiline: true
 
                     // component width minus the icon width and the paddings
@@ -177,7 +178,7 @@ Container {
 
     // change background and mask color according to confirmed state
     onFoodItemDataChanged: {
-        foodItemDescription.text = foodItemData.description;
+        foodItemDescription.text = foodItemData.description.toUpperCase();
         foodItemPortion.text = foodItemData.calories + " calories per " + foodItemData.portion;
 
         // set bookmark icon according to state
