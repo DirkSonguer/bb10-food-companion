@@ -1,10 +1,11 @@
 1
-61
+63
 classes/configurationhandler.js
 classes/entrydatabase.js
 classes/itemdatabase.js
 components/CustomButton.qml
 components/CustomCamera.qml
+components/CustomHeader.qml
 components/CustomSlider.qml
 components/FoodEntryDescription.qml
 components/FoodGalleryItem.qml
@@ -55,6 +56,7 @@ images/wood_background.png
 main.qml
 pages/FoodGallery.qml
 pages/NewFoodEntry.qml
+pages/NewFoodItem.qml
 pages/SelectFoodItem.qml
 sheets/About.qml
 sheets/CaptureImage.qml

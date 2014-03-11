@@ -166,7 +166,6 @@ Page {
             // add item
             onTriggered: {
                 var newFoodItemPageObject = newFoodItemPageComponent.createObject();
-                // selectFoodItemPageObject.callingPage = newFoodEntryPage;
                 navigationPane.push(newFoodItemPageObject);
             }
         }

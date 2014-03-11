@@ -137,7 +137,7 @@ EntryDatabase.prototype.getStatistics = function() {
 // the entry data needs to be of type FoodItem()
 // returns a boolean if the import has been done
 EntryDatabase.prototype.addEntry = function(entryData) {
-	console.log("# Adding item into the SQL db: " + entryData.imageFile + ", " + entryData.rating + ", " + entryData.foodid + ", " + entryData.size);
+	// console.log("# Adding item into the SQL db: " + entryData.imageFile + ", " + entryData.rating + ", " + entryData.foodid + ", " + entryData.size);
 
 	// initialize db connection
 	var db = openDatabaseSync("FoodCompanion", "1.0", "Food Companion persistent data storage", 1);
