@@ -43,7 +43,7 @@ void CameraUtilities::selectAspectRatio(bb::cascades::multimedia::Camera *camera
     // Find the closest match to the aspect parameter
     for (int i = 0; i < reslist.count(); i++) {
         QSize res = reslist[i].toSize();
-        qDebug() << "supported resolution: " << res.width() << "x" << res.height();
+        qDebug() << "supported resolution: " << res.width() << "x" << res.height() << " of " << reslist.count() << " total resolutions";
 
         // Check for w:h or h:w within 5px margin of error...
         if ((DELTA(res.width() * aspect, res.height()) < 5)
@@ -120,6 +120,9 @@ void CameraUtilities::correctImageOrientation(const QString imageFilePath)
 
     // Perform the rotation of the image before its saved.
     image = image.transformed(transform);
+
+    // Scale image before saving
+    image = image.scaled(720, 720, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     image.save(imageFilePath, "JPG");
 }

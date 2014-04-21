@@ -55,11 +55,12 @@ Container {
     Camera {
         id: customCamera
 
-        preferredHeight: DisplayInfo.height
+        preferredWidth: DisplayInfo.width
 
         onCameraOpened: {
             // TODO: Check and iterate through all available camwera resolutions and set it accordingly
-            cameraUtilities.selectAspectRatio(customCamera, DisplayInfo.width / DisplayInfo.height);
+            // cameraUtilities.selectAspectRatio(customCamera, DisplayInfo.width / DisplayInfo.height);
+            cameraUtilities.selectAspectRatio(customCamera, 1.0);
 
             // define additional camera settings, eg. setting focus mode and stabilization
             getSettings(customCameraSettings);
@@ -170,6 +171,8 @@ Container {
 
     // call to action container
     Container {
+        id: focusIcon
+        
         // layout definition
         horizontalAlignment: HorizontalAlignment.Center
         verticalAlignment: VerticalAlignment.Center
@@ -179,46 +182,6 @@ Container {
             preferredHeight: 162
             preferredWidth: 162
             imageSource: "asset:///images/icons/icon_focussing.png"
-        }
-    }
-
-    // container for upper focus mask
-    // this is shown when on Z series
-    Container {
-        background: Color.Black
-        opacity: 0.6
-        preferredHeight: 250
-        horizontalAlignment: HorizontalAlignment.Fill
-        verticalAlignment: VerticalAlignment.Top
-
-        // set initial visibility to false
-        visible: false
-
-        // show when on Z series
-        onCreationCompleted: {
-            if (DisplayInfo.height > 900) {
-                visible = true;
-            }
-        }
-    }
-
-    // container for lower focus mask
-    // this is shown when on Z series
-    Container {
-        background: Color.Black
-        opacity: 0.6
-        preferredHeight: 250
-        horizontalAlignment: HorizontalAlignment.Fill
-        verticalAlignment: VerticalAlignment.Bottom
-
-        // set initial visibility to false
-        visible: false
-
-        // show when on Z series
-        onCreationCompleted: {
-            if (DisplayInfo.height > 900) {
-                visible = true;
-            }
         }
     }
 
@@ -237,15 +200,16 @@ Container {
             // layout definition
             textStyle.base: SystemDefaults.TextStyles.BigText
             textStyle.fontSize: FontSize.PointValue
-            textStyle.fontSizeValue: 14
+            textStyle.fontSizeValue: 10
             textStyle.fontWeight: FontWeight.W100
             textStyle.textAlign: TextAlign.Left
+            textStyle.color: Color.White
 
             // use multiline / line breaks
             multiline: true
 
             // text content
-            text: "Tap here to capture the image. Use the buttons to toggle the flash or abort."
+            text: "Tap to capture the image. Use the buttons to toggle the flash or abort."
         }
     }
 
@@ -282,6 +246,11 @@ Container {
     // show the error message on the control
     onErrorOccured: {
         customCameraMessage.text = "Sorry, an error occured. The error ID is " + errorMessage + ", please restart the app and try again.";
+
+        // hide camra elements
+        focusIcon.visible = false;
+        upperFocusMask.visible = false;
+        lowerFocusMask.visible = false;
 
         // stop camera control to reset states
         customCameraComponent.stopCamera();

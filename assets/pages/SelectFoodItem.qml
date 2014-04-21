@@ -35,21 +35,6 @@ Page {
         layout: DockLayout {
         }
 
-        ImageView {
-            id: backgroundImage
-            
-            // layout definition
-            verticalAlignment: VerticalAlignment.Top
-            preferredWidth: DisplayInfo.width
-            preferredHeight: DisplayInfo.height
-            
-            // image scaling and opacity
-            scalingMethod: ScalingMethod.AspectFill
-            
-            // image file
-            imageSource: "asset:///images/page_background.png"
-        }
-        
         // actual content
         Container {
             // layout orientation
@@ -83,12 +68,10 @@ Page {
 
                         // hide possible info message and show list
                         infoMessage.hideMessage();
-                        backgroundImage.imageSource = "asset:///images/wood_background.png"
                         foodItemList.visible = true;
                     } else {
                         // show message and hide list
                         infoMessage.showMessage(Copytext.noFoodItemsFoundText, Copytext.noFoodItemsFoundHeadline);
-                        backgroundImage.imageSource = "asset:///images/page_background.png";
                         foodItemList.visible = false;
                     }
                 }
@@ -97,7 +80,6 @@ Page {
                 onCleared: {
                     if (foodItemList.visible) {
                         infoMessage.showMessage(Copytext.enterFoodItemText, Copytext.enterFoodItemHeadline);
-                        backgroundImage.imageSource = "asset:///images/page_background.png";
                         foodItemList.visible = false;
                     }
                 }

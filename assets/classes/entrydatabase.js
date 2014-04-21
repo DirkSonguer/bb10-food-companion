@@ -52,7 +52,6 @@ EntryDatabase.prototype.getEntries = function() {
 
 	// initialize database table
 	db.transaction(function(tx) {
-		// TODO: Change to item_ prefix (eg. item_foodid, ..)
 		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(item_foodid INT, item_description TEXT, item_portion TEXT, item_calories INT, item_bookmark INT, item_usergen INT)');
 	});
 
@@ -114,7 +113,6 @@ EntryDatabase.prototype.getStatistics = function() {
 
 	// initialize database table
 	db.transaction(function(tx) {
-		// TODO: Change to item_ prefix (eg. item_foodid, ..)
 		tx.executeSql('CREATE TABLE IF NOT EXISTS fooditems(item_foodid INT, item_description TEXT, item_portion TEXT, item_calories INT, item_bookmark INT, item_usergen INT)');
 	});
 

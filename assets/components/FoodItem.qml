@@ -44,16 +44,15 @@ Container {
 
     // general background image
     // this will be changed from green to wood once there is content to show
-    ImageView {
-        id: foodItemBackgroundImage
+    Container {
+        id: foodItemBackground
 
         // layout definition
         verticalAlignment: VerticalAlignment.Fill
         horizontalAlignment: HorizontalAlignment.Fill
-        scalingMethod: ScalingMethod.AspectFill
-        preferredHeight: 100
+        background: Color.create(Globals.defaultBackgroundColorActive)
 
-        imageSource: "asset:///images/button_background_dark.png"
+        visible: false
     }
 
     Container {
@@ -167,12 +166,12 @@ Container {
     onTouch: {
         // user pressed description
         if (event.touchType == TouchType.Down) {
-            foodItemBackgroundImage.imageSource = "asset:///images/button_background_dark_highlight.png";
+            foodItemBackground.visible = true;
         }
 
         // user release description or is moving
         if ((event.touchType == TouchType.Up) || (event.touchType == TouchType.Cancel)) {
-            foodItemBackgroundImage.imageSource = "asset:///images/button_background_dark.png";
+            foodItemBackground.visible = false;
         }
     }
 

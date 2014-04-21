@@ -34,7 +34,6 @@ Page {
             id: foodItemHeader
 
             headline: "Add item to database"
-            imageSource: "asset:///images/header_background.png"
         }
 
         // scroll view as the page might not fit on the Q10 / Q5 screen
@@ -52,7 +51,7 @@ Page {
                 rightPadding: 10
 
                 Label {
-                    text: "The name of the food item.\nExample: \"My own chicken and ham sandwich\"."
+                    text: "The name of the food item.\nExample: \"My own chicken and ham sandwich\""
 
                     // layout definition
                     bottomMargin: 5
@@ -77,7 +76,7 @@ Page {
                 }
 
                 Label {
-                    text: "The portion description.\nExample: \"serving\", \"cup\" or \"slice\"."
+                    text: "The portion description.\nExample: \"serving\", \"cup\" or \"slice\""
 
                     // layout definition
                     bottomMargin: 5
@@ -102,7 +101,7 @@ Page {
                 }
 
                 Label {
-                    text: "The estimated amount of calories per portion.\nExample: \"250\"."
+                    text: "The estimated amount of calories per portion\nExample: \"250\""
 
                     // layout definition
                     bottomMargin: 5
@@ -137,19 +136,19 @@ Page {
                     bottomMargin: 10
                     alignText: HorizontalAlignment.Left
                     preferredWidth: DisplayInfo.width
-                    backgroundColor: Color.Transparent
+                    backgroundColor: Color.create(Globals.defaultBackgroundColor)
 
                     // bookmark text
-                    iconSource: "asset:///images/icons/icon_notbookmarked.png"
+                    iconSource: "asset:///images/icons/icon_notbookmarked_s.png"
                     narrowText: "Tap to add as favorite"
 
                     onClicked: {
                         if (bookmarked == 0) {
-                            iconSource = "asset:///images/icons/icon_bookmarked.png";
+                            iconSource = "asset:///images/icons/icon_bookmarked_s.png";
                             narrowText = "Item will be added as favorite";
                             bookmarked = 1;
                         } else {
-                            iconSource = "asset:///images/icons/icon_notbookmarked.png";
+                            iconSource = "asset:///images/icons/icon_notbookmarked_s.png";
                             narrowText = "Tap to add as favorite";
                             bookmarked = 0;
                         }

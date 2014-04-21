@@ -72,9 +72,9 @@ NavigationPane {
 
                 // image scaling and opacity
                 scalingMethod: ScalingMethod.AspectFill
-
-                // image file
-                imageSource: "asset:///images/wood_background.png"
+                
+                // set initial visibility to false
+                visible: false
             }
 
             Container {
@@ -91,13 +91,12 @@ NavigationPane {
                     // content
                     narrowText: "Capture image"
                     iconSource: "asset:///images/icons/icon_camera.png"
-                    backgroundImage: "asset:///images/button_background_dark.png"
 
                     // layout definition
                     alignText: HorizontalAlignment.Center
                     backgroundColor: Color.create(Globals.defaultBackgroundColor)
                     preferredWidth: DisplayInfo.width
-                    opacity: 0.7
+                    opacity: 0.95
 
                     // call to action clicked
                     // open capture image sheet
@@ -117,14 +116,13 @@ NavigationPane {
                     // content
                     narrowText: "Add a description"
                     iconSource: "asset:///images/icons/icon_description.png"
-                    backgroundImage: "asset:///images/button_background_dark.png"
 
                     // layout definition
                     topMargin: 5
                     alignText: HorizontalAlignment.Center
                     backgroundColor: Color.create(Globals.defaultBackgroundColor)
                     preferredWidth: DisplayInfo.width
-                    opacity: 0.7
+                    opacity: 0.95
 
                     // call to action clicked
                     // open capture image sheet
@@ -145,10 +143,9 @@ NavigationPane {
                     id: foodEntryDescription
 
                     // layout definition
-                    backgroundImage: "asset:///images/button_background_dark.png"
                     topMargin: 5
                     preferredWidth: DisplayInfo.width
-                    opacity: 0.7
+                    opacity: 0.95
 
                     // set initial visibility to false
                     // will be set visible when a food item has been selected
@@ -182,14 +179,13 @@ NavigationPane {
                     // content
                     boldText: "Store food entry"
                     iconSource: "asset:///images/icons/icon_add.png"
-                    // backgroundImage: "asset:///images/button_background_green.png"
                     backgroundColor: Color.create(Globals.healthRatingColors[2])
 
                     // layout definition
                     topMargin: 5
                     alignText: HorizontalAlignment.Center
                     preferredWidth: DisplayInfo.width
-                    opacity: 0.9
+                    opacity: 0.95
 
                     // add food item clicked
                     // this will stored in the entry database
@@ -265,7 +261,7 @@ NavigationPane {
 
             // add image to thumbnail component
             backgroundImage.imageSource = "file:///" + imageName;
-            backgroundImage.opacity = 1.0;
+            backgroundImage.visible = true;
 
             // store the image file to the page food entry
             // note that a temp entry is needed because the children of the page variant are read only
@@ -304,8 +300,8 @@ NavigationPane {
         // and buttons should be shown in original form
         onResetPage: {
             // reset image
-            backgroundImage.imageSource = "asset:///images/wood_background.png";
-
+            backgroundImage.visible = false;
+            
             // reset new food entry object
             var tempEntry = new FoodEntryType.FoodEntry();
             newFoodEntryPage.newFoodEntry = tempEntry;

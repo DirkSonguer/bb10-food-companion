@@ -31,10 +31,6 @@ Container {
     preferredWidth: DisplayInfo.width
     preferredHeight: 100
 
-    // set initial background color
-    // can be changed via the componentBackground property
-    background: Color.create(Globals.greenBackgroundColor)
-
     Container {
         id: customHeaderContainer
 
@@ -57,6 +53,7 @@ Container {
 
         Container {
             // layout definition
+            topPadding: 10
             leftPadding: 10
             rightPadding: 10
 
@@ -70,7 +67,6 @@ Container {
 
                 // layout definition
                 leftMargin: 5
-                // /textStyle.base: SystemDefaults.TextStyles.TitleText
                 textStyle.fontSize: FontSize.PointValue
                 textStyle.fontSizeValue: 12
                 textStyle.fontWeight: FontWeight.W100

@@ -1,5 +1,5 @@
 1
-63
+66
 classes/configurationhandler.js
 classes/entrydatabase.js
 classes/itemdatabase.js
@@ -35,6 +35,7 @@ images/icons/icon_add.png
 images/icons/icon_addentry.png
 images/icons/icon_bbworld.png
 images/icons/icon_bookmarked.png
+images/icons/icon_bookmarked_s.png
 images/icons/icon_camera.png
 images/icons/icon_close.png
 images/icons/icon_delete.png
@@ -45,6 +46,7 @@ images/icons/icon_focussing.png
 images/icons/icon_gallery.png
 images/icons/icon_notavailable.png
 images/icons/icon_notbookmarked.png
+images/icons/icon_notbookmarked_s.png
 images/icons/icon_search.png
 images/icons/icon_search_dimmed.png
 images/icons/icon_statistics.png
@@ -52,6 +54,7 @@ images/page_background.png
 images/splashscreens/splashscreen_1280x720.png
 images/splashscreens/splashscreen_1280x768.png
 images/splashscreens/splashscreen_720x720.png
+images/wood_background - Kopie.png
 images/wood_background.png
 main.qml
 pages/FoodGallery.qml

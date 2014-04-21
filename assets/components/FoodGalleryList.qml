@@ -100,7 +100,6 @@ Container {
                         textStyle.fontSizeValue: 10
                         textStyle.fontWeight: FontWeight.W100
                         textStyle.fontStyle: FontStyle.Italic
-                        textStyle.color: Color.White
                         
                         onCreationCompleted: {
                             var textSplit = text.split("#");

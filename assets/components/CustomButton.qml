@@ -24,7 +24,6 @@ Container {
     signal clicked()
 
     // appearance properties
-    property alias backgroundImage: customButtonBackgroundImage.imageSource
     property alias backgroundColor: customButtonComponent.background
     property variant componentBackground
 
@@ -41,23 +40,6 @@ Container {
     // set initial background color
     // can be changed via the componentBackground property
     background: Color.create(Globals.defaultBackgroundColor)
-
-    ImageView {
-        id: customButtonBackgroundImage
-
-        // layout definition
-        verticalAlignment: VerticalAlignment.Fill
-        horizontalAlignment: HorizontalAlignment.Fill
-        scalingMethod: ScalingMethod.AspectFill
-        preferredHeight: 100
-
-        // set initial visibility to false
-        visible: false
-
-        onImageSourceChanged: {
-            visible = true;
-        }
-    }
 
     Container {
         id: customButtonContainer
@@ -114,6 +96,7 @@ Container {
                 textStyle.base: SystemDefaults.TextStyles.BodyText
                 textStyle.fontWeight: FontWeight.W500
                 textStyle.textAlign: TextAlign.Left
+                textStyle.color: Color.White
 
                 // set initial visibility to false
                 // make label visible if text is added
@@ -132,6 +115,7 @@ Container {
                 textStyle.base: SystemDefaults.TextStyles.BodyText
                 textStyle.fontWeight: FontWeight.W100
                 textStyle.textAlign: TextAlign.Left
+                textStyle.color: Color.White
 
                 // set initial visibility to false
                 // make label visible if text is added

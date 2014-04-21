@@ -44,23 +44,6 @@ NavigationPane {
             layout: DockLayout {
             }
 
-            // background image slot
-            // this just shows the wooden background
-            ImageView {
-                id: backgroundImage
-
-                // layout definition
-                verticalAlignment: VerticalAlignment.Top
-                preferredWidth: DisplayInfo.width
-                preferredHeight: DisplayInfo.height
-
-                // image scaling and opacity
-                scalingMethod: ScalingMethod.AspectFill
-
-                // image file
-                imageSource: "asset:///images/page_background.png"
-            }
-
             // food gallery component
             // this contains the food entry items
             FoodGalleryList {
@@ -123,13 +106,9 @@ NavigationPane {
                     foodGalleryList.addToList(foundFoodItems[index]);
                 }
 
-                // show list, hide everything else
-                backgroundImage.imageSource = "asset:///images/wood_background.png";
                 foodGalleryList.visible = true;
                 infoMessage.hideMessage();
             } else {
-                // if no food items have been logged yet, show note
-                backgroundImage.imageSource = "asset:///images/page_background.png";
                 infoMessage.showMessage(Copytext.noFoodEntriesFoundText, Copytext.noFoodEntriesFoundHeadline);
             }
         }

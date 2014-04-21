@@ -44,20 +44,6 @@ Container {
     // default height
     //    preferredHeight: 240
 
-    // general background image
-    // this will be changed from green to wood once there is content to show
-    ImageView {
-        id: foodItemBackgroundImage
-
-        // layout definition
-        verticalAlignment: VerticalAlignment.Fill
-        horizontalAlignment: HorizontalAlignment.Fill
-        scalingMethod: ScalingMethod.AspectFill
-        preferredHeight: 100
-
-        imageSource: "asset:///images/button_background_dark.png"
-    }
-
     Container {
         // layout orientation
         layout: StackLayout {
@@ -67,19 +53,19 @@ Container {
         // layout definition
         horizontalAlignment: HorizontalAlignment.Fill
         verticalAlignment: VerticalAlignment.Fill
-        topPadding: 20
-        bottomPadding: 20
-        leftPadding: 25
+        topPadding: 15
+        bottomPadding: 5
+        leftPadding: 10
         rightPadding: 10
 
         // food item image
         ImageWithBorder {
             id: foodEntryImage
 
-            minHeight: 200
-            maxHeight: 200
-            minWidth: 200
-            maxWidth: 200
+            minHeight: 150
+            maxHeight: 150
+            minWidth: 150
+            maxWidth: 150
         }
 
         // food item description
@@ -130,7 +116,7 @@ Container {
                     textStyle.fontWeight: FontWeight.W100
                     textStyle.textAlign: TextAlign.Left
                     textStyle.fontStyle: FontStyle.Italic
-                    textStyle.color: Color.create(Globals.greenBackgroundColor)
+//                    textStyle.color: Color.create(Globals.greenBackgroundColor)
                     textStyle.lineHeight: 0.85
                     multiline: true
                     autoSize {

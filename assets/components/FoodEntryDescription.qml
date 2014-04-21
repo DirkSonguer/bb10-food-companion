@@ -31,7 +31,6 @@ Container {
     property variant foodEntryData
 
     // appearance properties
-    property alias backgroundImage: foodEntryDescriptonBackgroundImage.imageSource
     property alias backgroundColor: foodEntryDescriptionComponent.background
 
     // layout orientation
@@ -85,6 +84,7 @@ Container {
                 textStyle.fontWeight: FontWeight.W100
                 textStyle.textAlign: TextAlign.Left
                 textStyle.lineHeight: 0.85
+                textStyle.color: Color.White
                 autoSize.maxLineCount: 2
                 multiline: true
             }
@@ -100,6 +100,7 @@ Container {
                 textStyle.base: SystemDefaults.TextStyles.SmallText
                 textStyle.fontWeight: FontWeight.W100
                 textStyle.textAlign: TextAlign.Left
+                textStyle.color: Color.White
                 multiline: true
             }
 

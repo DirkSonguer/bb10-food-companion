@@ -96,7 +96,7 @@
     <asset path="assets">assets</asset>
 
     <!-- Set theme to bright as default -->
-    <env var="CASCADES_THEME" value="dark"/>
+    <!-- env var="CASCADES_THEME" value="dark"/ -->
 
     <!-- Locale support -->
     <asset path="translations" dest="qm">
