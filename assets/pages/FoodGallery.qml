@@ -52,6 +52,16 @@ NavigationPane {
                 // set initial definition to false
                 // this will be set true once the data has been loaded
                 visible: false
+                
+                // item has been clicked
+                onItemClicked: {
+                    console.log("Item has been client in list: " + foodData.timestamp);
+                    
+                    // console.log("# Item clicked: " + mediaData.mediaId);
+                    var foodEntryDetailPage = foodEntryDetailPageComponent.createObject();
+                    foodEntryDetailPage.foodEntryData = foodData;
+                    navigationPane.push(foodEntryDetailPage);
+                }
 
                 // item has been deleted
                 // note that by this point it has only been removed from the list
@@ -112,6 +122,16 @@ NavigationPane {
                 infoMessage.showMessage(Copytext.noFoodEntriesFoundText, Copytext.noFoodEntriesFoundHeadline);
             }
         }
+
+        // attach components
+        attachedObjects: [
+            // page to select food for an item
+            // will be called if user clicks on add description
+            ComponentDefinition {
+                id: foodEntryDetailPageComponent
+                source: "FoodEntryDetail.qml"
+            }
+        ]    
     }
 
     // destroy pages after use

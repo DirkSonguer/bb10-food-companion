@@ -75,6 +75,7 @@ Page {
                 // message content
                 titleText: Copytext.importDBHeadline
                 messageText: Copytext.importDBText
+                textColor: Color.White
 
                 // layout definition
                 leftPadding: 10

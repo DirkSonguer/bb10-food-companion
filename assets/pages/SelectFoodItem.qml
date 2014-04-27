@@ -21,7 +21,7 @@ import "../classes/itemdatabase.js" as ItemDatabase
 
 Page {
     id: selectFoodItemPage
-    
+
     // property that holds the calling page
     // this page will receive the addFoodItem() signal
     property variant callingPage
@@ -84,37 +84,36 @@ Page {
                     }
                 }
             }
-            
-            
+
             // list of food items
             // this is filled by the user search via foodInput
             FoodItemList {
                 id: foodItemList
-                
+
                 // layout definition
                 topMargin: 1
-                
+
                 // set initial visibility to false
                 // this will be changed if search data has been loaded
                 visible: false
 
                 onItemDescriptionClicked: {
                     // console.log("# Selected food item: " + foodItemData.description);
-                    
+
                     // return the food item back to the calling page
                     callingPage.addFoodItem(foodItemData);
-                    
+
                     // close page
                     navigationPane.pop();
                 }
-                
+
                 onItemBookmarkClicked: {
                     console.log("# Bookmarked food item: " + foodItemData.description);
-                    
+
                     // search food items from database for search term
                     var foundFoodItems = ItemDatabase.itemdb.updateBookmarkState(foodItemData);
                 }
-            }            
+            }
         }
 
         // info message
@@ -135,23 +134,23 @@ Page {
             selectFoodInput.focus();
         }
     }
-    
+
     actions: [
         // add new food item
         ActionItem {
             id: addItemAction
             ActionBar.placement: ActionBarPlacement.OnBar
-            
-            title: "Add item to database"            
+
+            title: "Add item to database"
             imageSource: "asset:///images/icons/icon_add.png"
-            
+
             // add item
             onTriggered: {
                 var newFoodItemPageObject = newFoodItemPageComponent.createObject();
                 navigationPane.push(newFoodItemPageObject);
             }
         }
-    ]    
+    ]
 
     // attach components
     attachedObjects: [

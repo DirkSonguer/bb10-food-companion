@@ -180,11 +180,26 @@ Container {
         foodItemDescription.text = foodItemData.description.toUpperCase();
         foodItemPortion.text = foodItemData.calories + " calories per " + foodItemData.portion;
 
+        var themePostfix = "";
+        switch (Application.themeSupport.theme.colorTheme.style) {
+            case VisualStyle.Bright:
+                // console.log("Setting theme to bright");
+                // note that if the theme is bright, the icons need to be dark to be seen
+                themePostfix = "_dark";
+                break;
+            case VisualStyle.Dark:
+                // console.log("Setting theme to dark");
+                break;
+            default:
+            // console.log("Unknown theme");
+        }
+
         // set bookmark icon according to state
         if (foodItemData.bookmark == 1) {
-            foodItemBookmarked.imageSource = "asset:///images/icons/icon_bookmarked.png";
+            foodItemBookmarked.imageSource = "asset:///images/icons/icon_bookmarked" + themePostfix + ".png";
         } else {
-            foodItemBookmarked.imageSource = "asset:///images/icons/icon_notbookmarked.png";
+            foodItemBookmarked.imageSource = "asset:///images/icons/icon_notbookmarked" + themePostfix + ".png";
         }
+
     }
 }

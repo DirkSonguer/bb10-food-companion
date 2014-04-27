@@ -166,7 +166,7 @@ NavigationPane {
                     }
 
                     onClicked: {
-                        // this shuld open the food item selection page
+                        // this should open the food item selection page
                         // basically the same as with pressing the call to action
                         selectFoodItemButton.clicked();
                     }

@@ -70,7 +70,9 @@ TabbedPane {
         var newFoodEntryPageObject = newFoodEntryPageComponent.createObject();
         newFoodEntryTab.setContent(newFoodEntryPageObject);
 
-        // activate statistics tab
+        // this is a workaround as the initial tab does not recognize taps
+        // and does not have the correct height / positioning
+        tabbedPane.activeTab = newFoodEntryTab;
         tabbedPane.activeTab = foodGalleryTab;
     }
 

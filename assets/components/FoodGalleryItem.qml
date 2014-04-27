@@ -56,17 +56,7 @@ Container {
         topPadding: 15
         bottomPadding: 5
         leftPadding: 10
-        rightPadding: 10
-
-        // food item image
-        ImageWithBorder {
-            id: foodEntryImage
-
-            minHeight: 150
-            maxHeight: 150
-            minWidth: 150
-            maxWidth: 150
-        }
+        rightPadding: 20
 
         // food item description
         Container {
@@ -76,8 +66,9 @@ Container {
             }
 
             // layout definition
+            preferredWidth: foodGalleryItemComponent.preferredWidth - 150
             topPadding: -10
-            leftPadding: 20
+            leftPadding: 0
             rightPadding: 10
 
             // food item description
@@ -116,7 +107,6 @@ Container {
                     textStyle.fontWeight: FontWeight.W100
                     textStyle.textAlign: TextAlign.Left
                     textStyle.fontStyle: FontStyle.Italic
-//                    textStyle.color: Color.create(Globals.greenBackgroundColor)
                     textStyle.lineHeight: 0.85
                     multiline: true
                     autoSize {
@@ -126,6 +116,16 @@ Container {
             }
         }
 
+        // food item image
+        ImageWithBorder {
+            id: foodEntryImage
+            
+            minHeight: 150
+            maxHeight: 150
+            minWidth: 150
+            maxWidth: 150
+        }        
+        
         // context menu for the item
         contextActions: [
             ActionSet {

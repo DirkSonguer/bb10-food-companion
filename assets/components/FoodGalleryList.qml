@@ -132,6 +132,12 @@ Container {
                         // this sets the component width to the full device width
                         preferredWidth: Qt.DisplayInfo.width
                         
+                        // food entry was clicked
+                        // hand the event back to the calling page 
+                        onClicked: {
+                            Qt.itemClicked(ListItemData.foodData);
+                        }
+                        
                         // food entry should be deleted
                         // note that this will only remove the item from the list, not from the database
                         // the calling page is responsible for this

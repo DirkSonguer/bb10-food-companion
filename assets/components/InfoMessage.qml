@@ -30,6 +30,7 @@ Container {
 
     property alias titleText: infoTitle.text
     property alias messageText: infoMessage.text
+    property variant textColor
 
     // layout orientation
     layout: StackLayout {
@@ -88,6 +89,11 @@ Container {
             }
         }
     ]
+    
+    onTextColorChanged: {
+        infoTitle.textStyle.color = infoMessageComponent.textColor;
+        infoMessage.textStyle.color = infoMessageComponent.textColor;
+    }
 
     // show the loader with the given message
     onShowMessage: {

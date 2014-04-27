@@ -11,6 +11,9 @@
 
 var working = "Working..";
 
+var aboutHeadline = "Food Companion";
+var aboutText = "<html>Food Companion is a photo diary for your daily food as well as a calorie and nutrition logger for BlackBerry 10.<br /><br />Code &amp; UI: Dirk Songuer (dirk@songuer.de).</html>";
+
 var portionSizeValues = new Array("Small portion", "Normal portion", "Large portion");
 var healthRatingValues = new Array("Unhealthy", "Ok", "Healthy");
 var summaryRatingEmoticons = new Array("02_crying.png", "03_sad.png", "04_surprised.png", "05_happy.png", "06_wink.png", "07_lol.png");
