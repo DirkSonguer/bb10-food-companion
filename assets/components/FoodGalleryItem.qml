@@ -158,7 +158,13 @@ Container {
         foodEntryDescription.text = foodEntryData.description.toUpperCase();
 
         // set food item image and border
-        foodEntryImage.imageSource = "file:///" + foodEntryData.imageFile;
+        if (foodEntryData.imageFile != "") {
+            foodEntryImage.imageSource = "file:///" + foodEntryData.imageFile;            
+        } else {
+            foodEntryImage.imageSource = "asset:///images/icons/icon_appicon.png";            
+        }
+//       foodEntryImage.imageSource = "file:///" + foodEntryData.imageFile;      
+        
         foodEntryImage.borderColor = Color.create(Globals.healthRatingColors[foodEntryData.rating]);
         foodEntryImage.borderSize = 5;
 

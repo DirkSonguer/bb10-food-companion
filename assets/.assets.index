@@ -1,5 +1,5 @@
 1
-67
+62
 classes/configurationhandler.js
 classes/entrydatabase.js
 classes/itemdatabase.js
@@ -18,10 +18,6 @@ components/InfoMessage.qml
 database/food_db.json
 global/copytext.js
 global/globals.js
-images/button_background_bright.png
-images/button_background_dark.png
-images/button_background_dark_highlight.png
-images/button_background_green.png
 images/emoticons/01_angry.png
 images/emoticons/02_crying.png
 images/emoticons/03_sad.png
@@ -33,6 +29,7 @@ images/header_background.png
 images/icons/icon_about.png
 images/icons/icon_add.png
 images/icons/icon_addentry.png
+images/icons/icon_appicon.png
 images/icons/icon_bbworld.png
 images/icons/icon_bookmarked.png
 images/icons/icon_bookmarked_dark.png
@@ -54,8 +51,6 @@ images/page_background.png
 images/splashscreens/splashscreen_1280x720.png
 images/splashscreens/splashscreen_1280x768.png
 images/splashscreens/splashscreen_720x720.png
-images/wood_background - Kopie.png
-images/wood_background.png
 main.qml
 pages/FoodEntryDetail.qml
 pages/FoodGallery.qml

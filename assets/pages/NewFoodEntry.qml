@@ -190,21 +190,6 @@ NavigationPane {
                     // add food item clicked
                     // this will stored in the entry database
                     onClicked: {
-                        // check if picture is available
-                        if (! newFoodEntryPage.newFoodEntry.imageFile) {
-                            foodcompanionToast.body = Copytext.noFoodImageTaken;
-                            foodcompanionToast.show();
-
-                            // WARNING: Activate this in productive version!
-                            // return;
-
-                            // this is only valid in debug environment
-                            var tempEntry = new FoodEntryType.FoodEntry();
-                            tempEntry = newFoodEntryPage.newFoodEntry;
-                            tempEntry.imageFile = "accounts/1000/shared/photos/IMG_00000470.jpg";
-                            newFoodEntryPage.newFoodEntry = tempEntry;
-                        }
-
                         // check if description is available
                         if (! newFoodEntryPage.newFoodEntry.description) {
                             foodcompanionToast.body = Copytext.noFoodDescription;

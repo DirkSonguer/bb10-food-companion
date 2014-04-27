@@ -53,6 +53,7 @@
     <!--  Name of author which is used for signing. Must match the developer name of your development certificate. -->
     <author>Dirk Songuer</author>
     <authorId>gYAAgBdeWwop_OlO2UhxazMyvtM</authorId>
+    <category>core.media</category>
     <description>A photo diary for your daily food as well as a calorie and nutrition logger for BlackBerry 10.</description>
     <splashScreens>
        <image>splashscreen_1280x720.png</image>

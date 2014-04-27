@@ -27,6 +27,8 @@ Page {
     property variant foodEntryData
 
     Container {
+        id: backgroundContainer
+
         // layout orientation
         layout: DockLayout {
         }
@@ -61,7 +63,7 @@ Page {
             bottomPadding: 20
             verticalAlignment: VerticalAlignment.Top
             preferredWidth: DisplayInfo.width
-            background: Color.create(Globals.defaultBackgroundColorActive);
+            background: Color.create(Globals.defaultBackgroundColorActive)
             opacity: 0.9
 
             // food item description
@@ -125,18 +127,29 @@ Page {
     // food description has been changed
     // this is entered by the FoodGallery page
     onFoodEntryDataChanged: {
-        console.log("# Updating food item data: " + foodEntryData.description);
+        // console.log("# Updating food item data: " + foodEntryData.description);
 
-        backgroundImage.imageSource = "file:///" + foodEntryData.imageFile;
+        // check if there is an image file available
+        // if not, then show only the background color
+        if (foodEntryData.imageFile != "") {
+            backgroundImage.imageSource = "file:///" + foodEntryData.imageFile;
+        } else {
+            backgroundImage.visible = false;
+            foodEntryBackground.verticalAlignment = VerticalAlignment.Center;
+        }
 
+        // set food description
         foodEntryDescription.text = foodEntryData.description;
 
+        // set food portion and calories
         var foodPortionAndCalories = Copytext.portionSizeValues[foodEntryData.size] + ", ";
         foodPortionAndCalories += foodEntryData.portion + " with " + foodEntryData.calories + " calories";
         foodPortionAndCalories += ", rating: " + Copytext.healthRatingValues[foodEntryData.rating].toLowerCase();
         foodEntryPortion.text = foodPortionAndCalories;
-        
+
+        // set backgrounds
         foodEntryBackground.background = Color.create(Globals.healthRatingColors[foodEntryData.rating]);
+        backgroundContainer.background = Color.create(Globals.healthRatingColors[foodEntryData.rating]);
     }
 
     // attach components
