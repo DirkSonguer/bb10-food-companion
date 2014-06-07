@@ -82,6 +82,7 @@ TabbedPane {
 
         // application menu items
         actions: [
+/*
             // WARNING: Do not activate this in productive version!
             ActionItem {
                 id: mainMenuClearDatabase
@@ -93,6 +94,7 @@ TabbedPane {
                     Application.requestExit();
                 }
             },
+*/
             // action for the about sheet
             ActionItem {
                 id: mainMenuAbout
