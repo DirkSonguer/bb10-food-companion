@@ -24,45 +24,55 @@ Page {
         layout: DockLayout {
         }
 
-        Container {
-            // layout orientation
-            layout: StackLayout {
-                orientation: LayoutOrientation.TopToBottom
+        // scroll view as the Instagram login pages
+        // do not fit on the Q10 / Q5 screen
+        ScrollView {
+            // only vertical scrolling is needed
+            scrollViewProperties {
+                scrollMode: ScrollMode.Vertical
+                pinchToZoomEnabled: false
             }
 
-            // layout definiton
-            // layout definition
-            verticalAlignment: VerticalAlignment.Center
-            horizontalAlignment: HorizontalAlignment.Center
-            leftPadding: 10
-            rightPadding: 10
+            Container {
+                // layout orientation
+                layout: StackLayout {
+                    orientation: LayoutOrientation.TopToBottom
+                }
 
-            InfoMessage {
-                id: infoMessage
-
-                leftPadding: 0
-                rightPadding: 0
-            }
-
-            // contact invocation trigger
-            CustomButton {
-                narrowText: "Contact developer"
-
+                // layout definiton
                 // layout definition
-                preferredWidth: DisplayInfo.width
-                topMargin: 30
+                verticalAlignment: VerticalAlignment.Center
+                horizontalAlignment: HorizontalAlignment.Center
+                leftPadding: 10
+                rightPadding: 10
 
-                // trigger email invocation
-                onClicked: {
-                    emailInvocation.trigger(emailInvocation.query.invokeActionId);
+                InfoMessage {
+                    id: infoMessage
+
+                    leftPadding: 0
+                    rightPadding: 0
+                }
+
+                // contact invocation trigger
+                CustomButton {
+                    narrowText: "Contact developer"
+
+                    // layout definition
+                    preferredWidth: DisplayInfo.width
+                    topMargin: 30
+
+                    // trigger email invocation
+                    onClicked: {
+                        emailInvocation.trigger(emailInvocation.query.invokeActionId);
+                    }
                 }
             }
         }
     }
-    
+
     onCreationCompleted: {
         infoMessage.showMessage(Copytext.aboutText, Copytext.aboutHeadline);
-    }    
+    }
 
     // close action for the sheet
     actions: [

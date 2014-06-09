@@ -47,7 +47,7 @@ TabbedPane {
         id: newFoodEntryTab
         title: "Add food entry"
         imageSource: "asset:///images/icons/icon_addentry.png"
-        
+
         // reset the page contents
         onTriggered: {
             newFoodEntryTab.content.resetPage();
@@ -82,19 +82,19 @@ TabbedPane {
 
         // application menu items
         actions: [
-/*
-            // WARNING: Do not activate this in productive version!
-            ActionItem {
-                id: mainMenuClearDatabase
-                title: "Clear Database"
-                imageSource: "asset:///images/icons/icon_notavailable.png"
-                onTriggered: {
-                    ItemDatabase.itemdb.resetDatabase();
-                    EntryDatabase.entrydb.resetDatabase();
-                    Application.requestExit();
-                }
-            },
-*/
+            /*
+             * // WARNING: Do not activate this in productive version!
+             * ActionItem {
+             * id: mainMenuClearDatabase
+             * title: "Clear Database"
+             * imageSource: "asset:///images/icons/icon_notavailable.png"
+             * onTriggered: {
+             * ItemDatabase.itemdb.resetDatabase();
+             * EntryDatabase.entrydb.resetDatabase();
+             * Application.requestExit();
+             * }
+             * },
+             */
             // action for the about sheet
             ActionItem {
                 id: mainMenuAbout
@@ -176,6 +176,15 @@ TabbedPane {
         SystemToast {
             id: foodcompanionToast
             position: SystemUiPosition.MiddleCenter
+        },
+        // invocation for bb world
+        // used by the action menu to switch to bb world
+        Invocation {
+            id: rateAppLink
+            query {
+                mimeType: "application/x-bb-appworld"
+                uri: "appworld://content/54000887"
+            }
         },
         // the data source attached to the JSON database file
         // this is only used to check if the import has been done correctly

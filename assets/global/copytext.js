@@ -12,7 +12,7 @@
 var working = "Working..";
 
 var aboutHeadline = "Food Companion";
-var aboutText = "<html>Food Companion is a photo diary for your daily food as well as a calorie and nutrition logger for BlackBerry 10.<br /><br />Code &amp; UI: Dirk Songuer (dirk@songuer.de).</html>";
+var aboutText = "<html>Food Companion is a photo diary for your daily food as well as a calorie and nutrition logger for BlackBerry 10.<br /><br />You can snap pictures and log calorie and nutritional informationto get a comprehensive overview of your daily eating routine.<br /><br />Note that the food database is stored locally on your device. No internet access is needed for this application. You diary data is not shared in any way and does not leave your device.<br /><br />Code &amp; UI: Dirk Songuer (dirk@songuer.de).</html>";
 
 var portionSizeValues = new Array("Small portion", "Normal portion", "Large portion");
 var healthRatingValues = new Array("Unhealthy", "Ok", "Healthy");
