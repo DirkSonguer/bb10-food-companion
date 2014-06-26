@@ -56,9 +56,9 @@
     <category>core.media</category>
     <description>A photo diary for your daily food as well as a calorie and nutrition logger for BlackBerry 10.</description>
     <splashScreens>
-       <image>splashscreen_1280x720.png</image>
-       <image>splashscreen_1280x768.png</image>
-       <image>splashscreen_720x720.png</image>
+       <image>assets/images/splashscreens/splashscreen_1280x720.png</image>
+       <image>assets/images/splashscreens/splashscreen_1280x768.png</image>
+       <image>assets/images/splashscreens/splashscreen_720x720.png</image>
     </splashScreens>
     <configuration name="Device-Debug">
        <platformArchitecture>armle-v7</platformArchitecture>
@@ -85,7 +85,6 @@
         <aspectRatio>portrait</aspectRatio>
         <autoOrients>false</autoOrients>
         <systemChrome>none</systemChrome>
-        <transparent>false</transparent>
     </initialWindow>
 
     <!--  The icon for the application, which should be 114x114. -->
@@ -103,9 +102,6 @@
     <asset path="translations" dest="qm">
         <include name="*.qm"/>
     </asset>
-    <asset path="assets/images/splashscreens/splashscreen_1280x720.png">splashscreen_1280x720.png</asset>
-    <asset path="assets/images/splashscreens/splashscreen_1280x768.png">splashscreen_1280x768.png</asset>
-    <asset path="assets/images/splashscreens/splashscreen_720x720.png">splashscreen_720x720.png</asset>
 
     <!-- Request permission to execute native code.  Required for native applications. -->
     <permission system="true">run_native</permission>

@@ -179,8 +179,16 @@ Container {
 
         ImageView {
             id: customCameraFocusIndicator
+            
+            // focus indicator size
             preferredHeight: 162
             preferredWidth: 162
+            
+            // accessibility
+            accessibility.name: ""
+            
+            // focus indicator image
+            // this will be changed according to the focus state
             imageSource: "asset:///images/icons/icon_focussing.png"
         }
     }

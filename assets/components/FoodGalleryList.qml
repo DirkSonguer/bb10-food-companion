@@ -78,6 +78,9 @@ Container {
         layout: StackListLayout {
             orientation: LayoutOrientation.TopToBottom
         }
+        
+        // accessibility
+        accessibility.name: "Food gallery list"
 
         // define component which will represent list item GUI appearence
         listItemComponents: [
@@ -110,6 +113,9 @@ Container {
                     // divider component
                     Divider {
                         topMargin: 0
+
+                        // accessibility
+                        accessibility.name: ""
                     }
                 }
             },

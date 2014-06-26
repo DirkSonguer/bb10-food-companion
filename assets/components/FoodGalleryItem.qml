@@ -88,6 +88,9 @@ Container {
                     autoSize {
                         maxLineCount: 3
                     }
+                    
+                    // accessibility
+                    accessibility.name: "Food item description"
                 }
             }
 
@@ -112,6 +115,9 @@ Container {
                     autoSize {
                         maxLineCount: 2
                     }
+                    
+                    // accessibility
+                    accessibility.name: "Food entry portion"
                 }
             }
         }

@@ -43,6 +43,9 @@ Container {
         textStyle.fontWeight: FontWeight.W100
         textStyle.textAlign: TextAlign.Right
         textStyle.color: Color.White
+        
+        // accessibility
+        accessibility.name: ""
     }
 
     // actual slider component
@@ -57,6 +60,9 @@ Container {
         fromValue: 0
         toValue: 100
         value: 100
+
+        // accessibility
+        accessibility.name: ""
 
         // slider value changed
         onImmediateValueChanged: {

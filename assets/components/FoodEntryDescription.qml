@@ -50,6 +50,9 @@ Container {
         scalingMethod: ScalingMethod.AspectFill
         preferredHeight: 100
         
+        // accessibility
+        accessibility.name: ""
+        
         // set initial visibility to false
         visible: false
         
@@ -87,6 +90,9 @@ Container {
                 textStyle.color: Color.White
                 autoSize.maxLineCount: 2
                 multiline: true
+                
+                // accessibility
+                accessibility.name: ""
             }
 
             // image caption label
@@ -102,6 +108,9 @@ Container {
                 textStyle.textAlign: TextAlign.Left
                 textStyle.color: Color.White
                 multiline: true
+                
+                // accessibility
+                accessibility.name: ""
             }
 
             // handle tap on custom button

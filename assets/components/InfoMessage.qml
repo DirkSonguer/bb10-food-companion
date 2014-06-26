@@ -51,6 +51,9 @@ Container {
         textStyle.textAlign: TextAlign.Left
         multiline: true
 
+        // accessibility
+        accessibility.name: "Info"
+
         // hide title components initially
         // will be set true if content is added
         visible: false
@@ -70,6 +73,9 @@ Container {
         textStyle.fontWeight: FontWeight.W100
         textStyle.textAlign: TextAlign.Left
         multiline: true
+
+        // accessibility
+        accessibility.name: "Info"
 
         // hide message components initially
         // will be set true if content is added

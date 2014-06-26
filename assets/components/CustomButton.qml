@@ -74,6 +74,9 @@ Container {
             minHeight: 55
             minWidth: 55
 
+            // accessibility
+            accessibility.name: ""
+
             // set initial visibility to false
             // make image visible if image source is added
             visible: false
@@ -98,6 +101,9 @@ Container {
                 textStyle.textAlign: TextAlign.Left
                 textStyle.color: Color.White
 
+                // accessibility
+                accessibility.name: ""
+
                 // set initial visibility to false
                 // make label visible if text is added
                 visible: false
@@ -116,6 +122,9 @@ Container {
                 textStyle.fontWeight: FontWeight.W100
                 textStyle.textAlign: TextAlign.Left
                 textStyle.color: Color.White
+
+                // accessibility
+                accessibility.name: ""
 
                 // set initial visibility to false
                 // make label visible if text is added

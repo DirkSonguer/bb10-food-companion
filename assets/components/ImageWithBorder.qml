@@ -51,6 +51,9 @@ Container {
 
             // image scaling
             scalingMethod: ScalingMethod.AspectFill
+            
+            // accessibility
+            accessibility.name: ""
         }
     }
 }

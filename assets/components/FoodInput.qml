@@ -53,10 +53,14 @@ Container {
     // set initial visibility to false
     visible: true
 
-    // comment submit button
+    // food input submit button
     ImageButton {
         defaultImageSource: "asset:///images/icons/icon_search_dimmed.png"
         pressedImageSource: "asset:///images/icons/icon_search.png"
+
+        // accessibility
+        accessibility.name: "Submit food search"
+
         onClicked: {
             // signal that input has been triggered
             foodInputField.input.submitted(foodInputField);

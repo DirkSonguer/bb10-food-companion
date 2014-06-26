@@ -72,6 +72,9 @@ NavigationPane {
 
                 // image scaling and opacity
                 scalingMethod: ScalingMethod.AspectFill
+
+                // accessibility
+                accessibility.name: ""
                 
                 // set initial visibility to false
                 visible: false

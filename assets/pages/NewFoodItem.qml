@@ -44,6 +44,9 @@ Page {
                 pinchToZoomEnabled: false
             }
 
+            // accessibility
+            accessibility.name: "New food item"
+
             Container {
                 // layout definition
                 topMargin: 5
@@ -139,16 +142,16 @@ Page {
                     backgroundColor: Color.create(Globals.defaultBackgroundColor)
 
                     // bookmark text
-                    iconSource: "asset:///images/icons/icon_notbookmarked_s.png"
+                    iconSource: "asset:///images/icons/icon_notbookmarked.png"
                     narrowText: "Tap to add as favorite"
 
                     onClicked: {
                         if (bookmarked == 0) {
-                            iconSource = "asset:///images/icons/icon_bookmarked_s.png";
+                            iconSource = "asset:///images/icons/icon_bookmarked.png";
                             narrowText = "Item will be added as favorite";
                             bookmarked = 1;
                         } else {
-                            iconSource = "asset:///images/icons/icon_notbookmarked_s.png";
+                            iconSource = "asset:///images/icons/icon_notbookmarked.png";
                             narrowText = "Tap to add as favorite";
                             bookmarked = 0;
                         }

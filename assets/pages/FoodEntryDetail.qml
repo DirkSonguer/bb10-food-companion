@@ -43,6 +43,9 @@ Page {
             preferredWidth: DisplayInfo.width
             preferredHeight: DisplayInfo.height
 
+            // accessibility
+            accessibility.name: ""
+
             // image scaling and opacity
             scalingMethod: ScalingMethod.AspectFill
         }
@@ -74,6 +77,9 @@ Page {
                     // layout definition
                     topMargin: 0
 
+                    // accessibility
+                    accessibility.name: ""
+
                     // text style definition
                     textStyle.base: SystemDefaults.TextStyles.BodyText
                     textStyle.fontWeight: FontWeight.W400
@@ -83,7 +89,7 @@ Page {
                     multiline: true
                     autoSize {
                         maxLineCount: 3
-                    }
+                    }                    
                 }
             }
 
@@ -96,6 +102,9 @@ Page {
 
                     // layout definition
                     topMargin: 10
+
+                    // accessibility
+                    accessibility.name: ""
 
                     // text style definition
                     textStyle.fontSize: FontSize.PointValue

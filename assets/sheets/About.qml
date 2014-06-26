@@ -33,6 +33,9 @@ Page {
                 pinchToZoomEnabled: false
             }
 
+            // accessibility
+            accessibility.name: ""
+
             Container {
                 // layout orientation
                 layout: StackLayout {

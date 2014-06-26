@@ -78,6 +78,9 @@ Container {
             orientation: LayoutOrientation.TopToBottom
         }
 
+        // accessibility
+        accessibility.name: "Food item list"
+
         // define component which will represent list item GUI appearence
         listItemComponents: [
             ListItemComponent {

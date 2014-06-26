@@ -82,7 +82,7 @@ Container {
                     orientation: LayoutOrientation.TopToBottom
                 }
 
-                // image caption label
+                // food item description label
                 Label {
                     id: foodItemDescription
 
@@ -95,9 +95,12 @@ Container {
 
                     // component width minus the icon width and the paddings
                     preferredWidth: (foodItemComponent.preferredWidth - 110)
+                    
+                    // accessibility
+                    accessibility.name: "Food item description"
                 }
 
-                // image caption label
+                // food item label
                 Label {
                     id: foodItemPortion
 
@@ -109,6 +112,9 @@ Container {
 
                     // component width minus the icon width and the paddings
                     preferredWidth: (foodItemComponent.preferredWidth - 110)
+                    
+                    // accessibility
+                    accessibility.name: "Food item portion"
                 }
             }
 
@@ -145,6 +151,9 @@ Container {
                 preferredWidth: 81
                 minHeight: 81
                 minWidth: 81
+
+                // accessibility
+                accessibility.name: ""
 
                 // set as not bookmarked by default
                 imageSource: "asset:///images/icons/icon_notbookmarked.png"

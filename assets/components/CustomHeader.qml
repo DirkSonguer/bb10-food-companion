@@ -49,6 +49,9 @@ Container {
             horizontalAlignment: HorizontalAlignment.Fill
             preferredWidth: DisplayInfo.width
             maxHeight: 100
+            
+            // accessibility
+            accessibility.name: ""
         }
 
         Container {
@@ -71,6 +74,9 @@ Container {
                 textStyle.fontSizeValue: 12
                 textStyle.fontWeight: FontWeight.W100
                 textStyle.textAlign: TextAlign.Left
+
+                // accessibility
+                accessibility.name: ""
 
                 // set initial visibility to false
                 // make label visible if text is added

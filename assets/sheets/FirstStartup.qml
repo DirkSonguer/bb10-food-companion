@@ -39,11 +39,14 @@ Page {
         // this just shows the green food companion background
         ImageView {
             id: backgroundImage
-
+            
             // layout definition
             verticalAlignment: VerticalAlignment.Top
             preferredWidth: DisplayInfo.width
             preferredHeight: DisplayInfo.height
+
+            // accessibility
+            accessibility.name: ""
 
             // image scaling and opacity
             scalingMethod: ScalingMethod.AspectFill
@@ -101,6 +104,9 @@ Page {
 
                 // layout definition
                 horizontalAlignment: HorizontalAlignment.Center
+
+                // accessibility
+                accessibility.name: "Importing data, please wait"
 
                 // state has been changed
                 // the importer method sets the state to ProgressIndicatorState.Pause
