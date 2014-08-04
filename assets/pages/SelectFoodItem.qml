@@ -139,7 +139,7 @@ Page {
         // add new food item
         ActionItem {
             id: addItemAction
-            ActionBar.placement: ActionBarPlacement.OnBar
+            ActionBar.placement: ActionBarPlacement.Signature
 
             title: "Add item to database"
             imageSource: "asset:///images/icons/icon_add.png"
