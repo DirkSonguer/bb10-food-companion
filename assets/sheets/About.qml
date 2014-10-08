@@ -5,7 +5,8 @@
 // defined in the copytext file.
 //
 // Author: Dirk Songuer
-// License: All rights reserved
+// License: GPL v2
+// See: http://choosealicense.com/licenses/gpl-v2/
 // *************************************************** //
 
 // import blackberry components

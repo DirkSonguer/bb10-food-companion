@@ -6,7 +6,8 @@
 // local app database (table: foodentries).
 //
 // Author: Dirk Songuer
-// License: All rights reserved
+// License: GPL v2
+// See: http://choosealicense.com/licenses/gpl-v2/
 // *************************************************** //
 
 //include other scripts used here
